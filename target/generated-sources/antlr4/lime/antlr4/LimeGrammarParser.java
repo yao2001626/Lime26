@@ -174,6 +174,7 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class ClassDeclContext extends ParserRuleContext {
+		public Scope scope;
 		public TerminalNode Class() { return getToken(LimeGrammarParser.Class, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
 		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
@@ -388,6 +389,7 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class InitDeclContext extends ParserRuleContext {
+		public Scope scope;
 		public TerminalNode Init() { return getToken(LimeGrammarParser.Init, 0); }
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
@@ -440,6 +442,7 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class MethodDeclContext extends ParserRuleContext {
+		public Scope scope;
 		public TerminalNode Method() { return getToken(LimeGrammarParser.Method, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
 		public ParametersContext parameters() {
@@ -539,6 +542,7 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class ActionDeclContext extends ParserRuleContext {
+		public Scope scope;
 		public TerminalNode Action() { return getToken(LimeGrammarParser.Action, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
 		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
@@ -1436,6 +1440,7 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class BlockContext extends ParserRuleContext {
+		public Scope scope;
 		public Simple_stmtContext simple_stmt() {
 			return getRuleContext(Simple_stmtContext.class,0);
 		}

@@ -87,17 +87,17 @@ tokens {
 //Lime parser
 compilationUnit
     : classDecl EOF ;
-classDecl
+classDecl returns [Scope scope]
 	: 'class' ID NEWLINE INDENT classMember* DEDENT ;
 classMember 
 	: attrDecl | initDecl | methodDecl | actionDecl ;	
 attrDecl 
 	: 'var' id_list ':' type NEWLINE ;
-initDecl
+initDecl returns [Scope scope]
 	: 'init' parameters block ;
-methodDecl
+methodDecl returns [Scope scope]
 	: 'method' ID  parameters (':' type)? NEWLINE INDENT ('when' test 'do')? block DEDENT ; 
-actionDecl
+actionDecl returns [Scope scope]
 	: 'action' ID NEWLINE INDENT ('when' test 'do')? block DEDENT ;
 parameters
 	: '(' typedargslist? ')' ;
@@ -123,7 +123,7 @@ while_stmt
 	: 'while' test 'do' block ; 
 return_stmt
 	: 'return' (test)? ;
-block
+block returns [Scope scope]
 	: simple_stmt | NEWLINE INDENT stmt+ DEDENT ;	
 test
 	: or_test ; 

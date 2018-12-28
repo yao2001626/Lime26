@@ -28,6 +28,8 @@ public class LimeParserTreeListener  extends LimeGrammarBaseListener {
 	@Override
 	public void enterClassDecl(ClassDeclContext ctx) {
 		// TODO Auto-generated method stub
+		GlobalScope g = new GlobalScope(null);
+		ctx.scope = g;
 		System.out.println("enter class");
 		ClassSymbol cs = new ClassSymbol(ctx.ID().getText());
 		cs.setDefNode(ctx.getParent());
