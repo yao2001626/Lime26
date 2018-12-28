@@ -1,0 +1,16 @@
+class RW
+	var n: int
+	var N: int
+	init(R:int)
+		n:=R
+		N:=R
+	method startRead():void
+		when n > 0 do
+			n := n - 1 
+	method startWrite():void
+		when n = N do
+			n := 0
+	method endRead():void
+		n := n+1
+	method endWrite():void
+		n := N
