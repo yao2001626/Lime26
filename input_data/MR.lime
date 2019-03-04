@@ -1,0 +1,37 @@
+class Reducer
+    var index: int
+    var next: Reducer 
+    var a1, a2: bool
+    var e1, e2: int
+    init(i: int)
+        index, a1, a2 := i, false, false
+    method reduce1(e: int)
+        when not a1 do 
+            e1, a1 := e, true
+    method reduce2(e: int)
+    	when not a2 do 
+            e2, a2 := e, true
+    action doReduce
+        when a1 and a2 do 
+            if index % 2 ==0 then 
+                next.reduce1(e1+e2)
+            else
+                next.reduce2(e1+e2)
+            a1, a2 := false, false 
+class Mapper
+    var  next: Reducer
+    var  a: bool 
+    var  e, index: int 
+    init(i: int){
+        index, a := i, false
+    method map(n: int)
+        when not a do
+            e, a := n, true
+    action doMap
+        when a do 
+            if index%2 = 0 then 
+                next.reduce1(e*e)
+            else 
+                next.reduce2(e*e)
+            a := true
+

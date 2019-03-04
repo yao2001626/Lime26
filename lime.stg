@@ -1,0 +1,112 @@
+class(class_name, fields, methods, actions, active, size, XYZ, init)::=<<
+align 4
+segment .data
+segment .bss
+segment .text
+extern  switch_to_sched
+extern  runqput
+extern  malloc
+
+; global methods declare
+; global _<class_name>_methods
+<methods: {a | global _<class_name>_<a.name> }; separator="\n">
+; global methods declare
+
+_<class_name>_init:
+_<class_name>_init_realloc:
+    PUSH DWORD <size>
+    CALL malloc
+    ADD  ESP, 4
+    CMP  DWORD EAX, 0
+    JE   _<class_name>_init_realloc
+    <fields : { a | MOV  DWORD [EAX + <size> - <i>*4], 0    ; <a.name> }; separator="\n">
+    MOV  DWORD [EAX + <size> - <XYZ> + 12], 0    ; next
+    MOV  DWORD [EAX + <size> - <XYZ> + 8], 0     ; lock
+    LEA  ECX,  [EAX + <size> - <XYZ> - 4]
+    MOV  DWORD [EAX + <size> - <XYZ> + 4], ECX   ; Pre ESP
+    LEA  ECX,  [EAX + <size> - <XYZ>]
+    MOV  DWORD [EAX + <size> - <XYZ>], ECX       ; Pre EBP
+    LEA  ECX,  [_<class_name>_doactions]
+    MOV  DWORD [EAX + <size> - <XYZ> - 4], ECX   ; <class_name>_doactions
+    ADD  DWORD EAX, <size> - <XYZ>
+<if(active)>
+    PUSH DWORD EBP
+    PUSH DWORD EAX
+    CALL runqput
+    POP  DWORD EAX
+    POP  DWORD EBP
+<endif>
+    ; init code goes here
+    _<class_name>_init_code 
+    ; init code ends here
+    RET
+
+_<class_name>_doactions:
+_<class_name>_doactions_start:
+    PUSH DWORD EBP
+    ; CALL <class_name>_action
+    <actions: {a | CALL _<class_name>_<a.name>}; separator="\n">
+    POP  EBP
+    CALL switch_to_sched
+    JMP  _<class_name>_doactions_start
+    RET  ; never be here
+>>
+
+method(class_name, method_name, paranum) ::=<<
+;define method _<class_name>_<method_name>
+_<class_name>_<method_name>:
+_<class_name>_<method_name>_start:
+    MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
+_<class_name>_<method_name>_checklock:
+    MOV  DWORD EAX, 1           ;lock
+    XCHG EAX, [ECX + 8]
+    CMP  DWORD EAX, 0
+    JNE  _<class_name>_<method_name>_suspend
+_<class_name>_<method_name>_checkguard:
+    ; method guard starts here
+    _<class_name>_<method_name>_guard
+    ; method guard ends here
+_<class_name>_<method_name>_checkguard_fail:
+    MOV  DWORD [ECX + 8], 0     ; unlock
+_<class_name>_<method_name>_suspend:
+    PUSH DWORD EBP
+    CALL runqput
+    POP  EBP
+    CALL switch_to_sched
+    JMP  _<class_name>_<method_name>_start
+_<class_name>_<method_name>_succeed:
+    ; method body starts here
+    _<class_name>_<method_name>_body
+    ; method body ends here
+_<class_name>_<method_name>_unlock:
+    MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
+    ; unlock
+    MOV DWORD [ECX + 8], 0
+_<class_name>_<method_name>_ret:
+    RET 
+>>
+action(class_name, action_name)::=<<
+; define action
+; _<class_name>: <action_name> 
+_<class_name>_<action_name>:
+_<class_name>_<action_name>_start:
+    MOV  DWORD ECX, [ESP + 4]
+    ; action guard start
+    _<class_name>_<action_name>_guard
+    ; action guard end
+
+    JMP   _<class_name>_<action_name>_checkguard_fail
+_<class_name>_<action_name>_succeed:
+    ; action body start
+    _<class_name>_<action_name>_body
+    ; action body end
+_<class_name>_<action_name>_checkguard_fail:
+    RET
+>>

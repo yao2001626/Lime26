@@ -1,0 +1,27 @@
+class Node
+	var key, p : int
+	var left, right : Node
+	var a : bool
+	init(x:int)
+		key, left, right, a := x, nil, nil, false 
+	method add(x : int)
+		when not a do
+			if left != nil then a,p := true,x else if x < key then
+				left, right, key := new Node(x), new Node(key), x 
+			else if x > key then
+				left, right := new Node(key), new Node(x) 
+	method has(x : int) : bool
+		when not a do
+			if left = nil then 
+				return x = key
+			else if x <= key then 
+				return left.has(x) 
+			else 
+				return right.has(x)
+	action addToChild 
+		when a do
+			if p <= key then 
+				left.add(p) 
+			else 
+				right.add(p)
+			a := false

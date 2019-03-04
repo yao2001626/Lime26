@@ -40,7 +40,7 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAttrDecl(LimeGrammarParser.AttrDeclContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFieldDecl(LimeGrammarParser.FieldDeclContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -75,14 +75,14 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypedargslist(LimeGrammarParser.TypedargslistContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeparslist(LimeGrammarParser.TypeparslistContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArgsdef(LimeGrammarParser.ArgsdefContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParsdef(LimeGrammarParser.ParsdefContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -124,6 +124,13 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitLocalDecl(LimeGrammarParser.LocalDeclContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitExpr_stmt(LimeGrammarParser.Expr_stmtContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -132,6 +139,27 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitIf_stmt(LimeGrammarParser.If_stmtContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIf_stat(LimeGrammarParser.If_statContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitElif_stat(LimeGrammarParser.Elif_statContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitElse_stat(LimeGrammarParser.Else_statContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -159,42 +187,56 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTest(LimeGrammarParser.TestContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGuardcompexpr(LimeGrammarParser.GuardcompexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOr_test(LimeGrammarParser.Or_testContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGuardeqexpr(LimeGrammarParser.GuardeqexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAnd_test(LimeGrammarParser.And_testContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGuardandexpr(LimeGrammarParser.GuardandexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNot_test(LimeGrammarParser.Not_testContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGuardorexpr(LimeGrammarParser.GuardorexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComp(LimeGrammarParser.CompContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGuardatomexpr(LimeGrammarParser.GuardatomexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComp_op(LimeGrammarParser.Comp_opContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdguardatom(LimeGrammarParser.IdguardatomContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIntguardatom(LimeGrammarParser.IntguardatomContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitNotguardtom(LimeGrammarParser.NotguardtomContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -215,49 +257,63 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpr(LimeGrammarParser.ExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqexpr(LimeGrammarParser.EqexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitXor_expr(LimeGrammarParser.Xor_exprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNotexpr(LimeGrammarParser.NotexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAnd_expr(LimeGrammarParser.And_exprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultexpr(LimeGrammarParser.MultexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitShift_expr(LimeGrammarParser.Shift_exprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCompexpr(LimeGrammarParser.CompexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArith_expr(LimeGrammarParser.Arith_exprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnaryMinusexpr(LimeGrammarParser.UnaryMinusexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTerm(LimeGrammarParser.TermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAddexpr(LimeGrammarParser.AddexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFactor(LimeGrammarParser.FactorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAtomexpr(LimeGrammarParser.AtomexprContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitOrexpr(LimeGrammarParser.OrexprContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAndexpr(LimeGrammarParser.AndexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -271,26 +327,19 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprlist(LimeGrammarParser.ExprlistContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNewcall(LimeGrammarParser.NewcallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTestlist(LimeGrammarParser.TestlistContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMethodcall(LimeGrammarParser.MethodcallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArglist(LimeGrammarParser.ArglistContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitArgument(LimeGrammarParser.ArgumentContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArgs(LimeGrammarParser.ArgsContext ctx) { return visitChildren(ctx); }
 }

@@ -7,9 +7,9 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import lime.antlr4.LimeGrammarParser.ActionDeclContext;
-import lime.antlr4.LimeGrammarParser.AttrDeclContext;
 import lime.antlr4.LimeGrammarParser.ClassMemberContext;
 import lime.antlr4.LimeGrammarParser.CompilationUnitContext;
+import lime.antlr4.LimeGrammarParser.GuardContext;
 import lime.antlr4.LimeGrammarParser.InitDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodDeclContext;
 
@@ -152,37 +152,13 @@ public class LimeSymbolListener {
 
 		@Override
 		public void enterInitDecl(InitDeclContext ctx) {
-			// TODO Auto-generated method stub
-//			MethodSymbol ms = new MethodSymbol(className, "void", currentScope);
-//			//ms.def = (LimeAST) ctx.Init();
-//			currentScope.define(ms);
-//			currentScope = ms;
-			System.out.println("Inti enter " + className);
+			
 		}
 
 		@Override
 		public void exitInitDecl(InitDeclContext ctx) {
-			// TODO Auto-generated method stub
-			System.out.println("exit Init: current scope :" +currentScope );
-			currentScope = currentScope.getEnclosingScope();
+			
 		}
 	}
 	
-	class VarDeclListener extends LimeGrammarBaseListener{
-
-		@Override
-		public void enterAttrDecl(AttrDeclContext ctx) {
-			// TODO Auto-generated method stub
-//			VariableSymbol vs = new VariableSymbol(ctx.id_list().getText(), ctx.type().getText());
-//			currentScope.define(vs);			
-			System.out.println("var: "+ ctx.id_list().ID().toString() +" type : "+ ctx.type().getText());
-		}
-
-		@Override
-		public void exitAttrDecl(AttrDeclContext ctx) {
-			// TODO Auto-generated method stub
-			System.out.println("var: "+ ctx.id_list().ID().toString() +" type : "+ ctx.type().getText());
-			super.exitAttrDecl(ctx);
-		}
-	}
 }

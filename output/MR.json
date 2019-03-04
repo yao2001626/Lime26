@@ -1,0 +1,1 @@
+[{"methods":["reduce1","reduce2"],"class_name":"Reducer","actions":["doReduce"]},{"methods":["map"],"class_name":"Mapper","actions":["doMap"]}]

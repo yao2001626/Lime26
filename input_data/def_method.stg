@@ -1,0 +1,42 @@
+def_method(class_name, method_name, num, rettype, args, guard, block) ::=<<
+
+<class_name>_<method_name>:
+<class_name>_<method_name>_start:
+    MOV  DWORD ECX, [ESP + 4 + 4*num]   ; + 4 * num(args)
+<class_name>_<method_name>_checklock:
+    MOV  DWORD EAX, 1           ;lock
+    XCHG EAX, [ECX + 8]
+    CMP  DWORD EAX, 0
+    JNE  <class_name>_<method_name>_suspend
+<class_name>_<method_name>_checkguard:
+    ; method guard starts here
+    ; <guard>
+    ; method guard ends here
+<class_name>_<method_name>_checkguard_fail:
+    MOV  DWORD [ECX + 8], 0     ; unlock
+<class_name>_<method_name>_suspend:
+    PUSH DWORD EBP
+    CALL runqput
+    POP  EBP
+    CALL switch_to_sched
+    JMP  <class_name>_<method_name>_start
+<class_name>_<method_name>_succeed:
+    ; method body starts here
+    ; <block>
+    ; method body ends here
+<class_name>_<method_name>_unlock:
+    MOV  DWORD ECX, [ESP + 4 + 4*num]   ; + 4 * num(args)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
+    ; unlock
+    MOV DWORD [ECX + 8], 0
+<class_name>_<method_name>_ret:
+    RET  
+>>
+
+

@@ -86,24 +86,24 @@ tokens {
 }
 //Lime parser
 compilationUnit
-    : classDecl EOF ;
+    : (classDecl+) EOF ;
 classDecl returns [Scope scope]
 	: 'class' ID NEWLINE INDENT classMember* DEDENT ;
 classMember 
-	: attrDecl | initDecl | methodDecl | actionDecl ;	
-attrDecl 
+	: fieldDecl | initDecl | methodDecl | actionDecl ;	
+fieldDecl 
 	: 'var' id_list ':' type NEWLINE ;
 initDecl returns [Scope scope]
-	: 'init' parameters block ;
+	: 'init' parameters NEWLINE INDENT block DEDENT ;
 methodDecl returns [Scope scope]
-	: 'method' ID  parameters (':' type)? NEWLINE INDENT ('when' test 'do')? block DEDENT ; 
+	: 'method' ID  parameters (':' type)? NEWLINE INDENT ('when' guard 'do')? block DEDENT ; 
 actionDecl returns [Scope scope]
-	: 'action' ID NEWLINE INDENT ('when' test 'do')? block DEDENT ;
+	: 'action' ID NEWLINE INDENT ('when' guard 'do')? block DEDENT ;
 parameters
-	: '(' typedargslist? ')' ;
-typedargslist
-	: argsdef (',' argsdef)* ;
-argsdef
+	: '(' typeparslist? ')' ;
+typeparslist
+	: parsdef (',' parsdef)* ;
+parsdef
 	: ID ':' type ;
 type
 	: 'int' | 'bool' | 'void' | ID ;
@@ -112,59 +112,62 @@ stmt
 simple_stmt
 	: small_stmt (';' small_stmt)* (';')? NEWLINE ;
 small_stmt
-	: expr_stmt | attrDecl | return_stmt;
+	: expr_stmt | localDecl | return_stmt | method_call;
 compound_stmt
-	: if_stmt | while_stmt  | methodDecl | actionDecl | initDecl | attrDecl ;
+	: if_stmt | while_stmt ;
+localDecl 
+	: 'var' id_list ':' type ;
 expr_stmt
-	: expr_list (':=' expr_list)? ;
+	: src=expr_list (':=' des=expr_list)? ;
 if_stmt
-	: 'if' test 'then' block ('elif' test ':' block)* ('else' block)? ;
+ 	: if_stat elif_stat* else_stat?;
+if_stat
+ 	: 'if' expr 'then' block;
+elif_stat
+ 	: 'elif' expr 'then' block ;
+else_stat
+ 	: 'else' block;
 while_stmt
-	: 'while' test 'do' block ; 
+	: 'while' expr 'do' block ; 
 return_stmt
-	: 'return' (test)? ;
-block returns [Scope scope]
-	: simple_stmt | NEWLINE INDENT stmt+ DEDENT ;	
-test
-	: or_test ; 
-or_test
-	: and_test ('or' and_test)*;
-and_test
-	: not_test ('and' not_test)*;
-not_test
-	: 'not' not_test | comp;
-comp
-	: expr (comp_op expr)*;	
-comp_op
-	: '<'|'>'|'='|'>='|'<='|'!=' ;
+	: 'return' (expr)? ;
+block
+	: simple_stmt | NEWLINE INDENT stmt+ DEDENT ;
+guard 
+	: guardAtom op=( '>=' | '<=' | '>' | '<' ) guardAtom 	#guardcompexpr
+	| guardAtom op=( '=' | '!=' ) guardAtom             	#guardeqexpr
+	| guardAtom 'and' guardAtom                          	#guardandexpr
+	| guardAtom 'or' guardAtom                          	#guardorexpr
+	| guardAtom								   				#guardatomexpr
+	;
+guardAtom
+	: ID 					#idguardatom
+	| INTEGER 				#intguardatom
+	| 'not' ID				#notguardtom
+	;
 id_list
-	: ID (',' ID)*;	
+	: ID (',' ID)* ;	
 expr_list
-	: expr (',' expr)*;
+	: expr (',' expr)* ;
 expr
-	: xor_expr ('|' xor_expr)*;
-xor_expr
-	: and_expr ('^' and_expr)*;
-and_expr
-	: shift_expr ('&' shift_expr)* ;
-shift_expr
-	: arith_expr (('<<'|'>>') arith_expr)*;
-arith_expr
-	: term (('+'|'-') term)*;
-term
-	: factor (('*'|'/'|'%') factor)*;
-factor
-	: ('+'|'-'|'~') factor | atom;
+	: '-' expr                                 #unaryMinusexpr
+	| 'not' expr                               #notexpr
+	| expr op=( '*' | '/' | '%' ) expr         #multexpr
+	| expr op=( '+' | '-' ) expr               #addexpr
+	| expr op=( '>=' | '<=' | '>' | '<' ) expr #compexpr
+	| expr op=( '=' | '!=' ) expr              #eqexpr
+	| expr 'and' expr                          #andexpr
+	| expr 'or' expr                           #orexpr
+	| atom									   #atomexpr
+	;
 atom
-	: ID | INTEGER | 'false' | 'true' | 'nil';
-exprlist
-	: expr (',' expr)* (',')?;
-testlist
-	: test (',' test)* (',')?;
-arglist
-	: argument (',' argument)* (',')?;
-argument
-	: ( test | test ':=' test );
+	:  INTEGER | True | False | Null | ID | method_call;	
+method_call
+	: 'new' n=ID args 						   #newcall
+	| c=ID '.' m=ID args 					   #methodcall
+	;
+args
+	: '(' expr_list? ')';
 
 /*
  * lime lexer rules
@@ -189,6 +192,8 @@ Null    		: 'nil';
 Booltype		: 'bool';
 Inttype			: 'int';
 Voidtype		: 'void';
+True			: 'true';
+False			: 'false';
 
 Assign   : ':=';
 Or       : 'or';

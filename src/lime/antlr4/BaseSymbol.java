@@ -70,7 +70,7 @@ public class BaseSymbol implements Symbol{
 
 	public String toString() {
 		String s = "";
-		if ( scope!=null ) s = scope.getName()+".";
+		//if ( scope!=null ) s = scope.getName()+".";
 		if ( type!=null ) {
 			String ts = type.toString();
 			if ( type instanceof SymbolWithScope ) {

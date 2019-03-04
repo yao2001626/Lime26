@@ -1,0 +1,111 @@
+class Santa
+    var s: {Sleeping, Harnessing, Riding, Welcoming, Consulting}
+    var b: boolean
+    var p: int
+    init()
+        s, b, p := Sleeping, false, 0
+    method back()
+        b := true
+    method harness()
+        when s = Harnessing do 
+            s := Riding
+    method pull()
+        when s = Riding do
+            s, b := Sleeping, false
+    method puzzled()
+        p := 3
+    method enter()
+        when s = Welcoming do 
+            s := Consulting
+    method consult()
+        when s = Consulting do
+            p := p - 1
+            if p > 0 then 
+                s := Welcoming 
+            else 
+                s := Sleeping
+    action action1
+        when s = Sleeping and b do 
+            s := Harnessing
+    action action2
+        when s = Sleeping and p = 3 and not b do 
+            s := Welcoming
+
+class Sleigh
+    var s: {Back, Harnessing, Pulling}
+    var c: int
+    var st: Santa
+    init(santa: Santa)
+        s, c, st := Back, 9, santa
+    method back()
+        when s = Back do
+            c := c - 1 
+            if c = 0 then 
+                s, c := Harnessing, 9
+                st.back() 
+    method harness()
+        when s = Harnessing do 
+            c := c - 1 
+            if c = 0 then 
+                s, c := Pulling, 9
+                st.harness() 
+    method pull()
+        when s = Pulling do
+            c := c - 1  
+            if c = 0 then 
+                s, c := Back, 9
+                st.pull()
+
+class Reindeer
+    var sl: Sleigh
+    init (sleigh: Sleigh)
+        sl := sleigh
+    action action1
+        sl.back()
+        sl.harness()
+        sl.pull()
+
+class Shop
+    var s: {Puzzled, Entering, Consulting}
+    var c: int
+    var st: Santa
+    init(santa: Santa)
+        s, c, st := Puzzled, 0, santa
+    method puzzled()
+        when s = Puzzled do  
+            c := c + 1 
+            if c = 3 then 
+                s := Entering
+                st.puzzled() 
+    method enter()
+        when s = Entering do
+            s := Consulting
+            st.enter()
+    method consult()
+        when s = Consulting do
+            c := c - 1 
+            if c > 0 then 
+                s := Entering
+            else
+                s := Puzzled
+            st.consult()
+            
+class Elf
+    var sh: Shop
+    init(shop: Shop)
+        sh := shop
+    action action1
+        sh.puzzled()
+        sh.enter()  
+        sh.consult()
+        
+class Start
+    var st: Santa
+    var sl: Sleigh
+    var sh: Shop
+    init()
+        st := new Santa()  
+        sl := new Sleigh(st)  
+        sh := new Shop(st)
+        for i := 1 to 9 do new Reindeer(sl)
+        for i := 1 to 20 do new Elf(sh)

@@ -2,7 +2,9 @@ package lime.antlr4;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +14,14 @@ import java.util.Set;
 public class ClassSymbol extends DataAggregateSymbol {
 	protected String superClassName; // null if this is Object
 	protected int nextFreeMethodSlot = 0; // next slot to allocate
-
+	protected int nextFreeActionSlot = 0; // next slot to allocate
+	boolean enabled = false;
+	int action_counter = 0;
+	int size = 0;
+	List<Symbol> fields = new LinkedList<Symbol>();
+	HashMap<String, String> fields_init = new HashMap<String, String>();
+	Set<Symbol> methods = new LinkedHashSet<Symbol>();
+	Set<Symbol> actions = new LinkedHashSet<Symbol>();
 	public ClassSymbol(String name) {
 		super(name);
 	}
@@ -97,6 +106,17 @@ public class ClassSymbol extends DataAggregateSymbol {
 		}
 		return null;
 	}
+	
+	/** Look for a action with this name in this scope or any super class.
+	 *  Return null if no method found.
+	 */
+	public ActionSymbol resolveAction(String name) {
+		Symbol s = resolveMember(name);
+		if ( s instanceof ActionSymbol ) {
+			return (ActionSymbol)s;
+		}
+		return null;
+	}
 
 	public void setSuperClass(String superClassName) {
 		this.superClassName = superClassName;
@@ -124,7 +144,23 @@ public class ClassSymbol extends DataAggregateSymbol {
 				msym.slot = nextFreeMethodSlot++;
 			}
 		}
-		else {
+		else if ( sym instanceof ActionSymbol ) {
+			ActionSymbol asym = (ActionSymbol)sym;
+			// handle inheritance. If not found in this scope, check superclass
+			// if any.
+			ClassSymbol superClass = getSuperClassScope();
+			if ( superClass !=null ) {
+				ActionSymbol superActionSym = superClass.resolveAction(sym.getName());
+				if ( superActionSym!=null ) {
+					asym.slot = superActionSym.slot;
+				}
+			}
+			if ( asym.slot==-1 ) {
+				asym.slot = nextFreeActionSlot++;
+			}
+		}
+		
+		{
 			super.setSlotNumber(sym);
 		}
 	}
@@ -151,6 +187,29 @@ public class ClassSymbol extends DataAggregateSymbol {
 		methods.addAll( getDefinedMethods() );
 		return methods;
 	}
+	
+	/** Return the set of all actions defined within this class */
+	public Set<ActionSymbol> getDefinedActions() {
+		Set<ActionSymbol> actions = new LinkedHashSet<>();
+		for (MemberSymbol s : getSymbols()) {
+			if ( s instanceof ActionSymbol ) {
+				actions.add((ActionSymbol)s);
+			}
+		}
+		return actions;
+	}
+
+	/** Return the set of all actions either inherited or not */
+	public Set<ActionSymbol> getActions() {
+		Set<ActionSymbol> actions = new LinkedHashSet<>();
+		ClassSymbol superClassScope = getSuperClassScope();
+		if ( superClassScope!=null) {
+			actions.addAll(superClassScope.getActions());
+		}
+		actions.removeAll(getDefinedActions()); // override action from superclass
+		actions.addAll( getDefinedActions() );
+		return actions;
+	}
 
 	@Override
 	public List<? extends FieldSymbol> getFields() {
@@ -173,7 +232,17 @@ public class ClassSymbol extends DataAggregateSymbol {
 		}
 		return n;
 	}
-
+	/** get the number of actions defined specifically in this class */
+	public int getNumberOfDefinedActions() {
+		int n = 0;
+		for (MemberSymbol s : getSymbols()) {
+			if ( s instanceof ActionSymbol ) {
+				n++;
+			}
+		}
+		return n;
+	}
+	
 	/** get the total number of methods visible to this class */
 	public int getNumberOfMethods() {
 		int n = 0;
@@ -182,6 +251,16 @@ public class ClassSymbol extends DataAggregateSymbol {
 			n += superClassScope.getNumberOfMethods();
 		}
 		n += getNumberOfDefinedMethods();
+		return n;
+	}
+	/** get the total number of actions visible to this class */
+	public int getNumberOfActions() {
+		int n = 0;
+		ClassSymbol superClassScope = getSuperClassScope();
+		if ( superClassScope!=null ) {
+			n += superClassScope.getNumberOfActions();
+		}
+		n += getNumberOfDefinedActions();
 		return n;
 	}
 

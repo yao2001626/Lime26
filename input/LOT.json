@@ -1,0 +1,1 @@
+[{"methods":["add","has"],"class_name":"Node","actions":["addToChild"],"guards":{"Nodehas":"MOV DWORD EDX, [ECX + 32]\nCMP DWORD EDX, 1\nJNE _Node_has_succeed\n","Nodeadd":"MOV DWORD EDX, [ECX + 32]\nCMP DWORD EDX, 1\nJNE _Node_add_succeed\n","NodeaddToChild":"MOV DWORD EDX, [ECX + 32]\nCMP DWORD EDX, 1\nJE _Node_addToChild_succeed\n"}}]

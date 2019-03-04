@@ -16,9 +16,7 @@ public abstract class BaseScope implements Scope {
 
 	public Map<String, ? extends Symbol> getMembers() {
 		return symbols;
-}
-	
-	
+	}
 	
 	@Override
 	public Symbol getSymbol(String name) {
@@ -144,6 +142,26 @@ public abstract class BaseScope implements Scope {
 		}
 		return syms;
 	}
+	
+	public Symbol findSymbol(String name) {
+		List<Symbol> syms = new ArrayList<>();
+		//syms.addAll(getSymbols());
+		for (Symbol s : symbols.values()) {
+			if ( s instanceof Scope ) {
+				Scope scope = (Scope)s;
+				for(Symbol x: scope.getAllSymbols()) {
+					if ( x instanceof VariableSymbol )syms.add(x);
+				}
+			}
+		}
+		for(Symbol s: syms) {
+			if(s.getName().equals(name)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 
 	@Override
 	public int getNumberOfSymbols() {

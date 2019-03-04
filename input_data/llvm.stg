@@ -1,7 +1,8 @@
 def_method(sym, rettype, args, guard, block) ::=<<
-;this is def_method function: def_method(sym, rettype,args. guard, block)
-define @<sym.name>{
-
+;this is def_method function: def_method(sym, rettype, args, guard, block)
+define <rettype>  @<sym.name>(<args; separator=", ">){
+	<args:{a | <a.type>}; separator=", ">
+	<guard>
 ret void
 }
 >>

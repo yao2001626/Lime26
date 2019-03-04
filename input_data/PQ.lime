@@ -2,17 +2,13 @@ class PQ
 	var m,p: int
 	var l: PQ
 	var a,r: bool
-	init()
-		l,a,r := nil, false, false
 	method empty() : bool
 		when not r do
-			var y:int
-			var z:int
 			return l = nil
 	method add(e:int)
 		when not a and not r do
 			if l = nil then
-				n := e
+				p, l := e, new PQ()
 			else
 				p, a := e, true
 	method remove(): int
@@ -22,7 +18,14 @@ class PQ
 	action doAdd
 		when a do
 			if m <p then 
-				l := m
+				l.add(p)
 			else
-				l, m := m, p
+				l.add(m); m:=p
 			a := false
+	action doRemove
+		when a do
+			if l.empty() then 
+				l := nil
+			else
+				m := l.empty()
+			r := false

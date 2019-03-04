@@ -14,31 +14,19 @@ import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
 
+import lime.parsertreelistener.LimeLLVMCodeGenVisitor;
+import lime.parsertreelistener.LimeParserTreeListener;
+
 public class Main {
-	/*
-	public static void listMethodNames(String source) {
-        ParseTreeWalker.DEFAULT.walk(new LimeGrammarBaseListener() {
-
-            // The grammar rule for a function definition looks like this:
-            //
-            //      funcdef
-            //       : DEF NAME parameters ( '->' test )? ':' suite
-            //       ;
-            //
-            @Override
-            public void enterMethodDecl(LimeGrammarParser.MethodDeclContext ctx) {
-                System.out.println("NAME=" + ctx.ID().getText());
-            }
-
-        }, parser.compilationUnit());
-    }
-	*/
 	public static void main(String[] args) throws IOException {
         String file_source = "input_data/PQ.lime";
         
         // step 1 LEXER & PARSER
         LimeGrammarLexer lexer = new Builder.Lexer(file_source).build(); 
+        
+        //System.out.print(lexer.toString());
         LimeGrammarParser parser = new Builder.Parser(lexer).build();
+        //System.out.print(parser.toString());
         parser.setBuildParseTree(true);
         ParseTree tree = parser.compilationUnit();
         ParseTreeWalker walker = new ParseTreeWalker();
@@ -46,8 +34,8 @@ public class Main {
         
         // step 2 SYMBOL DEFINE
         SymbolTable symtab = new SymbolTable();
-//        LimeParserTreeListener lptl = new LimeParserTreeListener(symtab.globals, symtab);
-//        walker.DEFAULT.walk(lptl, tree);
+        LimeParserTreeListener lptl = new LimeParserTreeListener(symtab);
+        walker.DEFAULT.walk(lptl, tree);
         
         // step 3 CODE GENERATION
         //ClassLoader cl = Main.class.getClassLoader();
@@ -57,10 +45,10 @@ public class Main {
         LimeCodeGenListener lcgl = new LimeCodeGenListener(symtab);
         walker.DEFAULT.walk(lcgl, tree);
         //rd.close();
-
-        // step 4 EMIT IR
-        ST hello = new ST("Hello, <name>");
-        hello.add("name", "World");
-        System.out.println(hello.render());
+        
+      //SymbolListener symbolListener = new SymbolListener();
+        //walker.DEFAULT.walk(symbolListener, tree);
+        LimeLLVMCodeGenVisitor symbolVisitor = new LimeLLVMCodeGenVisitor(symtab);
+        System.out.print(symbolVisitor.visit(tree));
 	}
 }
