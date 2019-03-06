@@ -13,7 +13,7 @@ args = parser.parse_args()
 lime_classes={}
 
 def getMethodBody(name, lime_body_asm):
-	start_str = '\s*_'+name+':'
+	start_str = '\s*'+name+':'
 	end_str = '\s*.cfi_endproc'
 	flag = False
 	res =""
@@ -26,15 +26,16 @@ def getMethodBody(name, lime_body_asm):
 			elif flag:
 				res += line	
 	# delete the first line: .start_function
-	res = res.split("\n",1)[1]
+	#res = res.split("\n",1)[1]
 	# delete the last line: ret
 	res = res.replace('retl',';retl')
 	res = res.replace('retq',';retq')
 	res = res.replace('ret',';ret')
 	res = res.replace('call	_malloc',';call	_malloc')
-	res = res.replace('##',';')
+	res = res.replace('#',';')
 	res = res.replace('.cfi',';')
 	res = res.replace('ptr',' ')
+	res = res.replace('.size', ';.size')
 	#print(res)
 	return res
 
@@ -53,25 +54,25 @@ with open(lime_struct_name, "r") as read_struct_file:
 				for method in obj["methods"]:
 					m_name = "_"+obj["class_name"]+"_"+method+"_body"
 					m_body = getMethodBody(obj["class_name"]+"_"+method, lime_body_asm)
-					print(method)
+					#print(method)
 					#print(obj["guards"])
 					skeleton = skeleton.replace(m_name, m_body)
 					m_guard_name = "_"+obj["class_name"]+"_"+method+"_guard"
 					m_guard = obj["guards"].get(obj["class_name"]+method)
 					skeleton = skeleton.replace(m_guard_name, m_guard)
 					#print(m_guard_name)
-					print(m_guard)
+					#print(m_guard)
 					#skeleton = skeleton.replace(m_guard_name, m_guard)
 				for action in obj["actions"]:
 					a_name = "_"+obj["class_name"]+"_"+action+"_body"
 					a_body = getMethodBody(obj["class_name"]+"_"+action, lime_body_asm)
-					print(action)
+					#print(action)
 					#print(a_body)
 					skeleton = skeleton.replace(a_name, a_body)
 					a_guard_name = "_"+obj["class_name"]+"_"+action+"_guard"
 					a_guard = obj["guards"].get(obj["class_name"]+action)
 					skeleton = skeleton.replace(a_guard_name, a_guard)
-					print(a_guard)
+					#print(a_guard)
 
 				init_code_name = "_"+obj["class_name"]+"_init_code"
 				init_code = getMethodBody(obj["class_name"]+"_init_code", lime_body_asm)

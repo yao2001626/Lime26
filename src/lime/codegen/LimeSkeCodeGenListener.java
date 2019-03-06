@@ -32,13 +32,15 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		currentScope = (Scope)this.currentScope.resolve(ctx.ID().toString());
 		curClassName = ctx.ID().toString();
 		t.add("class_name", curClassName);
+		t.add("externs", ((ClassSymbol)currentScope).externMethods);
 		t.add("fields", ((ClassSymbol)currentScope).getDefinedFields());
 		t.add("methods", ((ClassSymbol)currentScope).getDefinedMethods());
 		t.add("actions", ((ClassSymbol)currentScope).getDefinedActions());
-		boolean enabled = ((ClassSymbol)currentScope).getActions().size()>0;
-		t.add("active", enabled);
+		boolean activated = ((ClassSymbol)currentScope).getActions().size()>0;
+		t.add("active", activated);
+		t.add("init", ((ClassSymbol)currentScope).getObjInitCode());
 		int size = ((ClassSymbol)currentScope).getDefinedFields().size();
-		if(enabled) {
+		if(activated) {
 			size = 32768;
 		}else {
 			size += (size+4)*4; 
@@ -60,7 +62,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		content += t.render();
 	}
 	
-	//method(class_name, method_name, paranum)
+	//method(class_name, method_name, paranum, enabled)
 	@Override
 	public void enterMethodDecl(MethodDeclContext ctx) {
 		currentScope = ctx.scope;
@@ -68,6 +70,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("class_name", this.curClassName);
 		t.add("method_name", ctx.ID().toString());
 		t.add("paranum", ((MethodSymbol)currentScope).getNumberOfParameters());
+		t.add("enabled", ((MethodSymbol)currentScope).isEnabled());
 		content += t.render();
 	}
 	

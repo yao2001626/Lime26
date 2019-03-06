@@ -13,7 +13,7 @@ class Reducer
             e2, a2 := x, true
     action doReduce
         when a1 and a2 do 
-            if index % 2 =0 then 
+            if index % 2 = 0 then 
                 next.reduce1(e1+e2)
             else
                 next.reduce2(e1+e2)
@@ -33,5 +33,5 @@ class Mapper
                 next.reduce1(e*e)
             else 
                 next.reduce2(e*e)
-            a := true
+            a := false
 

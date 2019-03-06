@@ -5,20 +5,21 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-
+extern Reducer_reduce2 
+extern Reducer_reduce1 
 ; global methods declare
-; global _Mapper_methods
-global _Mapper_init 
-global _Mapper_map 
+; global Mapper_methods
+global Mapper_init 
+global Mapper_map 
 ; global methods declare
 
-_Mapper_init:
-_Mapper_init_realloc:
+Mapper_init:
+Mapper_init_realloc:
     PUSH DWORD 32768
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
-    JE   _Mapper_init_realloc
+    JE   Mapper_init_realloc
     MOV  DWORD [EAX + 32768 - 1*4], 0    ; next 
     MOV  DWORD [EAX + 32768 - 2*4], 0    ; a 
     MOV  DWORD [EAX + 32768 - 3*4], 0    ; e 
@@ -29,7 +30,7 @@ _Mapper_init_realloc:
     MOV  DWORD [EAX + 32768 - 32 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 32]
     MOV  DWORD [EAX + 32768 - 32], ECX       ; Pre EBP
-    LEA  ECX,  [_Mapper_doactions]
+    LEA  ECX,  [Mapper_doactions]
     MOV  DWORD [EAX + 32768 - 32 - 4], ECX   ; Mapper_doactions
     ADD  DWORD EAX, 32768 - 32
     PUSH DWORD EBP
@@ -38,44 +39,49 @@ _Mapper_init_realloc:
     POP  DWORD EAX
     POP  DWORD EBP
     ; init code goes here
-    _Mapper_init_code 
+
+    ; Mapper_init_code
+
+    MOV DWORD ECX, [ESP + 4]
+    	MOV DOWRD [EAX + 28], ECX
+    	 
     ; init code ends here
     RET
-
-_Mapper_doactions:
-_Mapper_doactions_start:
+Mapper_doactions:
+Mapper_doactions_start:
     PUSH DWORD EBP
     ; CALL Mapper_action
-    CALL _Mapper_doMap
+    CALL Mapper_doMap
     POP  EBP
     CALL switch_to_sched
-    JMP  _Mapper_doactions_start
-    RET  ; never be here;define method _Mapper_map
-_Mapper_map:
-_Mapper_map_start:
+    JMP  Mapper_doactions_start
+    RET  ; never be here
+;define method Mapper_map
+Mapper_map:
+Mapper_map_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-_Mapper_map_checklock:
+Mapper_map_checklock:
     MOV  DWORD EAX, 1           ;lock
     XCHG EAX, [ECX + 8]
     CMP  DWORD EAX, 0
-    JNE  _Mapper_map_suspend
-_Mapper_map_checkguard:
+    JNE  Mapper_map_suspend
+Mapper_map_checkguard:
     ; method guard starts here
     _Mapper_map_guard
     ; method guard ends here
-_Mapper_map_checkguard_fail:
+Mapper_map_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
-_Mapper_map_suspend:
+Mapper_map_suspend:
     PUSH DWORD EBP
     CALL runqput
     POP  EBP
     CALL switch_to_sched
-    JMP  _Mapper_map_start
-_Mapper_map_succeed:
+    JMP  Mapper_map_start
+Mapper_map_succeed:
     ; method body starts here
     _Mapper_map_body
     ; method body ends here
-_Mapper_map_unlock:
+Mapper_map_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
     PUSH DWORD EAX              ; for the return val
     PUSH DWORD EBP
@@ -86,20 +92,21 @@ _Mapper_map_unlock:
     POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
-_Mapper_map_ret:
-    RET ; define action
-; _Mapper: doMap 
-_Mapper_doMap:
-_Mapper_doMap_start:
+Mapper_map_ret:
+    RET 
+; define action
+; Mapper: doMap 
+Mapper_doMap:
+Mapper_doMap_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
     _Mapper_doMap_guard
     ; action guard end
 
-    JMP   _Mapper_doMap_checkguard_fail
-_Mapper_doMap_succeed:
+    JMP   Mapper_doMap_checkguard_fail
+Mapper_doMap_succeed:
     ; action body start
     _Mapper_doMap_body
     ; action body end
-_Mapper_doMap_checkguard_fail:
+Mapper_doMap_checkguard_fail:
     RET

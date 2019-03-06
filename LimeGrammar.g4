@@ -112,13 +112,16 @@ stmt
 simple_stmt
 	: small_stmt (';' small_stmt)* (';')? NEWLINE ;
 small_stmt
-	: expr_stmt | localDecl | return_stmt | method_call;
+	: multi_assign | expr_stmt | localDecl | return_stmt | method_call;
+multi_assign
+	: id_list ':=' expr_list;
 compound_stmt
 	: if_stmt | while_stmt ;
 localDecl 
 	: 'var' id_list ':' type ;
 expr_stmt
-	: src=expr_list (':=' des=expr_list)? ;
+	//: src=expr_list (':=' des=expr_list)? ;
+	: src=expr_list;
 if_stmt
  	: if_stat elif_stat* else_stat?;
 if_stat

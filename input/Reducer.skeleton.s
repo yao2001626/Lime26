@@ -5,21 +5,20 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-
 ; global methods declare
-; global _Reducer_methods
-global _Reducer_init 
-global _Reducer_reduce1 
-global _Reducer_reduce2 
+; global Reducer_methods
+global Reducer_init 
+global Reducer_reduce1 
+global Reducer_reduce2 
 ; global methods declare
 
-_Reducer_init:
-_Reducer_init_realloc:
+Reducer_init:
+Reducer_init_realloc:
     PUSH DWORD 32768
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
-    JE   _Reducer_init_realloc
+    JE   Reducer_init_realloc
     MOV  DWORD [EAX + 32768 - 1*4], 0    ; index 
     MOV  DWORD [EAX + 32768 - 2*4], 0    ; next 
     MOV  DWORD [EAX + 32768 - 3*4], 0    ; a1 
@@ -32,7 +31,7 @@ _Reducer_init_realloc:
     MOV  DWORD [EAX + 32768 - 40 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 40]
     MOV  DWORD [EAX + 32768 - 40], ECX       ; Pre EBP
-    LEA  ECX,  [_Reducer_doactions]
+    LEA  ECX,  [Reducer_doactions]
     MOV  DWORD [EAX + 32768 - 40 - 4], ECX   ; Reducer_doactions
     ADD  DWORD EAX, 32768 - 40
     PUSH DWORD EBP
@@ -41,44 +40,49 @@ _Reducer_init_realloc:
     POP  DWORD EAX
     POP  DWORD EBP
     ; init code goes here
-    _Reducer_init_code 
+
+    ; Reducer_init_code
+
+    MOV DWORD ECX, [ESP + 4]
+    	MOV DOWRD [EAX + 16], ECX
+    	 
     ; init code ends here
     RET
-
-_Reducer_doactions:
-_Reducer_doactions_start:
+Reducer_doactions:
+Reducer_doactions_start:
     PUSH DWORD EBP
     ; CALL Reducer_action
-    CALL _Reducer_doReduce
+    CALL Reducer_doReduce
     POP  EBP
     CALL switch_to_sched
-    JMP  _Reducer_doactions_start
-    RET  ; never be here;define method _Reducer_reduce1
-_Reducer_reduce1:
-_Reducer_reduce1_start:
+    JMP  Reducer_doactions_start
+    RET  ; never be here
+;define method Reducer_reduce1
+Reducer_reduce1:
+Reducer_reduce1_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-_Reducer_reduce1_checklock:
+Reducer_reduce1_checklock:
     MOV  DWORD EAX, 1           ;lock
     XCHG EAX, [ECX + 8]
     CMP  DWORD EAX, 0
-    JNE  _Reducer_reduce1_suspend
-_Reducer_reduce1_checkguard:
+    JNE  Reducer_reduce1_suspend
+Reducer_reduce1_checkguard:
     ; method guard starts here
     _Reducer_reduce1_guard
     ; method guard ends here
-_Reducer_reduce1_checkguard_fail:
+Reducer_reduce1_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
-_Reducer_reduce1_suspend:
+Reducer_reduce1_suspend:
     PUSH DWORD EBP
     CALL runqput
     POP  EBP
     CALL switch_to_sched
-    JMP  _Reducer_reduce1_start
-_Reducer_reduce1_succeed:
+    JMP  Reducer_reduce1_start
+Reducer_reduce1_succeed:
     ; method body starts here
     _Reducer_reduce1_body
     ; method body ends here
-_Reducer_reduce1_unlock:
+Reducer_reduce1_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
     PUSH DWORD EAX              ; for the return val
     PUSH DWORD EBP
@@ -89,33 +93,33 @@ _Reducer_reduce1_unlock:
     POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
-_Reducer_reduce1_ret:
-    RET ;define method _Reducer_reduce2
-_Reducer_reduce2:
-_Reducer_reduce2_start:
+Reducer_reduce1_ret:
+    RET ;define method Reducer_reduce2
+Reducer_reduce2:
+Reducer_reduce2_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-_Reducer_reduce2_checklock:
+Reducer_reduce2_checklock:
     MOV  DWORD EAX, 1           ;lock
     XCHG EAX, [ECX + 8]
     CMP  DWORD EAX, 0
-    JNE  _Reducer_reduce2_suspend
-_Reducer_reduce2_checkguard:
+    JNE  Reducer_reduce2_suspend
+Reducer_reduce2_checkguard:
     ; method guard starts here
     _Reducer_reduce2_guard
     ; method guard ends here
-_Reducer_reduce2_checkguard_fail:
+Reducer_reduce2_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
-_Reducer_reduce2_suspend:
+Reducer_reduce2_suspend:
     PUSH DWORD EBP
     CALL runqput
     POP  EBP
     CALL switch_to_sched
-    JMP  _Reducer_reduce2_start
-_Reducer_reduce2_succeed:
+    JMP  Reducer_reduce2_start
+Reducer_reduce2_succeed:
     ; method body starts here
     _Reducer_reduce2_body
     ; method body ends here
-_Reducer_reduce2_unlock:
+Reducer_reduce2_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
     PUSH DWORD EAX              ; for the return val
     PUSH DWORD EBP
@@ -126,20 +130,21 @@ _Reducer_reduce2_unlock:
     POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
-_Reducer_reduce2_ret:
-    RET ; define action
-; _Reducer: doReduce 
-_Reducer_doReduce:
-_Reducer_doReduce_start:
+Reducer_reduce2_ret:
+    RET 
+; define action
+; Reducer: doReduce 
+Reducer_doReduce:
+Reducer_doReduce_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
     _Reducer_doReduce_guard
     ; action guard end
 
-    JMP   _Reducer_doReduce_checkguard_fail
-_Reducer_doReduce_succeed:
+    JMP   Reducer_doReduce_checkguard_fail
+Reducer_doReduce_succeed:
     ; action body start
     _Reducer_doReduce_body
     ; action body end
-_Reducer_doReduce_checkguard_fail:
+Reducer_doReduce_checkguard_fail:
     RET

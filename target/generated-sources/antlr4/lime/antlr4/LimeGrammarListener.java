@@ -150,6 +150,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitSmall_stmt(LimeGrammarParser.Small_stmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#multi_assign}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulti_assign(LimeGrammarParser.Multi_assignContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#multi_assign}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulti_assign(LimeGrammarParser.Multi_assignContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#compound_stmt}.
 	 * @param ctx the parse tree
 	 */

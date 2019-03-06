@@ -97,6 +97,12 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSmall_stmt(LimeGrammarParser.Small_stmtContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#multi_assign}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMulti_assign(LimeGrammarParser.Multi_assignContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#compound_stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

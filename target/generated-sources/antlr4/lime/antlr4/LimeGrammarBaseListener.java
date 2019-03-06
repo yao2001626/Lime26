@@ -186,6 +186,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterMulti_assign(LimeGrammarParser.Multi_assignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMulti_assign(LimeGrammarParser.Multi_assignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCompound_stmt(LimeGrammarParser.Compound_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}

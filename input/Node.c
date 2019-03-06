@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdlib.h>
 struct Node_struct{
 int pre_ebp;
 int pre_esp;
@@ -10,30 +11,21 @@ struct Node_struct *left;
 struct Node_struct *right;
 int a;
 };
-void *Node_init_code(int x){
-struct Node_struct *this =(struct Node_struct *)malloc(sizeof(struct Node_struct));
-this->key = x;
- this->left =  NULL;
- this->right =  NULL;
- this->a =  0;
-return this;
-}
-
 void Node_add(int x,struct Node_struct *this){
 
-if (this->left == NULL){
+if (this->left != NULL){
 this->a = 1;
- this->p =  x;
+this->p =  x;
 
 }
 else if(x<this->key){
 this->left = Node_init(x);
- this->right =  Node_init(this->key);
- this->key =  x;
+this->right =  Node_init(this->key);
+this->key =  x;
 
 }else if(x>this->key){
 this->left = Node_init(this->key);
- this->right =  Node_init(x);
+this->right =  Node_init(x);
 
 }}
 

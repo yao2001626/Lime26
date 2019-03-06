@@ -10,7 +10,7 @@ class PQ
 	method add(e:int)
 		when not a and not r do
 			if l = nil then
-				p, l := e, new PQ()
+				m, l := e, new PQ()
 			else
 				p, a := e, true
 	method remove(): int
@@ -25,9 +25,9 @@ class PQ
 				l.add(m); m:=p
 			a := false
 	action doRemove
-		when a do
+		when r do
 			if l.empty() then 
 				l := nil
 			else
-				m := l.empty()
+				m := l.remove()
 			r := false

@@ -36,6 +36,20 @@ public class FunctionSymbol extends SymbolWithScope implements TypedSymbol{
 	public int getNumberOfParameters() {
 		return Utils.filter(symbols.values(), s -> s instanceof ParameterSymbol).size();
 	}
+	
+	public int getParIndex(String p) {
+		Collection<Symbol> v = symbols.values();
+		int index = 0;
+		for(Symbol x:v) {
+			if(x instanceof ParameterSymbol) {
+				if(x.getName().equals(p)) {
+					return index;
+				}
+				index++;
+			}
+		}
+		return -1;
+	}
 
 	//public String toString() { return name+":"+super.toString(); }
 	public String toString() { 

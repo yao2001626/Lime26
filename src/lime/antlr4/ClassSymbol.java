@@ -3,6 +3,7 @@ package lime.antlr4;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,10 +23,34 @@ public class ClassSymbol extends DataAggregateSymbol {
 	HashMap<String, String> fields_init = new HashMap<String, String>();
 	Set<Symbol> methods = new LinkedHashSet<Symbol>();
 	Set<Symbol> actions = new LinkedHashSet<Symbol>();
+	public Set<String> methodCalled;
+	public Set<String> classGuardIds;
+	public Set<String> externMethods;
+	String objInitCode="";
 	public ClassSymbol(String name) {
 		super(name);
+		classGuardIds = new HashSet<String>();
+		methodCalled = new HashSet<String>();
+		externMethods = new HashSet<String>();
 	}
-
+	public void addExternalFunction() {
+		Set<String> dms = new HashSet<String>();
+		for(MethodSymbol m:getDefinedMethods()) {
+			dms.add(getName()+"_"+m.getName());
+		}
+		for(String m: methodCalled) {
+			if(!dms.contains(m)) {
+				externMethods.add(m);
+			}
+		}
+	}
+	public void setObjInitCode(String in) {
+		this.objInitCode +=in;
+	}
+	public String getObjInitCode() {
+		return this.objInitCode;
+	}
+	
 	/** Return the ClassSymbol associated with superClassName or null if
 	 *  superclass is not resolved looking up the enclosing scope chain.
 	 */
@@ -220,6 +245,18 @@ public class ClassSymbol extends DataAggregateSymbol {
 		}
 		fields.addAll( getDefinedFields() );
 		return fields;
+	}
+	
+	public int getFieldIndex(String s) {
+		List<FieldSymbol> fields = (List<FieldSymbol>) this.getFields();
+		int index = 0;
+		for (FieldSymbol f:fields) {
+			if(f.getName().equals(s)) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
 	}
 
 	/** get the number of methods defined specifically in this class */

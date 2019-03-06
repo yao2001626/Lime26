@@ -1,11 +1,9 @@
 package lime.codegen;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.InputStreamReader;
-import java.util.HashMap;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -19,42 +17,42 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.Builder;
 import lime.antlr4.ClassSymbol;
-import lime.antlr4.LimeCodeGenListener;
 import lime.antlr4.LimeGrammarLexer;
 import lime.antlr4.LimeGrammarParser;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
-import lime.antlr4.LimeSymbolListener;
 import lime.antlr4.MethodSymbol;
 import lime.antlr4.SymbolTable;
-import lime.parsertreelistener.LimeLLVMCodeGenVisitor;
-import lime.parsertreelistener.LimeParserTreeListener;
-import lime.parsertreelistener.LimeSkeletonCodeGenListener;
+
+import lime.codegen.LimeLLVMCodeGenVisitor;
+import lime.codegen.LimeParserTreeListener;
 
 public class Main {
-	//private static boolean makeDot = false;
-
-    /** Just a simple test driver for the ASP parser
-     * to show how to call it.
-     */
-
+		//private static boolean makeDot = false;
+		private static String stringTemplateFile="./lime.stg";
     	public static void main(String[] args)
         {
             try
             {
-
                 if  (args.length > 0)
                 {
                     // Recursively parse each directory, and each file on the
                     // command line
-                    //
-                    for (int i=0; i<args.length; i++)
+                	
+                	int s = 0;
+                	if(args[0].startsWith("-stg")) {
+                		stringTemplateFile = args[1]!=null? args[1]: "./lime.stg"; 
+                		s = 2;
+                	}
+                	
+                	
+                    for (int i=s; i<args.length; i++)
                     {
                         parse(new File(args[i]));
                     }
                 }
                 else
                 {
-                    System.err.println("Usage: java -jar Lime26.jar <directory | filename.lime>");
+                    System.err.println("Usage: java -jar Lime-Compiler.jar [ -stg ./lime.stg ] <directory | filename.lime>");
                 }
             }
             catch (Exception ex)
@@ -68,12 +66,9 @@ public class Main {
         {
 
             // Open the supplied file or directory
-            //
             try
             {
-
                 // From here, any exceptions are just thrown back up the chain
-                //
                 if (source.isDirectory())
                 {
                     //System.out.println("Directory: " + source.getAbsolutePath());
@@ -85,19 +80,18 @@ public class Main {
                     }
                 }
 
-                // Else find out if it is an ASP.Net file and parse it if it is
+                // Else find out if it is a lime file and parse it if it is
                 //
                 else
                 {
                     // File without paths etc
-                	System.out.println("File: " + source.getAbsolutePath());
                     String sourceFile = source.getName();
 
                     if  (sourceFile.length() > 4)
                     {
                         String suffix = sourceFile.substring(sourceFile.length()-5).toLowerCase();
 
-                        // Ensure that this is a DEMO script (or seemingly)
+                        // Ensure that this is a lime source file (or seemingly)
                         //
                         if  (suffix.compareTo(".lime") == 0)
                         {
@@ -108,7 +102,7 @@ public class Main {
             }
             catch (Exception ex)
             {
-                System.err.println("ANTLR demo parser caught error on file open:");
+                System.err.println("Lime parser caught error on file open:");
                 ex.printStackTrace();
             }
 
@@ -130,6 +124,8 @@ public class Main {
                 	//methods
                 	JSONArray mtds = new JSONArray();
                 	ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(o);
+                	//init code
+                	className.put(cs.getName()+"_init_code", cs.getObjInitCode());
                 	for(MethodSymbol ms: cs.getDefinedMethods()) {
                 		if(ms.getName()=="init") continue;
                 		mtds.add(ms.getName());
@@ -180,7 +176,7 @@ public class Main {
                 // step 4 load the string template file
                 File file = new File(source);
                 String dir = file.getParent();
-                String templatesFilename = "lime.stg";
+                String templatesFilename = stringTemplateFile;
                 STGroup templates = new STGroupFile(templatesFilename);
                 
                 // step 5 create lime classes skeleton files and LLVM files (one lime file may contains multiple classes)
@@ -193,19 +189,17 @@ public class Main {
                 	String limeSkeletonName = outputName+".skeleton.s";
                 	String limeLLVMName = outputName+".c";
                 	
-                	
                 	FileWriter outputSkefile = new FileWriter(new File(dir, limeSkeletonName));
-                	System.out.print("writing file: "+outputSkefile+"\n");
+                	//System.out.print("writing file: "+outputSkefile+"\n");
                 	ParseTreeWalker.DEFAULT.walk(lcgl, tree.getChild(i));
                 	outputSkefile.write(lcgl.content);
                 	outputSkefile.close();
                 	
                 	FileWriter outputLLVMfile = new FileWriter(new File(dir, limeLLVMName));
-                	System.out.print("writing file: "+outputLLVMfile+"\n");
+                	//System.out.print("writing file: "+outputLLVMfile+"\n");
                 	outputLLVMfile.write(llvmcgv.visit(tree.getChild(i)));
                 	outputLLVMfile.close();
                 }
-      
             }
             catch (FileNotFoundException ex)
             {
@@ -215,7 +209,7 @@ public class Main {
             catch (Exception ex)
             {
                 // Something went wrong in the parser, report this
-                System.err.println("Parser threw an exception:\n\n");
+                System.err.println("Lime Parser threw an exception:\n\n");
                 ex.printStackTrace();
             }
         }
