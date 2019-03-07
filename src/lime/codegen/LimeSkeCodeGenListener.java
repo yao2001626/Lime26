@@ -39,12 +39,15 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		boolean activated = ((ClassSymbol)currentScope).getActions().size()>0;
 		t.add("active", activated);
 		t.add("init", ((ClassSymbol)currentScope).getObjInitCode());
+		/*
 		int size = ((ClassSymbol)currentScope).getDefinedFields().size();
+		
 		if(activated) {
 			size = 32768;
 		}else {
 			size += (size+4)*4; 
-		}
+		}*/
+		int size =32768;
 		t.add("size", size);
 		int xyz = (((ClassSymbol)currentScope).getDefinedFields().size()+ 4)*4 ;
 		t.add("XYZ", xyz);

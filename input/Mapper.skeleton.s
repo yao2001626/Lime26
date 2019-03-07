@@ -30,8 +30,10 @@ Mapper_init_realloc:
     MOV  DWORD [EAX + 32768 - 32 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 32]
     MOV  DWORD [EAX + 32768 - 32], ECX       ; Pre EBP
+
     LEA  ECX,  [Mapper_doactions]
     MOV  DWORD [EAX + 32768 - 32 - 4], ECX   ; Mapper_doactions
+
     ADD  DWORD EAX, 32768 - 32
     PUSH DWORD EBP
     PUSH DWORD EAX
@@ -43,7 +45,7 @@ Mapper_init_realloc:
     ; Mapper_init_code
 
     MOV DWORD ECX, [ESP + 4]
-    	MOV DOWRD [EAX + 28], ECX
+    	MOV DWORD [EAX + 28], ECX
     	 
     ; init code ends here
     RET

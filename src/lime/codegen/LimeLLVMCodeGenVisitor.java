@@ -311,7 +311,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 	//: id_list ':=' expr_list;
 	@Override
 	public String visitMulti_assign(Multi_assignContext ctx) {
-		String s = "";
+		//String s = "";
 		String src = this.visit(ctx.id_list());
 		//System.out.println(ctx.getText());
 		if(ctx.expr_list()!=null) {

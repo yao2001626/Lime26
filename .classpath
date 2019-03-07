@@ -5,9 +5,9 @@
 	<classpathentry kind="lib" path="/home/yaos4/Downloads/antlr-4.7.2-complete.jar"/>
 	<classpathentry kind="lib" path="/home/yaos4/Downloads/ST-4.1.jar"/>
 	<classpathentry kind="lib" path="/home/yaos4/java-eclipse-workspace/Lime26/json-simple-1.1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-11-oracle">
 		<attributes>
-			<attribute name="module" value="true"/>
+			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>

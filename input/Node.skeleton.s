@@ -30,8 +30,10 @@ Node_init_realloc:
     MOV  DWORD [EAX + 32768 - 36 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 36]
     MOV  DWORD [EAX + 32768 - 36], ECX       ; Pre EBP
+
     LEA  ECX,  [Node_doactions]
     MOV  DWORD [EAX + 32768 - 36 - 4], ECX   ; Node_doactions
+
     ADD  DWORD EAX, 32768 - 36
     PUSH DWORD EBP
     PUSH DWORD EAX
@@ -43,7 +45,7 @@ Node_init_realloc:
     ; Node_init_code
 
     MOV DWORD ECX, [ESP + 4]
-    	MOV DOWRD [EAX + 16], ECX
+    	MOV DWORD [EAX + 16], ECX
     	 
     ; init code ends here
     RET

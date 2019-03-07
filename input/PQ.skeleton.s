@@ -31,8 +31,10 @@ PQ_init_realloc:
     MOV  DWORD [EAX + 32768 - 36 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 36]
     MOV  DWORD [EAX + 32768 - 36], ECX       ; Pre EBP
+
     LEA  ECX,  [PQ_doactions]
     MOV  DWORD [EAX + 32768 - 36 - 4], ECX   ; PQ_doactions
+
     ADD  DWORD EAX, 32768 - 36
     PUSH DWORD EBP
     PUSH DWORD EAX

@@ -43,7 +43,7 @@ Mapper_init_realloc:
     ; Mapper_init_code
 
     MOV DWORD ECX, [ESP + 4]
-    	MOV DOWRD [EAX + 28], ECX
+    	MOV DWORD [EAX + 28], ECX
     	 
     ; init code ends here
     RET

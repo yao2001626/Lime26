@@ -26,8 +26,10 @@ extern  malloc
     MOV  DWORD [EAX + <size> - <XYZ> + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + <size> - <XYZ>]
     MOV  DWORD [EAX + <size> - <XYZ>], ECX       ; Pre EBP
+<if(active)>
     LEA  ECX,  [<class_name>_doactions]
     MOV  DWORD [EAX + <size> - <XYZ> - 4], ECX   ; <class_name>_doactions
+<endif>
     ADD  DWORD EAX, <size> - <XYZ>
 <if(active)>
     PUSH DWORD EBP

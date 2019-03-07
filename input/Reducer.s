@@ -44,7 +44,7 @@ Reducer_init_realloc:
     ; Reducer_init_code
 
     MOV DWORD ECX, [ESP + 4]
-    	MOV DOWRD [EAX + 16], ECX
+    	MOV DWORD [EAX + 16], ECX
     	 
     ; init code ends here
     RET

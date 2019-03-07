@@ -241,7 +241,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 						System.err.printf("Didn't find arg %s in init code\n", initcodemap.get(i).substring(3));
 					}
 					code += String.format("MOV DWORD ECX, [ESP + %d]\n\t", (argIndex + 1) * 4);
-					code += String.format("MOV DOWRD [EAX + %d], ECX\n\t", (fieldIndex+4) * 4);
+					code += String.format("MOV DWORD [EAX + %d], ECX\n\t", (fieldIndex+4) * 4);
 				} else {//
 					code += String.format("MOV DWORD [EAX + %d], %s\n\t", (fieldIndex+4) * 4, initcodemap.get(i));
 				}
@@ -419,7 +419,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		// System.out.println("guard or defines: " + ctx.getText());
 		String strFormat = "CMP DWORD %s, 1\n";
 		String succeed = className + "_" + methodName + "_succeed";
-		String failed = className + "_" + methodName + "_checkguard_fail";
+		//String failed = className + "_" + methodName + "_checkguard_fail";
 		String output = "";
 		int rightnot = notOps.pop();
 		int leftnot = notOps.pop();
