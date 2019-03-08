@@ -73,7 +73,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("class_name", this.curClassName);
 		t.add("method_name", ctx.ID().toString());
 		t.add("paranum", ((MethodSymbol)currentScope).getNumberOfParameters());
-		t.add("enabled", ((MethodSymbol)currentScope).isEnabled());
+		t.add("enabled", ((MethodSymbol)currentScope).isEnabled()&& ((ClassSymbol)currentScope.getEnclosingScope()).getActions().size()>0);
 		content += t.render();
 	}
 	

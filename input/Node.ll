@@ -15,7 +15,7 @@ define void @Node_add(i32, %struct.Node_struct*) #0 {
   %6 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %5, i32 0, i32 6
   %7 = load %struct.Node_struct*, %struct.Node_struct** %6, align 8
   %8 = icmp ne %struct.Node_struct* %7, null
-  br i1 %8, label %9, label %15
+  br i1 %8, label %9, label %39
 
 ; <label>:9:                                      ; preds = %2
   %10 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
@@ -25,73 +25,106 @@ define void @Node_add(i32, %struct.Node_struct*) #0 {
   %13 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
   %14 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %13, i32 0, i32 5
   store i32 %12, i32* %14, align 4
-  br label %62
+  %15 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %16 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %15, i32 0, i32 5
+  %17 = load i32, i32* %16, align 4
+  %18 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %19 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %18, i32 0, i32 4
+  %20 = load i32, i32* %19, align 8
+  %21 = icmp sle i32 %17, %20
+  br i1 %21, label %22, label %29
 
-; <label>:15:                                     ; preds = %2
-  %16 = load i32, i32* %3, align 4
-  %17 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
-  %18 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %17, i32 0, i32 4
-  %19 = load i32, i32* %18, align 8
-  %20 = icmp slt i32 %16, %19
-  br i1 %20, label %21, label %39
-
-; <label>:21:                                     ; preds = %15
-  %22 = load i32, i32* %3, align 4
-  %23 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %22)
-  %24 = sext i32 %23 to i64
-  %25 = inttoptr i64 %24 to %struct.Node_struct*
+; <label>:22:                                     ; preds = %9
+  %23 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %24 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %23, i32 0, i32 5
+  %25 = load i32, i32* %24, align 4
   %26 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
   %27 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %26, i32 0, i32 6
-  store %struct.Node_struct* %25, %struct.Node_struct** %27, align 8
-  %28 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
-  %29 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %28, i32 0, i32 4
-  %30 = load i32, i32* %29, align 8
-  %31 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %30)
-  %32 = sext i32 %31 to i64
-  %33 = inttoptr i64 %32 to %struct.Node_struct*
-  %34 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
-  %35 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %34, i32 0, i32 7
-  store %struct.Node_struct* %33, %struct.Node_struct** %35, align 8
-  %36 = load i32, i32* %3, align 4
-  %37 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
-  %38 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %37, i32 0, i32 4
-  store i32 %36, i32* %38, align 8
-  br label %61
+  %28 = load %struct.Node_struct*, %struct.Node_struct** %27, align 8
+  call void @Node_add(i32 %25, %struct.Node_struct* %28)
+  br label %36
 
-; <label>:39:                                     ; preds = %15
+; <label>:29:                                     ; preds = %9
+  %30 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %31 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %30, i32 0, i32 5
+  %32 = load i32, i32* %31, align 4
+  %33 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %34 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %33, i32 0, i32 7
+  %35 = load %struct.Node_struct*, %struct.Node_struct** %34, align 8
+  call void @Node_add(i32 %32, %struct.Node_struct* %35)
+  br label %36
+
+; <label>:36:                                     ; preds = %29, %22
+  %37 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %38 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %37, i32 0, i32 8
+  store i32 0, i32* %38, align 8
+  br label %86
+
+; <label>:39:                                     ; preds = %2
   %40 = load i32, i32* %3, align 4
   %41 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
   %42 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %41, i32 0, i32 4
   %43 = load i32, i32* %42, align 8
-  %44 = icmp sgt i32 %40, %43
-  br i1 %44, label %45, label %60
+  %44 = icmp slt i32 %40, %43
+  br i1 %44, label %45, label %63
 
 ; <label>:45:                                     ; preds = %39
-  %46 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
-  %47 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %46, i32 0, i32 4
-  %48 = load i32, i32* %47, align 8
-  %49 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %48)
-  %50 = sext i32 %49 to i64
-  %51 = inttoptr i64 %50 to %struct.Node_struct*
+  %46 = load i32, i32* %3, align 4
+  %47 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %46)
+  %48 = sext i32 %47 to i64
+  %49 = inttoptr i64 %48 to %struct.Node_struct*
+  %50 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %51 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %50, i32 0, i32 6
+  store %struct.Node_struct* %49, %struct.Node_struct** %51, align 8
   %52 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
-  %53 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %52, i32 0, i32 6
-  store %struct.Node_struct* %51, %struct.Node_struct** %53, align 8
-  %54 = load i32, i32* %3, align 4
+  %53 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %52, i32 0, i32 4
+  %54 = load i32, i32* %53, align 8
   %55 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %54)
   %56 = sext i32 %55 to i64
   %57 = inttoptr i64 %56 to %struct.Node_struct*
   %58 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
   %59 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %58, i32 0, i32 7
   store %struct.Node_struct* %57, %struct.Node_struct** %59, align 8
-  br label %60
+  %60 = load i32, i32* %3, align 4
+  %61 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %62 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %61, i32 0, i32 4
+  store i32 %60, i32* %62, align 8
+  br label %85
 
-; <label>:60:                                     ; preds = %45, %39
-  br label %61
+; <label>:63:                                     ; preds = %39
+  %64 = load i32, i32* %3, align 4
+  %65 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %66 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %65, i32 0, i32 4
+  %67 = load i32, i32* %66, align 8
+  %68 = icmp sgt i32 %64, %67
+  br i1 %68, label %69, label %84
 
-; <label>:61:                                     ; preds = %60, %21
-  br label %62
+; <label>:69:                                     ; preds = %63
+  %70 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %71 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %70, i32 0, i32 4
+  %72 = load i32, i32* %71, align 8
+  %73 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %72)
+  %74 = sext i32 %73 to i64
+  %75 = inttoptr i64 %74 to %struct.Node_struct*
+  %76 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %77 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %76, i32 0, i32 6
+  store %struct.Node_struct* %75, %struct.Node_struct** %77, align 8
+  %78 = load i32, i32* %3, align 4
+  %79 = call i32 (i32, ...) bitcast (i32 (...)* @Node_init to i32 (i32, ...)*)(i32 %78)
+  %80 = sext i32 %79 to i64
+  %81 = inttoptr i64 %80 to %struct.Node_struct*
+  %82 = load %struct.Node_struct*, %struct.Node_struct** %4, align 8
+  %83 = getelementptr inbounds %struct.Node_struct, %struct.Node_struct* %82, i32 0, i32 7
+  store %struct.Node_struct* %81, %struct.Node_struct** %83, align 8
+  br label %84
 
-; <label>:62:                                     ; preds = %61, %9
+; <label>:84:                                     ; preds = %69, %63
+  br label %85
+
+; <label>:85:                                     ; preds = %84, %45
+  br label %86
+
+; <label>:86:                                     ; preds = %85, %36
   ret void
 }
 

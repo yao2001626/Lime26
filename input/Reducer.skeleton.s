@@ -31,10 +31,8 @@ Reducer_init_realloc:
     MOV  DWORD [EAX + 32768 - 40 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 40]
     MOV  DWORD [EAX + 32768 - 40], ECX       ; Pre EBP
-
     LEA  ECX,  [Reducer_doactions]
     MOV  DWORD [EAX + 32768 - 40 - 4], ECX   ; Reducer_doactions
-
     ADD  DWORD EAX, 32768 - 40
     PUSH DWORD EBP
     PUSH DWORD EAX

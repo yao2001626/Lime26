@@ -1,10 +1,10 @@
 	.text
 	.intel_syntax noprefix
-	.file	"Node.c"
-	.globl	Node_add                # -- Begin function Node_add
+	.file	"Node2.c"
+	.globl	Node2_add               # -- Begin function Node2_add
 	.p2align	4, 0x90
-	.type	Node_add,@function
-Node_add:                               # @Node_add
+	.type	Node2_add,@function
+Node2_add:                              # @Node2_add
 	.cfi_startproc
 # %bb.0:
 	sub	esp, 28
@@ -34,7 +34,7 @@ Node_add:                               # @Node_add
 	mov	ecx, dword ptr [ecx + 24]
 	mov	dword ptr [esp], eax
 	mov	dword ptr [esp + 4], ecx
-	call	Node_add
+	call	Node2_add
 	jmp	.LBB0_4
 .LBB0_3:
 	mov	eax, dword ptr [esp + 24]
@@ -43,7 +43,7 @@ Node_add:                               # @Node_add
 	mov	ecx, dword ptr [ecx + 28]
 	mov	dword ptr [esp], eax
 	mov	dword ptr [esp + 4], ecx
-	call	Node_add
+	call	Node2_add
 .LBB0_4:
 	mov	eax, dword ptr [esp + 24]
 	mov	dword ptr [eax + 32], 0
@@ -57,14 +57,14 @@ Node_add:                               # @Node_add
 	mov	eax, dword ptr [esp + 32]
 	mov	ecx, esp
 	mov	dword ptr [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword ptr [esp + 24]
 	mov	dword ptr [ecx + 24], eax
 	mov	eax, dword ptr [esp + 24]
 	mov	eax, dword ptr [eax + 16]
 	mov	ecx, esp
 	mov	dword ptr [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword ptr [esp + 24]
 	mov	dword ptr [ecx + 28], eax
 	mov	eax, dword ptr [esp + 32]
@@ -81,13 +81,13 @@ Node_add:                               # @Node_add
 	mov	eax, dword ptr [eax + 16]
 	mov	ecx, esp
 	mov	dword ptr [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword ptr [esp + 24]
 	mov	dword ptr [ecx + 24], eax
 	mov	eax, dword ptr [esp + 32]
 	mov	ecx, esp
 	mov	dword ptr [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword ptr [esp + 24]
 	mov	dword ptr [ecx + 28], eax
 .LBB0_9:
@@ -98,13 +98,13 @@ Node_add:                               # @Node_add
 	add	esp, 28
 	ret
 .Lfunc_end0:
-	.size	Node_add, .Lfunc_end0-Node_add
+	.size	Node2_add, .Lfunc_end0-Node2_add
 	.cfi_endproc
                                         # -- End function
-	.globl	Node_has                # -- Begin function Node_has
+	.globl	Node2_has               # -- Begin function Node2_has
 	.p2align	4, 0x90
-	.type	Node_has,@function
-Node_has:                               # @Node_has
+	.type	Node2_has,@function
+Node2_has:                              # @Node2_has
 	.cfi_startproc
 # %bb.0:
 	sub	esp, 28
@@ -136,7 +136,7 @@ Node_has:                               # @Node_has
 	mov	ecx, dword ptr [ecx + 24]
 	mov	dword ptr [esp], eax
 	mov	dword ptr [esp + 4], ecx
-	call	Node_has
+	call	Node2_has
 	mov	dword ptr [esp + 24], eax
 	jmp	.LBB1_5
 .LBB1_4:
@@ -145,55 +145,14 @@ Node_has:                               # @Node_has
 	mov	ecx, dword ptr [ecx + 28]
 	mov	dword ptr [esp], eax
 	mov	dword ptr [esp + 4], ecx
-	call	Node_has
+	call	Node2_has
 	mov	dword ptr [esp + 24], eax
 .LBB1_5:
 	mov	eax, dword ptr [esp + 24]
 	add	esp, 28
 	ret
 .Lfunc_end1:
-	.size	Node_has, .Lfunc_end1-Node_has
-	.cfi_endproc
-                                        # -- End function
-	.globl	Node_addToChild         # -- Begin function Node_addToChild
-	.p2align	4, 0x90
-	.type	Node_addToChild,@function
-Node_addToChild:                        # @Node_addToChild
-	.cfi_startproc
-# %bb.0:
-	sub	esp, 12
-	.cfi_def_cfa_offset 16
-	mov	eax, dword ptr [esp + 16]
-	mov	ecx, dword ptr [esp + 16]
-	mov	ecx, dword ptr [ecx + 20]
-	mov	edx, dword ptr [esp + 16]
-	cmp	ecx, dword ptr [edx + 16]
-	mov	dword ptr [esp + 8], eax # 4-byte Spill
-	jg	.LBB2_2
-# %bb.1:
-	mov	eax, dword ptr [esp + 16]
-	mov	eax, dword ptr [eax + 20]
-	mov	ecx, dword ptr [esp + 16]
-	mov	ecx, dword ptr [ecx + 24]
-	mov	dword ptr [esp], eax
-	mov	dword ptr [esp + 4], ecx
-	call	Node_add
-	jmp	.LBB2_3
-.LBB2_2:
-	mov	eax, dword ptr [esp + 16]
-	mov	eax, dword ptr [eax + 20]
-	mov	ecx, dword ptr [esp + 16]
-	mov	ecx, dword ptr [ecx + 28]
-	mov	dword ptr [esp], eax
-	mov	dword ptr [esp + 4], ecx
-	call	Node_add
-.LBB2_3:
-	mov	eax, dword ptr [esp + 16]
-	mov	dword ptr [eax + 32], 0
-	add	esp, 12
-	ret
-.Lfunc_end2:
-	.size	Node_addToChild, .Lfunc_end2-Node_addToChild
+	.size	Node2_has, .Lfunc_end1-Node2_has
 	.cfi_endproc
                                         # -- End function
 

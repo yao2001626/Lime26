@@ -6,19 +6,19 @@ extern  switch_to_sched
 extern  runqput
 extern  malloc
 ; global methods declare
-; global Node_methods
-global Node_init 
-global Node_add 
-global Node_has 
+; global Node2_methods
+global Node2_init 
+global Node2_add 
+global Node2_has 
 ; global methods declare
 
-Node_init:
-Node_init_realloc:
+Node2_init:
+Node2_init_realloc:
     PUSH DWORD 32768
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
-    JE   Node_init_realloc
+    JE   Node2_init_realloc
     MOV  DWORD [EAX + 32768 - 1*4], 0    ; key 
     MOV  DWORD [EAX + 32768 - 2*4], 0    ; p 
     MOV  DWORD [EAX + 32768 - 3*4], 0    ; left 
@@ -30,57 +30,41 @@ Node_init_realloc:
     MOV  DWORD [EAX + 32768 - 36 + 4], ECX   ; Pre ESP
     LEA  ECX,  [EAX + 32768 - 36]
     MOV  DWORD [EAX + 32768 - 36], ECX       ; Pre EBP
-    LEA  ECX,  [Node_doactions]
-    MOV  DWORD [EAX + 32768 - 36 - 4], ECX   ; Node_doactions
     ADD  DWORD EAX, 32768 - 36
-    PUSH DWORD EBP
-    PUSH DWORD EAX
-    CALL runqput
-    POP  DWORD EAX
-    POP  DWORD EBP
     ; init code goes here
 
-    ; Node_init_code
+    ; Node2_init_code
 
     MOV DWORD ECX, [ESP + 4]
     	MOV DWORD [EAX + 16], ECX
     	 
     ; init code ends here
     RET
-Node_doactions:
-Node_doactions_start:
-    PUSH DWORD EBP
-    ; CALL Node_action
-    CALL Node_addToChild
-    POP  EBP
-    CALL switch_to_sched
-    JMP  Node_doactions_start
-    RET  ; never be here
-;define method Node_add
-Node_add:
-Node_add_start:
+;define method Node2_add
+Node2_add:
+Node2_add_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-Node_add_checklock:
+Node2_add_checklock:
     MOV  DWORD EAX, 1           ;lock
     XCHG EAX, [ECX + 8]
     CMP  DWORD EAX, 0
-    JNE  Node_add_suspend
-Node_add_checkguard:
+    JNE  Node2_add_suspend
+Node2_add_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 32]
 CMP DWORD EDX, 1
-JNE Node_add_succeed
+JNE Node2_add_succeed
 
     ; method guard ends here
-Node_add_checkguard_fail:
+Node2_add_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
-Node_add_suspend:
+Node2_add_suspend:
     PUSH DWORD EBP
     CALL runqput
     POP  EBP
     CALL switch_to_sched
-    JMP  Node_add_start
-Node_add_succeed:
+    JMP  Node2_add_start
+Node2_add_succeed:
     ; method body starts here
     	;_startproc
 ; %bb.0:
@@ -111,7 +95,7 @@ Node_add_succeed:
 	mov	ecx, dword   [ecx + 24]
 	mov	dword   [esp], eax
 	mov	dword   [esp + 4], ecx
-	call	Node_add
+	call	Node2_add
 	jmp	.LBB0_4
 .LBB0_3:
 	mov	eax, dword   [esp + 24]
@@ -120,7 +104,7 @@ Node_add_succeed:
 	mov	ecx, dword   [ecx + 28]
 	mov	dword   [esp], eax
 	mov	dword   [esp + 4], ecx
-	call	Node_add
+	call	Node2_add
 .LBB0_4:
 	mov	eax, dword   [esp + 24]
 	mov	dword   [eax + 32], 0
@@ -134,14 +118,14 @@ Node_add_succeed:
 	mov	eax, dword   [esp + 32]
 	mov	ecx, esp
 	mov	dword   [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword   [esp + 24]
 	mov	dword   [ecx + 24], eax
 	mov	eax, dword   [esp + 24]
 	mov	eax, dword   [eax + 16]
 	mov	ecx, esp
 	mov	dword   [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword   [esp + 24]
 	mov	dword   [ecx + 28], eax
 	mov	eax, dword   [esp + 32]
@@ -158,13 +142,13 @@ Node_add_succeed:
 	mov	eax, dword   [eax + 16]
 	mov	ecx, esp
 	mov	dword   [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword   [esp + 24]
 	mov	dword   [ecx + 24], eax
 	mov	eax, dword   [esp + 32]
 	mov	ecx, esp
 	mov	dword   [ecx], eax
-	call	Node_init
+	call	Node2_init
 	mov	ecx, dword   [esp + 24]
 	mov	dword   [ecx + 28], eax
 .LBB0_9:
@@ -175,46 +159,39 @@ Node_add_succeed:
 	add	esp, 28
 	;ret
 .Lfunc_end0:
-	;.size	Node_add, .Lfunc_end0-Node_add
+	;.size	Node2_add, .Lfunc_end0-Node2_add
 
     ; method body ends here
-Node_add_unlock:
+Node2_add_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
-Node_add_ret:
-    RET ;define method Node_has
-Node_has:
-Node_has_start:
+Node2_add_ret:
+    RET ;define method Node2_has
+Node2_has:
+Node2_has_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-Node_has_checklock:
+Node2_has_checklock:
     MOV  DWORD EAX, 1           ;lock
     XCHG EAX, [ECX + 8]
     CMP  DWORD EAX, 0
-    JNE  Node_has_suspend
-Node_has_checkguard:
+    JNE  Node2_has_suspend
+Node2_has_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 32]
 CMP DWORD EDX, 1
-JNE Node_has_succeed
+JNE Node2_has_succeed
 
     ; method guard ends here
-Node_has_checkguard_fail:
+Node2_has_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
-Node_has_suspend:
+Node2_has_suspend:
     PUSH DWORD EBP
     CALL runqput
     POP  EBP
     CALL switch_to_sched
-    JMP  Node_has_start
-Node_has_succeed:
+    JMP  Node2_has_start
+Node2_has_succeed:
     ; method body starts here
     	;_startproc
 ; %bb.0:
@@ -247,7 +224,7 @@ Node_has_succeed:
 	mov	ecx, dword   [ecx + 24]
 	mov	dword   [esp], eax
 	mov	dword   [esp + 4], ecx
-	call	Node_has
+	call	Node2_has
 	mov	dword   [esp + 24], eax
 	jmp	.LBB1_5
 .LBB1_4:
@@ -256,73 +233,19 @@ Node_has_succeed:
 	mov	ecx, dword   [ecx + 28]
 	mov	dword   [esp], eax
 	mov	dword   [esp + 4], ecx
-	call	Node_has
+	call	Node2_has
 	mov	dword   [esp + 24], eax
 .LBB1_5:
 	mov	eax, dword   [esp + 24]
 	add	esp, 28
 	;ret
 .Lfunc_end1:
-	;.size	Node_has, .Lfunc_end1-Node_has
+	;.size	Node2_has, .Lfunc_end1-Node2_has
 
     ; method body ends here
-Node_has_unlock:
+Node2_has_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
     ; unlock
     MOV DWORD [ECX + 8], 0
-Node_has_ret:
+Node2_has_ret:
     RET 
-; define action
-; Node: addToChild 
-Node_addToChild:
-Node_addToChild_start:
-    MOV  DWORD ECX, [ESP + 4]
-    ; action guard start
-    MOV DWORD EDX, [ECX + 32]
-CMP DWORD EDX, 1
-JE Node_addToChild_succeed
-
-    ; action guard end
-
-    JMP   Node_addToChild_checkguard_fail
-Node_addToChild_succeed:
-    ; action body start
-    	;_startproc
-; %bb.0:
-	sub	esp, 12
-	;_def_cfa_offset 16
-	mov	eax, dword   [esp + 16]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 20]
-	mov	edx, dword   [esp + 16]
-	cmp	ecx, dword   [edx + 16]
-	mov	dword   [esp + 8], eax ; 4-byte Spill
-	jg	.LBB2_2
-; %bb.1:
-	mov	eax, dword   [esp + 16]
-	mov	eax, dword   [eax + 20]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 24]
-	mov	dword   [esp], eax
-	mov	dword   [esp + 4], ecx
-	call	Node_add
-	jmp	.LBB2_3
-.LBB2_2:
-	mov	eax, dword   [esp + 16]
-	mov	eax, dword   [eax + 20]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 28]
-	mov	dword   [esp], eax
-	mov	dword   [esp + 4], ecx
-	call	Node_add
-.LBB2_3:
-	mov	eax, dword   [esp + 16]
-	mov	dword   [eax + 32], 0
-	add	esp, 12
-	;ret
-.Lfunc_end2:
-	;.size	Node_addToChild, .Lfunc_end2-Node_addToChild
-
-    ; action body end
-Node_addToChild_checkguard_fail:
-    RET
