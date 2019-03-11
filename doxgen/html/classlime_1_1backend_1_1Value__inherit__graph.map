@@ -1,0 +1,6 @@
+<map id="lime.backend.Value" name="lime.backend.Value">
+<area shape="rect" id="node2" href="$classlime_1_1backend_1_1IntegerLiteral.html" title="lime.backend.IntegerLiteral" alt="" coords="5,80,184,107"/>
+<area shape="rect" id="node3" href="$classlime_1_1backend_1_1Register.html" title="lime.backend.Register" alt="" coords="208,80,360,107"/>
+<area shape="rect" id="node5" href="$classlime_1_1backend_1_1StackOffset.html" title="lime.backend.StackOffset" alt="" coords="384,80,557,107"/>
+<area shape="rect" id="node4" href="$classlime_1_1backend_1_1RegisterDereference.html" title="lime.backend.RegisterDereference" alt="" coords="173,155,395,181"/>
+</map>

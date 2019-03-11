@@ -1,0 +1,15 @@
+<map id="lime.antlr4.Symbol" name="lime.antlr4.Symbol">
+<area shape="rect" id="node2" href="$classlime_1_1antlr4_1_1BaseSymbol.html" title="lime.antlr4.BaseSymbol" alt="" coords="201,81,361,108"/>
+<area shape="rect" id="node8" href="$interfacelime_1_1antlr4_1_1MemberSymbol.html" title="lime.antlr4.MemberSymbol" alt="" coords="428,157,605,184"/>
+<area shape="rect" id="node13" href="$classlime_1_1antlr4_1_1SymbolWithScope.html" title="lime.antlr4.SymbolWithScope" alt="" coords="184,208,379,235"/>
+<area shape="rect" id="node3" href="$classlime_1_1antlr4_1_1PrimitiveType.html" title="lime.antlr4.PrimitiveType" alt="" coords="433,5,600,32"/>
+<area shape="rect" id="node4" href="$classlime_1_1antlr4_1_1TypeAlias.html" title="lime.antlr4.TypeAlias" alt="" coords="445,56,589,83"/>
+<area shape="rect" id="node5" href="$classlime_1_1antlr4_1_1VariableSymbol.html" title="lime.antlr4.VariableSymbol" alt="" coords="428,107,605,133"/>
+<area shape="rect" id="node6" href="$classlime_1_1antlr4_1_1FieldSymbol.html" title="lime.antlr4.FieldSymbol" alt="" coords="671,107,829,133"/>
+<area shape="rect" id="node7" href="$classlime_1_1antlr4_1_1ParameterSymbol.html" title="lime.antlr4.ParameterSymbol" alt="" coords="655,56,845,83"/>
+<area shape="rect" id="node9" href="$classlime_1_1antlr4_1_1ActionSymbol.html" title="lime.antlr4.ActionSymbol" alt="" coords="667,208,833,235"/>
+<area shape="rect" id="node10" href="$classlime_1_1antlr4_1_1DataAggregateSymbol.html" title="lime.antlr4.DataAggregate\lSymbol" alt="" coords="663,259,837,301"/>
+<area shape="rect" id="node12" href="$classlime_1_1antlr4_1_1MethodSymbol.html" title="lime.antlr4.MethodSymbol" alt="" coords="663,157,837,184"/>
+<area shape="rect" id="node11" href="$classlime_1_1antlr4_1_1ClassSymbol.html" title="lime.antlr4.ClassSymbol" alt="" coords="893,267,1057,293"/>
+<area shape="rect" id="node14" href="$classlime_1_1antlr4_1_1FunctionSymbol.html" title="lime.antlr4.FunctionSymbol" alt="" coords="427,208,607,235"/>
+</map>

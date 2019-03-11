@@ -1,0 +1,65 @@
+\hypertarget{interfacelime_1_1antlr4_1_1Scope}{}\section{lime.\+antlr4.\+Scope Interface Reference}
+\label{interfacelime_1_1antlr4_1_1Scope}\index{lime.\+antlr4.\+Scope@{lime.\+antlr4.\+Scope}}
+
+
+Inheritance diagram for lime.\+antlr4.\+Scope\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{interfacelime_1_1antlr4_1_1Scope__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_aef43f9cd973a1a31c005c8fe44db65a0}\label{interfacelime_1_1antlr4_1_1Scope_aef43f9cd973a1a31c005c8fe44db65a0}} 
+String {\bfseries get\+Name} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a7fb3b80a70c0c0828bbd5539851207b9}\label{interfacelime_1_1antlr4_1_1Scope_a7fb3b80a70c0c0828bbd5539851207b9}} 
+\hyperlink{interfacelime_1_1antlr4_1_1Scope}{Scope} {\bfseries get\+Enclosing\+Scope} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a55166ac3b34d96eb8880a99e6a6b103e}\label{interfacelime_1_1antlr4_1_1Scope_a55166ac3b34d96eb8880a99e6a6b103e}} 
+void {\bfseries set\+Enclosing\+Scope} (\hyperlink{interfacelime_1_1antlr4_1_1Scope}{Scope} s)
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_ae00121132c58b59c9068ce8fdbfda038}\label{interfacelime_1_1antlr4_1_1Scope_ae00121132c58b59c9068ce8fdbfda038}} 
+void {\bfseries define} (\hyperlink{interfacelime_1_1antlr4_1_1Symbol}{Symbol} sym)  throws Illegal\+Argument\+Exception
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a2e47a3f05a1ebee278deef9b04ee5329}\label{interfacelime_1_1antlr4_1_1Scope_a2e47a3f05a1ebee278deef9b04ee5329}} 
+\hyperlink{interfacelime_1_1antlr4_1_1Symbol}{Symbol} {\bfseries resolve} (String name)
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_ae5aee3e1d939631a9c3ea7dcd02410cb}\label{interfacelime_1_1antlr4_1_1Scope_ae5aee3e1d939631a9c3ea7dcd02410cb}} 
+\hyperlink{interfacelime_1_1antlr4_1_1Symbol}{Symbol} {\bfseries get\+Symbol} (String name)
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a2db507561bb359243c05663b7eb43c3f}\label{interfacelime_1_1antlr4_1_1Scope_a2db507561bb359243c05663b7eb43c3f}} 
+void {\bfseries nest} (\hyperlink{interfacelime_1_1antlr4_1_1Scope}{Scope} scope)  throws Illegal\+Argument\+Exception
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a9a20c558459e662c9f9c112b58d6db47}\label{interfacelime_1_1antlr4_1_1Scope_a9a20c558459e662c9f9c112b58d6db47}} 
+List$<$ \hyperlink{interfacelime_1_1antlr4_1_1Scope}{Scope} $>$ {\bfseries get\+Nested\+Scopes} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_ae8867ed33fcb9f328c7ee750c4202886}\label{interfacelime_1_1antlr4_1_1Scope_ae8867ed33fcb9f328c7ee750c4202886}} 
+List$<$ \hyperlink{interfacelime_1_1antlr4_1_1Scope}{Scope} $>$ {\bfseries get\+Enclosing\+Path\+To\+Root} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_afdea18675031436423be0e76369c732b}\label{interfacelime_1_1antlr4_1_1Scope_afdea18675031436423be0e76369c732b}} 
+List$<$ \hyperlink{interfacelime_1_1antlr4_1_1Scope}{Scope} $>$ {\bfseries get\+Nested\+Scoped\+Symbols} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_ad873f9629210aed09d2c02651d363e49}\label{interfacelime_1_1antlr4_1_1Scope_ad873f9629210aed09d2c02651d363e49}} 
+List$<$? extends \hyperlink{interfacelime_1_1antlr4_1_1Symbol}{Symbol} $>$ {\bfseries get\+Symbols} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_aeb4969f6d0b9e4caadbe70c7aa9d398b}\label{interfacelime_1_1antlr4_1_1Scope_aeb4969f6d0b9e4caadbe70c7aa9d398b}} 
+List$<$? extends \hyperlink{interfacelime_1_1antlr4_1_1Symbol}{Symbol} $>$ {\bfseries get\+All\+Symbols} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a82efdd706f75c5192a88213a5dab8701}\label{interfacelime_1_1antlr4_1_1Scope_a82efdd706f75c5192a88213a5dab8701}} 
+Set$<$ String $>$ {\bfseries get\+Symbol\+Names} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a6f4548cd09e74a74b532c127c16f0661}\label{interfacelime_1_1antlr4_1_1Scope_a6f4548cd09e74a74b532c127c16f0661}} 
+int {\bfseries get\+Number\+Of\+Symbols} ()
+\item 
+\mbox{\Hypertarget{interfacelime_1_1antlr4_1_1Scope_a91aefa36f23823d60d968ef9bede6b11}\label{interfacelime_1_1antlr4_1_1Scope_a91aefa36f23823d60d968ef9bede6b11}} 
+String {\bfseries to\+Qualifier\+String} (String separator)
+\end{DoxyCompactItemize}
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/lime/antlr4/Scope.\+java\end{DoxyCompactItemize}
