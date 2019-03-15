@@ -1,4 +1,4 @@
-// Generated from LimeGrammar.g4 by ANTLR 4.7.2
+// Generated from LimeGrammar.g4 by ANTLR 4.4
 
     package lime.antlr4;
 
@@ -13,19 +13,28 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class LimeGrammarParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, Class=7, Method=8, Action=9, 
+		T__5=1, T__4=2, T__3=3, T__2=4, T__1=5, T__0=6, Class=7, Method=8, Action=9, 
 		Var=10, Init=11, New=12, When=13, Do=14, If=15, Else=16, Elif=17, Then=18, 
 		While=19, Return=20, Null=21, Booltype=22, Inttype=23, Voidtype=24, True=25, 
 		False=26, Assign=27, Or=28, And=29, Equals=30, NEquals=31, GTEquals=32, 
 		LTEquals=33, GT=34, LT=35, Add=36, Subtract=37, Multiply=38, Divide=39, 
 		Modulus=40, OBrace=41, CBrace=42, OBracket=43, CBracket=44, OParen=45, 
 		CParen=46, NEWLINE=47, SKIP_=48, ID=49, INTEGER=50, INDENT=51, DEDENT=52;
+	public static final String[] tokenNames = {
+		"<INVALID>", "';'", "'='", "','", "'.'", "':'", "'not'", "'class'", "'method'", 
+		"'action'", "'var'", "'init'", "'new'", "'when'", "'do'", "'if'", "'else'", 
+		"'elif'", "'then'", "'while'", "'return'", "'nil'", "'bool'", "'int'", 
+		"'void'", "'true'", "'false'", "':='", "'or'", "'and'", "'=='", "'!='", 
+		"'>='", "'<='", "'>'", "'<'", "'+'", "'-'", "'*'", "'/'", "'%'", "'{'", 
+		"'}'", "'['", "']'", "'('", "')'", "NEWLINE", "SKIP_", "ID", "INTEGER", 
+		"INDENT", "DEDENT"
+	};
 	public static final int
 		RULE_compilationUnit = 0, RULE_classDecl = 1, RULE_classMember = 2, RULE_fieldDecl = 3, 
 		RULE_initDecl = 4, RULE_methodDecl = 5, RULE_actionDecl = 6, RULE_parameters = 7, 
@@ -36,76 +45,20 @@ public class LimeGrammarParser extends Parser {
 		RULE_block = 24, RULE_guard = 25, RULE_guardAtom = 26, RULE_id_list = 27, 
 		RULE_expr_list = 28, RULE_expr = 29, RULE_atom = 30, RULE_method_call = 31, 
 		RULE_args = 32;
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"compilationUnit", "classDecl", "classMember", "fieldDecl", "initDecl", 
-			"methodDecl", "actionDecl", "parameters", "typeparslist", "parsdef", 
-			"type", "stmt", "simple_stmt", "small_stmt", "multi_assign", "compound_stmt", 
-			"localDecl", "expr_stmt", "if_stmt", "if_stat", "elif_stat", "else_stat", 
-			"while_stmt", "return_stmt", "block", "guard", "guardAtom", "id_list", 
-			"expr_list", "expr", "atom", "method_call", "args"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
-
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "':'", "','", "';'", "'='", "'not'", "'.'", "'class'", "'method'", 
-			"'action'", "'var'", "'init'", "'new'", "'when'", "'do'", "'if'", "'else'", 
-			"'elif'", "'then'", "'while'", "'return'", "'nil'", "'bool'", "'int'", 
-			"'void'", "'true'", "'false'", "':='", "'or'", "'and'", "'=='", "'!='", 
-			"'>='", "'<='", "'>'", "'<'", "'+'", "'-'", "'*'", "'/'", "'%'", "'{'", 
-			"'}'", "'['", "']'", "'('", "')'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, "Class", "Method", "Action", 
-			"Var", "Init", "New", "When", "Do", "If", "Else", "Elif", "Then", "While", 
-			"Return", "Null", "Booltype", "Inttype", "Voidtype", "True", "False", 
-			"Assign", "Or", "And", "Equals", "NEquals", "GTEquals", "LTEquals", "GT", 
-			"LT", "Add", "Subtract", "Multiply", "Divide", "Modulus", "OBrace", "CBrace", 
-			"OBracket", "CBracket", "OParen", "CParen", "NEWLINE", "SKIP_", "ID", 
-			"INTEGER", "INDENT", "DEDENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
+	public static final String[] ruleNames = {
+		"compilationUnit", "classDecl", "classMember", "fieldDecl", "initDecl", 
+		"methodDecl", "actionDecl", "parameters", "typeparslist", "parsdef", "type", 
+		"stmt", "simple_stmt", "small_stmt", "multi_assign", "compound_stmt", 
+		"localDecl", "expr_stmt", "if_stmt", "if_stat", "elif_stat", "else_stat", 
+		"while_stmt", "return_stmt", "block", "guard", "guardAtom", "id_list", 
+		"expr_list", "expr", "atom", "method_call", "args"
+	};
 
 	@Override
 	public String getGrammarFileName() { return "LimeGrammar.g4"; }
+
+	@Override
+	public String[] getTokenNames() { return tokenNames; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -120,14 +73,13 @@ public class LimeGrammarParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class CompilationUnitContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(LimeGrammarParser.EOF, 0); }
-		public List<ClassDeclContext> classDecl() {
-			return getRuleContexts(ClassDeclContext.class);
-		}
 		public ClassDeclContext classDecl(int i) {
 			return getRuleContext(ClassDeclContext.class,i);
+		}
+		public List<ClassDeclContext> classDecl() {
+			return getRuleContexts(ClassDeclContext.class);
 		}
 		public CompilationUnitContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -162,8 +114,7 @@ public class LimeGrammarParser extends Parser {
 			do {
 				{
 				{
-				setState(66);
-				classDecl();
+				setState(66); classDecl();
 				}
 				}
 				setState(69); 
@@ -171,8 +122,7 @@ public class LimeGrammarParser extends Parser {
 				_la = _input.LA(1);
 			} while ( _la==Class );
 			}
-			setState(71);
-			match(EOF);
+			setState(71); match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -188,16 +138,15 @@ public class LimeGrammarParser extends Parser {
 
 	public static class ClassDeclContext extends ParserRuleContext {
 		public Scope scope;
-		public TerminalNode Class() { return getToken(LimeGrammarParser.Class, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
-		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
-		public TerminalNode INDENT() { return getToken(LimeGrammarParser.INDENT, 0); }
-		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
-		public List<ClassMemberContext> classMember() {
-			return getRuleContexts(ClassMemberContext.class);
-		}
 		public ClassMemberContext classMember(int i) {
 			return getRuleContext(ClassMemberContext.class,i);
+		}
+		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
+		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
+		public TerminalNode INDENT() { return getToken(LimeGrammarParser.INDENT, 0); }
+		public List<ClassMemberContext> classMember() {
+			return getRuleContexts(ClassMemberContext.class);
 		}
 		public ClassDeclContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -225,30 +174,24 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73);
-			match(Class);
-			setState(74);
-			match(ID);
-			setState(75);
-			match(NEWLINE);
-			setState(76);
-			match(INDENT);
+			setState(73); match(Class);
+			setState(74); match(ID);
+			setState(75); match(NEWLINE);
+			setState(76); match(INDENT);
 			setState(80);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Method) | (1L << Action) | (1L << Var) | (1L << Init))) != 0)) {
 				{
 				{
-				setState(77);
-				classMember();
+				setState(77); classMember();
 				}
 				}
 				setState(82);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(83);
-			match(DEDENT);
+			setState(83); match(DEDENT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -263,14 +206,14 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class ClassMemberContext extends ParserRuleContext {
+		public MethodDeclContext methodDecl() {
+			return getRuleContext(MethodDeclContext.class,0);
+		}
 		public FieldDeclContext fieldDecl() {
 			return getRuleContext(FieldDeclContext.class,0);
 		}
 		public InitDeclContext initDecl() {
 			return getRuleContext(InitDeclContext.class,0);
-		}
-		public MethodDeclContext methodDecl() {
-			return getRuleContext(MethodDeclContext.class,0);
 		}
 		public ActionDeclContext actionDecl() {
 			return getRuleContext(ActionDeclContext.class,0);
@@ -299,34 +242,29 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 4, RULE_classMember);
 		try {
 			setState(89);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Var:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(85);
-				fieldDecl();
+				setState(85); fieldDecl();
 				}
 				break;
 			case Init:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(86);
-				initDecl();
+				setState(86); initDecl();
 				}
 				break;
 			case Method:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(87);
-				methodDecl();
+				setState(87); methodDecl();
 				}
 				break;
 			case Action:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(88);
-				actionDecl();
+				setState(88); actionDecl();
 				}
 				break;
 			default:
@@ -345,14 +283,13 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class FieldDeclContext extends ParserRuleContext {
-		public TerminalNode Var() { return getToken(LimeGrammarParser.Var, 0); }
 		public Id_listContext id_list() {
 			return getRuleContext(Id_listContext.class,0);
 		}
+		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
 		public FieldDeclContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -378,16 +315,11 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91);
-			match(Var);
-			setState(92);
-			id_list();
-			setState(93);
-			match(T__0);
-			setState(94);
-			type();
-			setState(95);
-			match(NEWLINE);
+			setState(91); match(Var);
+			setState(92); id_list();
+			setState(93); match(T__1);
+			setState(94); type();
+			setState(95); match(NEWLINE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -403,7 +335,7 @@ public class LimeGrammarParser extends Parser {
 
 	public static class InitDeclContext extends ParserRuleContext {
 		public Scope scope;
-		public TerminalNode Init() { return getToken(LimeGrammarParser.Init, 0); }
+		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
 		}
@@ -412,7 +344,6 @@ public class LimeGrammarParser extends Parser {
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
-		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
 		public InitDeclContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -438,18 +369,12 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(97);
-			match(Init);
-			setState(98);
-			parameters();
-			setState(99);
-			match(NEWLINE);
-			setState(100);
-			match(INDENT);
-			setState(101);
-			block();
-			setState(102);
-			match(DEDENT);
+			setState(97); match(Init);
+			setState(98); parameters();
+			setState(99); match(NEWLINE);
+			setState(100); match(INDENT);
+			setState(101); block();
+			setState(102); match(DEDENT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -465,25 +390,22 @@ public class LimeGrammarParser extends Parser {
 
 	public static class MethodDeclContext extends ParserRuleContext {
 		public Scope scope;
-		public TerminalNode Method() { return getToken(LimeGrammarParser.Method, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
+		public GuardContext guard() {
+			return getRuleContext(GuardContext.class,0);
+		}
+		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
 		public ParametersContext parameters() {
 			return getRuleContext(ParametersContext.class,0);
 		}
 		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
 		public TerminalNode INDENT() { return getToken(LimeGrammarParser.INDENT, 0); }
-		public BlockContext block() {
-			return getRuleContext(BlockContext.class,0);
-		}
-		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
-		public TerminalNode When() { return getToken(LimeGrammarParser.When, 0); }
-		public GuardContext guard() {
-			return getRuleContext(GuardContext.class,0);
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
 		}
-		public TerminalNode Do() { return getToken(LimeGrammarParser.Do, 0); }
 		public MethodDeclContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -510,46 +432,32 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(104);
-			match(Method);
-			setState(105);
-			match(ID);
-			setState(106);
-			parameters();
+			setState(104); match(Method);
+			setState(105); match(ID);
+			setState(106); parameters();
 			setState(109);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__0) {
+			if (_la==T__1) {
 				{
-				setState(107);
-				match(T__0);
-				setState(108);
-				type();
+				setState(107); match(T__1);
+				setState(108); type();
 				}
 			}
 
-			setState(111);
-			match(NEWLINE);
-			setState(112);
-			match(INDENT);
+			setState(111); match(NEWLINE);
+			setState(112); match(INDENT);
 			setState(117);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==When) {
 				{
-				setState(113);
-				match(When);
-				setState(114);
-				guard();
-				setState(115);
-				match(Do);
+				setState(113); match(When);
+				setState(114); guard();
+				setState(115); match(Do);
 				}
 			}
 
-			setState(119);
-			block();
-			setState(120);
-			match(DEDENT);
+			setState(119); block();
+			setState(120); match(DEDENT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -565,19 +473,16 @@ public class LimeGrammarParser extends Parser {
 
 	public static class ActionDeclContext extends ParserRuleContext {
 		public Scope scope;
-		public TerminalNode Action() { return getToken(LimeGrammarParser.Action, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
+		public GuardContext guard() {
+			return getRuleContext(GuardContext.class,0);
+		}
+		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
 		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
 		public TerminalNode INDENT() { return getToken(LimeGrammarParser.INDENT, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
-		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
-		public TerminalNode When() { return getToken(LimeGrammarParser.When, 0); }
-		public GuardContext guard() {
-			return getRuleContext(GuardContext.class,0);
-		}
-		public TerminalNode Do() { return getToken(LimeGrammarParser.Do, 0); }
 		public ActionDeclContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -604,32 +509,22 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(122);
-			match(Action);
-			setState(123);
-			match(ID);
-			setState(124);
-			match(NEWLINE);
-			setState(125);
-			match(INDENT);
+			setState(122); match(Action);
+			setState(123); match(ID);
+			setState(124); match(NEWLINE);
+			setState(125); match(INDENT);
 			setState(130);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==When) {
 				{
-				setState(126);
-				match(When);
-				setState(127);
-				guard();
-				setState(128);
-				match(Do);
+				setState(126); match(When);
+				setState(127); guard();
+				setState(128); match(Do);
 				}
 			}
 
-			setState(132);
-			block();
-			setState(133);
-			match(DEDENT);
+			setState(132); block();
+			setState(133); match(DEDENT);
 			}
 		}
 		catch (RecognitionException re) {
@@ -644,8 +539,6 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class ParametersContext extends ParserRuleContext {
-		public TerminalNode OParen() { return getToken(LimeGrammarParser.OParen, 0); }
-		public TerminalNode CParen() { return getToken(LimeGrammarParser.CParen, 0); }
 		public TypeparslistContext typeparslist() {
 			return getRuleContext(TypeparslistContext.class,0);
 		}
@@ -675,20 +568,16 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(135);
-			match(OParen);
+			setState(135); match(OParen);
 			setState(137);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==ID) {
 				{
-				setState(136);
-				typeparslist();
+				setState(136); typeparslist();
 				}
 			}
 
-			setState(139);
-			match(CParen);
+			setState(139); match(CParen);
 			}
 		}
 		catch (RecognitionException re) {
@@ -703,11 +592,11 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class TypeparslistContext extends ParserRuleContext {
-		public List<ParsdefContext> parsdef() {
-			return getRuleContexts(ParsdefContext.class);
-		}
 		public ParsdefContext parsdef(int i) {
 			return getRuleContext(ParsdefContext.class,i);
+		}
+		public List<ParsdefContext> parsdef() {
+			return getRuleContexts(ParsdefContext.class);
 		}
 		public TypeparslistContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -735,18 +624,15 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(141);
-			parsdef();
+			setState(141); parsdef();
 			setState(146);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__1) {
+			while (_la==T__3) {
 				{
 				{
-				setState(142);
-				match(T__1);
-				setState(143);
-				parsdef();
+				setState(142); match(T__3);
+				setState(143); parsdef();
 				}
 				}
 				setState(148);
@@ -796,12 +682,9 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(149);
-			match(ID);
-			setState(150);
-			match(T__0);
-			setState(151);
-			type();
+			setState(149); match(ID);
+			setState(150); match(T__1);
+			setState(151); type();
 			}
 		}
 		catch (RecognitionException re) {
@@ -816,9 +699,6 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class TypeContext extends ParserRuleContext {
-		public TerminalNode Inttype() { return getToken(LimeGrammarParser.Inttype, 0); }
-		public TerminalNode Booltype() { return getToken(LimeGrammarParser.Booltype, 0); }
-		public TerminalNode Voidtype() { return getToken(LimeGrammarParser.Voidtype, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
 		public TypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -851,11 +731,7 @@ public class LimeGrammarParser extends Parser {
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Booltype) | (1L << Inttype) | (1L << Voidtype) | (1L << ID))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
-			else {
-				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-				_errHandler.reportMatch(this);
-				consume();
-			}
+			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -900,9 +776,8 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 22, RULE_stmt);
 		try {
 			setState(157);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__4:
+			case T__0:
 			case Var:
 			case New:
 			case Return:
@@ -914,16 +789,14 @@ public class LimeGrammarParser extends Parser {
 			case INTEGER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(155);
-				simple_stmt();
+				setState(155); simple_stmt();
 				}
 				break;
 			case If:
 			case While:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(156);
-				compound_stmt();
+				setState(156); compound_stmt();
 				}
 				break;
 			default:
@@ -976,8 +849,7 @@ public class LimeGrammarParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(159);
-			small_stmt();
+			setState(159); small_stmt();
 			setState(164);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
@@ -985,10 +857,8 @@ public class LimeGrammarParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(160);
-					match(T__2);
-					setState(161);
-					small_stmt();
+					setState(160); match(T__5);
+					setState(161); small_stmt();
 					}
 					} 
 				}
@@ -997,17 +867,14 @@ public class LimeGrammarParser extends Parser {
 				_alt = getInterpreter().adaptivePredict(_input,9,_ctx);
 			}
 			setState(168);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==T__2) {
+			if (_la==T__5) {
 				{
-				setState(167);
-				match(T__2);
+				setState(167); match(T__5);
 				}
 			}
 
-			setState(170);
-			match(NEWLINE);
+			setState(170); match(NEWLINE);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1022,20 +889,20 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class Small_stmtContext extends ParserRuleContext {
-		public Multi_assignContext multi_assign() {
-			return getRuleContext(Multi_assignContext.class,0);
-		}
-		public Expr_stmtContext expr_stmt() {
-			return getRuleContext(Expr_stmtContext.class,0);
-		}
 		public LocalDeclContext localDecl() {
 			return getRuleContext(LocalDeclContext.class,0);
+		}
+		public Multi_assignContext multi_assign() {
+			return getRuleContext(Multi_assignContext.class,0);
 		}
 		public Return_stmtContext return_stmt() {
 			return getRuleContext(Return_stmtContext.class,0);
 		}
 		public Method_callContext method_call() {
 			return getRuleContext(Method_callContext.class,0);
+		}
+		public Expr_stmtContext expr_stmt() {
+			return getRuleContext(Expr_stmtContext.class,0);
 		}
 		public Small_stmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1061,41 +928,35 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 26, RULE_small_stmt);
 		try {
 			setState(177);
-			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(172);
-				multi_assign();
+				setState(172); multi_assign();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(173);
-				expr_stmt();
+				setState(173); expr_stmt();
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(174);
-				localDecl();
+				setState(174); localDecl();
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(175);
-				return_stmt();
+				setState(175); return_stmt();
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(176);
-				method_call();
+				setState(176); method_call();
 				}
 				break;
 			}
@@ -1115,7 +976,6 @@ public class LimeGrammarParser extends Parser {
 		public Id_listContext id_list() {
 			return getRuleContext(Id_listContext.class,0);
 		}
-		public TerminalNode Assign() { return getToken(LimeGrammarParser.Assign, 0); }
 		public Expr_listContext expr_list() {
 			return getRuleContext(Expr_listContext.class,0);
 		}
@@ -1144,12 +1004,9 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(179);
-			id_list();
-			setState(180);
-			match(Assign);
-			setState(181);
-			expr_list();
+			setState(179); id_list();
+			setState(180); match(Assign);
+			setState(181); expr_list();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1164,11 +1021,11 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class Compound_stmtContext extends ParserRuleContext {
-		public If_stmtContext if_stmt() {
-			return getRuleContext(If_stmtContext.class,0);
-		}
 		public While_stmtContext while_stmt() {
 			return getRuleContext(While_stmtContext.class,0);
+		}
+		public If_stmtContext if_stmt() {
+			return getRuleContext(If_stmtContext.class,0);
 		}
 		public Compound_stmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1194,20 +1051,17 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 30, RULE_compound_stmt);
 		try {
 			setState(185);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case If:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(183);
-				if_stmt();
+				setState(183); if_stmt();
 				}
 				break;
 			case While:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(184);
-				while_stmt();
+				setState(184); while_stmt();
 				}
 				break;
 			default:
@@ -1226,7 +1080,6 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class LocalDeclContext extends ParserRuleContext {
-		public TerminalNode Var() { return getToken(LimeGrammarParser.Var, 0); }
 		public Id_listContext id_list() {
 			return getRuleContext(Id_listContext.class,0);
 		}
@@ -1258,14 +1111,10 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(187);
-			match(Var);
-			setState(188);
-			id_list();
-			setState(189);
-			match(T__0);
-			setState(190);
-			type();
+			setState(187); match(Var);
+			setState(188); id_list();
+			setState(189); match(T__1);
+			setState(190); type();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1309,8 +1158,7 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(192);
-			((Expr_stmtContext)_localctx).src = expr_list();
+			setState(192); ((Expr_stmtContext)_localctx).src = expr_list();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1328,11 +1176,11 @@ public class LimeGrammarParser extends Parser {
 		public If_statContext if_stat() {
 			return getRuleContext(If_statContext.class,0);
 		}
-		public List<Elif_statContext> elif_stat() {
-			return getRuleContexts(Elif_statContext.class);
-		}
 		public Elif_statContext elif_stat(int i) {
 			return getRuleContext(Elif_statContext.class,i);
+		}
+		public List<Elif_statContext> elif_stat() {
+			return getRuleContexts(Elif_statContext.class);
 		}
 		public Else_statContext else_stat() {
 			return getRuleContext(Else_statContext.class,0);
@@ -1363,16 +1211,14 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(194);
-			if_stat();
+			setState(194); if_stat();
 			setState(198);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==Elif) {
 				{
 				{
-				setState(195);
-				elif_stat();
+				setState(195); elif_stat();
 				}
 				}
 				setState(200);
@@ -1380,12 +1226,10 @@ public class LimeGrammarParser extends Parser {
 				_la = _input.LA(1);
 			}
 			setState(202);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==Else) {
 				{
-				setState(201);
-				else_stat();
+				setState(201); else_stat();
 				}
 			}
 
@@ -1403,11 +1247,9 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class If_statContext extends ParserRuleContext {
-		public TerminalNode If() { return getToken(LimeGrammarParser.If, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public TerminalNode Then() { return getToken(LimeGrammarParser.Then, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -1436,14 +1278,10 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(204);
-			match(If);
-			setState(205);
-			expr(0);
-			setState(206);
-			match(Then);
-			setState(207);
-			block();
+			setState(204); match(If);
+			setState(205); expr(0);
+			setState(206); match(Then);
+			setState(207); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1458,11 +1296,9 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class Elif_statContext extends ParserRuleContext {
-		public TerminalNode Elif() { return getToken(LimeGrammarParser.Elif, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public TerminalNode Then() { return getToken(LimeGrammarParser.Then, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -1491,14 +1327,10 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(209);
-			match(Elif);
-			setState(210);
-			expr(0);
-			setState(211);
-			match(Then);
-			setState(212);
-			block();
+			setState(209); match(Elif);
+			setState(210); expr(0);
+			setState(211); match(Then);
+			setState(212); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1513,7 +1345,6 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class Else_statContext extends ParserRuleContext {
-		public TerminalNode Else() { return getToken(LimeGrammarParser.Else, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -1542,10 +1373,8 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(214);
-			match(Else);
-			setState(215);
-			block();
+			setState(214); match(Else);
+			setState(215); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1560,11 +1389,9 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class While_stmtContext extends ParserRuleContext {
-		public TerminalNode While() { return getToken(LimeGrammarParser.While, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public TerminalNode Do() { return getToken(LimeGrammarParser.Do, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -1593,14 +1420,10 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(217);
-			match(While);
-			setState(218);
-			expr(0);
-			setState(219);
-			match(Do);
-			setState(220);
-			block();
+			setState(217); match(While);
+			setState(218); expr(0);
+			setState(219); match(Do);
+			setState(220); block();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1615,7 +1438,6 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class Return_stmtContext extends ParserRuleContext {
-		public TerminalNode Return() { return getToken(LimeGrammarParser.Return, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -1645,15 +1467,12 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(222);
-			match(Return);
+			setState(222); match(Return);
 			setState(224);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << New) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << New) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0)) {
 				{
-				setState(223);
-				expr(0);
+				setState(223); expr(0);
 				}
 			}
 
@@ -1671,17 +1490,17 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class BlockContext extends ParserRuleContext {
+		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
+		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
+		public TerminalNode INDENT() { return getToken(LimeGrammarParser.INDENT, 0); }
+		public StmtContext stmt(int i) {
+			return getRuleContext(StmtContext.class,i);
+		}
 		public Simple_stmtContext simple_stmt() {
 			return getRuleContext(Simple_stmtContext.class,0);
 		}
-		public TerminalNode NEWLINE() { return getToken(LimeGrammarParser.NEWLINE, 0); }
-		public TerminalNode INDENT() { return getToken(LimeGrammarParser.INDENT, 0); }
-		public TerminalNode DEDENT() { return getToken(LimeGrammarParser.DEDENT, 0); }
 		public List<StmtContext> stmt() {
 			return getRuleContexts(StmtContext.class);
-		}
-		public StmtContext stmt(int i) {
-			return getRuleContext(StmtContext.class,i);
 		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1708,9 +1527,8 @@ public class LimeGrammarParser extends Parser {
 		int _la;
 		try {
 			setState(236);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case T__4:
+			case T__0:
 			case Var:
 			case New:
 			case Return:
@@ -1722,33 +1540,28 @@ public class LimeGrammarParser extends Parser {
 			case INTEGER:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(226);
-				simple_stmt();
+				setState(226); simple_stmt();
 				}
 				break;
 			case NEWLINE:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(227);
-				match(NEWLINE);
-				setState(228);
-				match(INDENT);
+				setState(227); match(NEWLINE);
+				setState(228); match(INDENT);
 				setState(230); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(229);
-					stmt();
+					setState(229); stmt();
 					}
 					}
 					setState(232); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
-				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << Var) | (1L << New) | (1L << If) | (1L << While) | (1L << Return) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0) );
-				setState(234);
-				match(DEDENT);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << Var) | (1L << New) | (1L << If) | (1L << While) | (1L << Return) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0) );
+				setState(234); match(DEDENT);
 				}
 				break;
 			default:
@@ -1778,13 +1591,12 @@ public class LimeGrammarParser extends Parser {
 		}
 	}
 	public static class GuardandexprContext extends GuardContext {
-		public List<GuardAtomContext> guardAtom() {
-			return getRuleContexts(GuardAtomContext.class);
-		}
 		public GuardAtomContext guardAtom(int i) {
 			return getRuleContext(GuardAtomContext.class,i);
 		}
-		public TerminalNode And() { return getToken(LimeGrammarParser.And, 0); }
+		public List<GuardAtomContext> guardAtom() {
+			return getRuleContexts(GuardAtomContext.class);
+		}
 		public GuardandexprContext(GuardContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1821,16 +1633,12 @@ public class LimeGrammarParser extends Parser {
 	}
 	public static class GuardcompexprContext extends GuardContext {
 		public Token op;
-		public List<GuardAtomContext> guardAtom() {
-			return getRuleContexts(GuardAtomContext.class);
-		}
 		public GuardAtomContext guardAtom(int i) {
 			return getRuleContext(GuardAtomContext.class,i);
 		}
-		public TerminalNode GTEquals() { return getToken(LimeGrammarParser.GTEquals, 0); }
-		public TerminalNode LTEquals() { return getToken(LimeGrammarParser.LTEquals, 0); }
-		public TerminalNode GT() { return getToken(LimeGrammarParser.GT, 0); }
-		public TerminalNode LT() { return getToken(LimeGrammarParser.LT, 0); }
+		public List<GuardAtomContext> guardAtom() {
+			return getRuleContexts(GuardAtomContext.class);
+		}
 		public GuardcompexprContext(GuardContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1847,13 +1655,12 @@ public class LimeGrammarParser extends Parser {
 		}
 	}
 	public static class GuardorexprContext extends GuardContext {
-		public List<GuardAtomContext> guardAtom() {
-			return getRuleContexts(GuardAtomContext.class);
-		}
 		public GuardAtomContext guardAtom(int i) {
 			return getRuleContext(GuardAtomContext.class,i);
 		}
-		public TerminalNode Or() { return getToken(LimeGrammarParser.Or, 0); }
+		public List<GuardAtomContext> guardAtom() {
+			return getRuleContexts(GuardAtomContext.class);
+		}
 		public GuardorexprContext(GuardContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1871,13 +1678,12 @@ public class LimeGrammarParser extends Parser {
 	}
 	public static class GuardeqexprContext extends GuardContext {
 		public Token op;
-		public List<GuardAtomContext> guardAtom() {
-			return getRuleContexts(GuardAtomContext.class);
-		}
 		public GuardAtomContext guardAtom(int i) {
 			return getRuleContext(GuardAtomContext.class,i);
 		}
-		public TerminalNode NEquals() { return getToken(LimeGrammarParser.NEquals, 0); }
+		public List<GuardAtomContext> guardAtom() {
+			return getRuleContexts(GuardAtomContext.class);
+		}
 		public GuardeqexprContext(GuardContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -1900,80 +1706,60 @@ public class LimeGrammarParser extends Parser {
 		int _la;
 		try {
 			setState(255);
-			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
 				_localctx = new GuardcompexprContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(238);
-				guardAtom();
+				setState(238); guardAtom();
 				setState(239);
 				((GuardcompexprContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GTEquals) | (1L << LTEquals) | (1L << GT) | (1L << LT))) != 0)) ) {
 					((GuardcompexprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				setState(240);
-				guardAtom();
+				consume();
+				setState(240); guardAtom();
 				}
 				break;
 			case 2:
 				_localctx = new GuardeqexprContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(242);
-				guardAtom();
+				setState(242); guardAtom();
 				setState(243);
 				((GuardeqexprContext)_localctx).op = _input.LT(1);
 				_la = _input.LA(1);
-				if ( !(_la==T__3 || _la==NEquals) ) {
+				if ( !(_la==T__4 || _la==NEquals) ) {
 					((GuardeqexprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 				}
-				else {
-					if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-					_errHandler.reportMatch(this);
-					consume();
-				}
-				setState(244);
-				guardAtom();
+				consume();
+				setState(244); guardAtom();
 				}
 				break;
 			case 3:
 				_localctx = new GuardandexprContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(246);
-				guardAtom();
-				setState(247);
-				match(And);
-				setState(248);
-				guardAtom();
+				setState(246); guardAtom();
+				setState(247); match(And);
+				setState(248); guardAtom();
 				}
 				break;
 			case 4:
 				_localctx = new GuardorexprContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(250);
-				guardAtom();
-				setState(251);
-				match(Or);
-				setState(252);
-				guardAtom();
+				setState(250); guardAtom();
+				setState(251); match(Or);
+				setState(252); guardAtom();
 				}
 				break;
 			case 5:
 				_localctx = new GuardatomexprContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(254);
-				guardAtom();
+				setState(254); guardAtom();
 				}
 				break;
 			}
@@ -2057,32 +1843,27 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 52, RULE_guardAtom);
 		try {
 			setState(261);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new IdguardatomContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(257);
-				match(ID);
+				setState(257); match(ID);
 				}
 				break;
 			case INTEGER:
 				_localctx = new IntguardatomContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(258);
-				match(INTEGER);
+				setState(258); match(INTEGER);
 				}
 				break;
-			case T__4:
+			case T__0:
 				_localctx = new NotguardtomContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(259);
-				match(T__4);
-				setState(260);
-				match(ID);
+				setState(259); match(T__0);
+				setState(260); match(ID);
 				}
 				break;
 			default:
@@ -2131,18 +1912,15 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(263);
-			match(ID);
+			setState(263); match(ID);
 			setState(268);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__1) {
+			while (_la==T__3) {
 				{
 				{
-				setState(264);
-				match(T__1);
-				setState(265);
-				match(ID);
+				setState(264); match(T__3);
+				setState(265); match(ID);
 				}
 				}
 				setState(270);
@@ -2195,18 +1973,15 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(271);
-			expr(0);
+			setState(271); expr(0);
 			setState(276);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__1) {
+			while (_la==T__3) {
 				{
 				{
-				setState(272);
-				match(T__1);
-				setState(273);
-				expr(0);
+				setState(272); match(T__3);
+				setState(273); expr(0);
 				}
 				}
 				setState(278);
@@ -2245,7 +2020,6 @@ public class LimeGrammarParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode NEquals() { return getToken(LimeGrammarParser.NEquals, 0); }
 		public EqexprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2288,9 +2062,6 @@ public class LimeGrammarParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode Multiply() { return getToken(LimeGrammarParser.Multiply, 0); }
-		public TerminalNode Divide() { return getToken(LimeGrammarParser.Divide, 0); }
-		public TerminalNode Modulus() { return getToken(LimeGrammarParser.Modulus, 0); }
 		public MultexprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2314,10 +2085,6 @@ public class LimeGrammarParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode GTEquals() { return getToken(LimeGrammarParser.GTEquals, 0); }
-		public TerminalNode LTEquals() { return getToken(LimeGrammarParser.LTEquals, 0); }
-		public TerminalNode GT() { return getToken(LimeGrammarParser.GT, 0); }
-		public TerminalNode LT() { return getToken(LimeGrammarParser.LT, 0); }
 		public CompexprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2334,7 +2101,6 @@ public class LimeGrammarParser extends Parser {
 		}
 	}
 	public static class UnaryMinusexprContext extends ExprContext {
-		public TerminalNode Subtract() { return getToken(LimeGrammarParser.Subtract, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -2361,8 +2127,6 @@ public class LimeGrammarParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode Add() { return getToken(LimeGrammarParser.Add, 0); }
-		public TerminalNode Subtract() { return getToken(LimeGrammarParser.Subtract, 0); }
 		public AddexprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2404,7 +2168,6 @@ public class LimeGrammarParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode Or() { return getToken(LimeGrammarParser.Or, 0); }
 		public OrexprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2427,7 +2190,6 @@ public class LimeGrammarParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public TerminalNode And() { return getToken(LimeGrammarParser.And, 0); }
 		public AndexprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2461,7 +2223,6 @@ public class LimeGrammarParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(285);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Subtract:
 				{
@@ -2469,21 +2230,17 @@ public class LimeGrammarParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(280);
-				match(Subtract);
-				setState(281);
-				expr(9);
+				setState(280); match(Subtract);
+				setState(281); expr(9);
 				}
 				break;
-			case T__4:
+			case T__0:
 				{
 				_localctx = new NotexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(282);
-				match(T__4);
-				setState(283);
-				expr(8);
+				setState(282); match(T__0);
+				setState(283); expr(8);
 				}
 				break;
 			case New:
@@ -2496,8 +2253,7 @@ public class LimeGrammarParser extends Parser {
 				_localctx = new AtomexprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(284);
-				atom();
+				setState(284); atom();
 				}
 				break;
 			default:
@@ -2513,7 +2269,6 @@ public class LimeGrammarParser extends Parser {
 					_prevctx = _localctx;
 					{
 					setState(305);
-					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
 					case 1:
 						{
@@ -2527,13 +2282,8 @@ public class LimeGrammarParser extends Parser {
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Multiply) | (1L << Divide) | (1L << Modulus))) != 0)) ) {
 							((MultexprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
-						setState(289);
-						expr(8);
+						consume();
+						setState(289); expr(8);
 						}
 						break;
 					case 2:
@@ -2548,13 +2298,8 @@ public class LimeGrammarParser extends Parser {
 						if ( !(_la==Add || _la==Subtract) ) {
 							((AddexprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
-						setState(292);
-						expr(7);
+						consume();
+						setState(292); expr(7);
 						}
 						break;
 					case 3:
@@ -2569,13 +2314,8 @@ public class LimeGrammarParser extends Parser {
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << GTEquals) | (1L << LTEquals) | (1L << GT) | (1L << LT))) != 0)) ) {
 							((CompexprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
-						setState(295);
-						expr(6);
+						consume();
+						setState(295); expr(6);
 						}
 						break;
 					case 4:
@@ -2587,16 +2327,11 @@ public class LimeGrammarParser extends Parser {
 						setState(297);
 						((EqexprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__3 || _la==NEquals) ) {
+						if ( !(_la==T__4 || _la==NEquals) ) {
 							((EqexprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
-						setState(298);
-						expr(5);
+						consume();
+						setState(298); expr(5);
 						}
 						break;
 					case 5:
@@ -2605,10 +2340,8 @@ public class LimeGrammarParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(299);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(300);
-						match(And);
-						setState(301);
-						expr(4);
+						setState(300); match(And);
+						setState(301); expr(4);
 						}
 						break;
 					case 6:
@@ -2617,10 +2350,8 @@ public class LimeGrammarParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(302);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(303);
-						match(Or);
-						setState(304);
-						expr(3);
+						setState(303); match(Or);
+						setState(304); expr(3);
 						}
 						break;
 					}
@@ -2644,14 +2375,14 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class AtomContext extends ParserRuleContext {
-		public TerminalNode INTEGER() { return getToken(LimeGrammarParser.INTEGER, 0); }
-		public TerminalNode True() { return getToken(LimeGrammarParser.True, 0); }
-		public TerminalNode False() { return getToken(LimeGrammarParser.False, 0); }
-		public TerminalNode Null() { return getToken(LimeGrammarParser.Null, 0); }
 		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
+		public TerminalNode INTEGER() { return getToken(LimeGrammarParser.INTEGER, 0); }
+		public TerminalNode False() { return getToken(LimeGrammarParser.False, 0); }
+		public TerminalNode True() { return getToken(LimeGrammarParser.True, 0); }
 		public Method_callContext method_call() {
 			return getRuleContext(Method_callContext.class,0);
 		}
+		public TerminalNode Null() { return getToken(LimeGrammarParser.Null, 0); }
 		public AtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2676,48 +2407,41 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 60, RULE_atom);
 		try {
 			setState(316);
-			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,25,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(310);
-				match(INTEGER);
+				setState(310); match(INTEGER);
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(311);
-				match(True);
+				setState(311); match(True);
 				}
 				break;
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(312);
-				match(False);
+				setState(312); match(False);
 				}
 				break;
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(313);
-				match(Null);
+				setState(313); match(Null);
 				}
 				break;
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(314);
-				match(ID);
+				setState(314); match(ID);
 				}
 				break;
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(315);
-				method_call();
+				setState(315); method_call();
 				}
 				break;
 			}
@@ -2747,12 +2471,12 @@ public class LimeGrammarParser extends Parser {
 	public static class MethodcallContext extends Method_callContext {
 		public Token c;
 		public Token m;
-		public ArgsContext args() {
-			return getRuleContext(ArgsContext.class,0);
-		}
 		public List<TerminalNode> ID() { return getTokens(LimeGrammarParser.ID); }
 		public TerminalNode ID(int i) {
 			return getToken(LimeGrammarParser.ID, i);
+		}
+		public ArgsContext args() {
+			return getRuleContext(ArgsContext.class,0);
 		}
 		public MethodcallContext(Method_callContext ctx) { copyFrom(ctx); }
 		@Override
@@ -2771,11 +2495,10 @@ public class LimeGrammarParser extends Parser {
 	}
 	public static class NewcallContext extends Method_callContext {
 		public Token n;
-		public TerminalNode New() { return getToken(LimeGrammarParser.New, 0); }
+		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
 		public ArgsContext args() {
 			return getRuleContext(ArgsContext.class,0);
 		}
-		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
 		public NewcallContext(Method_callContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -2797,32 +2520,24 @@ public class LimeGrammarParser extends Parser {
 		enterRule(_localctx, 62, RULE_method_call);
 		try {
 			setState(325);
-			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case New:
 				_localctx = new NewcallContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(318);
-				match(New);
-				setState(319);
-				((NewcallContext)_localctx).n = match(ID);
-				setState(320);
-				args();
+				setState(318); match(New);
+				setState(319); ((NewcallContext)_localctx).n = match(ID);
+				setState(320); args();
 				}
 				break;
 			case ID:
 				_localctx = new MethodcallContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(321);
-				((MethodcallContext)_localctx).c = match(ID);
-				setState(322);
-				match(T__5);
-				setState(323);
-				((MethodcallContext)_localctx).m = match(ID);
-				setState(324);
-				args();
+				setState(321); ((MethodcallContext)_localctx).c = match(ID);
+				setState(322); match(T__2);
+				setState(323); ((MethodcallContext)_localctx).m = match(ID);
+				setState(324); args();
 				}
 				break;
 			default:
@@ -2841,8 +2556,6 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static class ArgsContext extends ParserRuleContext {
-		public TerminalNode OParen() { return getToken(LimeGrammarParser.OParen, 0); }
-		public TerminalNode CParen() { return getToken(LimeGrammarParser.CParen, 0); }
 		public Expr_listContext expr_list() {
 			return getRuleContext(Expr_listContext.class,0);
 		}
@@ -2872,20 +2585,16 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(327);
-			match(OParen);
+			setState(327); match(OParen);
 			setState(329);
-			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__4) | (1L << New) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << New) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0)) {
 				{
-				setState(328);
-				expr_list();
+				setState(328); expr_list();
 				}
 			}
 
-			setState(331);
-			match(CParen);
+			setState(331); match(CParen);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2901,31 +2610,24 @@ public class LimeGrammarParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 29:
-			return expr_sempred((ExprContext)_localctx, predIndex);
+		case 29: return expr_sempred((ExprContext)_localctx, predIndex);
 		}
 		return true;
 	}
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0:
-			return precpred(_ctx, 7);
-		case 1:
-			return precpred(_ctx, 6);
-		case 2:
-			return precpred(_ctx, 5);
-		case 3:
-			return precpred(_ctx, 4);
-		case 4:
-			return precpred(_ctx, 3);
-		case 5:
-			return precpred(_ctx, 2);
+		case 0: return precpred(_ctx, 7);
+		case 1: return precpred(_ctx, 6);
+		case 2: return precpred(_ctx, 5);
+		case 3: return precpred(_ctx, 4);
+		case 4: return precpred(_ctx, 3);
+		case 5: return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\66\u0150\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\66\u0150\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2951,9 +2653,9 @@ public class LimeGrammarParser extends Parser {
 		"\3\37\3\37\3\37\3\37\3\37\7\37\u0134\n\37\f\37\16\37\u0137\13\37\3 \3"+
 		" \3 \3 \3 \3 \5 \u013f\n \3!\3!\3!\3!\3!\3!\3!\5!\u0148\n!\3\"\3\"\5\""+
 		"\u014c\n\"\3\"\3\"\3\"\2\3<#\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \""+
-		"$&(*,.\60\62\64\668:<>@B\2\7\4\2\30\32\63\63\3\2\"%\4\2\6\6!!\3\2(*\3"+
-		"\2&\'\2\u015c\2E\3\2\2\2\4K\3\2\2\2\6[\3\2\2\2\b]\3\2\2\2\nc\3\2\2\2\f"+
-		"j\3\2\2\2\16|\3\2\2\2\20\u0089\3\2\2\2\22\u008f\3\2\2\2\24\u0097\3\2\2"+
+		"$&(*,.\60\62\64\668:<>@B\2\7\4\2\30\32\63\63\3\2\"%\4\2\4\4!!\3\2(*\3"+
+		"\2&\'\u015c\2E\3\2\2\2\4K\3\2\2\2\6[\3\2\2\2\b]\3\2\2\2\nc\3\2\2\2\fj"+
+		"\3\2\2\2\16|\3\2\2\2\20\u0089\3\2\2\2\22\u008f\3\2\2\2\24\u0097\3\2\2"+
 		"\2\26\u009b\3\2\2\2\30\u009f\3\2\2\2\32\u00a1\3\2\2\2\34\u00b3\3\2\2\2"+
 		"\36\u00b5\3\2\2\2 \u00bb\3\2\2\2\"\u00bd\3\2\2\2$\u00c2\3\2\2\2&\u00c4"+
 		"\3\2\2\2(\u00ce\3\2\2\2*\u00d3\3\2\2\2,\u00d8\3\2\2\2.\u00db\3\2\2\2\60"+
@@ -2964,9 +2666,9 @@ public class LimeGrammarParser extends Parser {
 		"Q\5\6\4\2PO\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2SU\3\2\2\2TR\3\2\2\2"+
 		"UV\7\66\2\2V\5\3\2\2\2W\\\5\b\5\2X\\\5\n\6\2Y\\\5\f\7\2Z\\\5\16\b\2[W"+
 		"\3\2\2\2[X\3\2\2\2[Y\3\2\2\2[Z\3\2\2\2\\\7\3\2\2\2]^\7\f\2\2^_\58\35\2"+
-		"_`\7\3\2\2`a\5\26\f\2ab\7\61\2\2b\t\3\2\2\2cd\7\r\2\2de\5\20\t\2ef\7\61"+
+		"_`\7\7\2\2`a\5\26\f\2ab\7\61\2\2b\t\3\2\2\2cd\7\r\2\2de\5\20\t\2ef\7\61"+
 		"\2\2fg\7\65\2\2gh\5\62\32\2hi\7\66\2\2i\13\3\2\2\2jk\7\n\2\2kl\7\63\2"+
-		"\2lo\5\20\t\2mn\7\3\2\2np\5\26\f\2om\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7\61"+
+		"\2lo\5\20\t\2mn\7\7\2\2np\5\26\f\2om\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7\61"+
 		"\2\2rw\7\65\2\2st\7\17\2\2tu\5\64\33\2uv\7\20\2\2vx\3\2\2\2ws\3\2\2\2"+
 		"wx\3\2\2\2xy\3\2\2\2yz\5\62\32\2z{\7\66\2\2{\r\3\2\2\2|}\7\13\2\2}~\7"+
 		"\63\2\2~\177\7\61\2\2\177\u0084\7\65\2\2\u0080\u0081\7\17\2\2\u0081\u0082"+
@@ -2974,15 +2676,15 @@ public class LimeGrammarParser extends Parser {
 		"\2\u0084\u0085\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0087\5\62\32\2\u0087"+
 		"\u0088\7\66\2\2\u0088\17\3\2\2\2\u0089\u008b\7/\2\2\u008a\u008c\5\22\n"+
 		"\2\u008b\u008a\3\2\2\2\u008b\u008c\3\2\2\2\u008c\u008d\3\2\2\2\u008d\u008e"+
-		"\7\60\2\2\u008e\21\3\2\2\2\u008f\u0094\5\24\13\2\u0090\u0091\7\4\2\2\u0091"+
+		"\7\60\2\2\u008e\21\3\2\2\2\u008f\u0094\5\24\13\2\u0090\u0091\7\5\2\2\u0091"+
 		"\u0093\5\24\13\2\u0092\u0090\3\2\2\2\u0093\u0096\3\2\2\2\u0094\u0092\3"+
 		"\2\2\2\u0094\u0095\3\2\2\2\u0095\23\3\2\2\2\u0096\u0094\3\2\2\2\u0097"+
-		"\u0098\7\63\2\2\u0098\u0099\7\3\2\2\u0099\u009a\5\26\f\2\u009a\25\3\2"+
+		"\u0098\7\63\2\2\u0098\u0099\7\7\2\2\u0099\u009a\5\26\f\2\u009a\25\3\2"+
 		"\2\2\u009b\u009c\t\2\2\2\u009c\27\3\2\2\2\u009d\u00a0\5\32\16\2\u009e"+
 		"\u00a0\5 \21\2\u009f\u009d\3\2\2\2\u009f\u009e\3\2\2\2\u00a0\31\3\2\2"+
-		"\2\u00a1\u00a6\5\34\17\2\u00a2\u00a3\7\5\2\2\u00a3\u00a5\5\34\17\2\u00a4"+
+		"\2\u00a1\u00a6\5\34\17\2\u00a2\u00a3\7\3\2\2\u00a3\u00a5\5\34\17\2\u00a4"+
 		"\u00a2\3\2\2\2\u00a5\u00a8\3\2\2\2\u00a6\u00a4\3\2\2\2\u00a6\u00a7\3\2"+
-		"\2\2\u00a7\u00aa\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a9\u00ab\7\5\2\2\u00aa"+
+		"\2\2\u00a7\u00aa\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a9\u00ab\7\3\2\2\u00aa"+
 		"\u00a9\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00ad\7\61"+
 		"\2\2\u00ad\33\3\2\2\2\u00ae\u00b4\5\36\20\2\u00af\u00b4\5$\23\2\u00b0"+
 		"\u00b4\5\"\22\2\u00b1\u00b4\5\60\31\2\u00b2\u00b4\5@!\2\u00b3\u00ae\3"+
@@ -2990,7 +2692,7 @@ public class LimeGrammarParser extends Parser {
 		"\u00b2\3\2\2\2\u00b4\35\3\2\2\2\u00b5\u00b6\58\35\2\u00b6\u00b7\7\35\2"+
 		"\2\u00b7\u00b8\5:\36\2\u00b8\37\3\2\2\2\u00b9\u00bc\5&\24\2\u00ba\u00bc"+
 		"\5.\30\2\u00bb\u00b9\3\2\2\2\u00bb\u00ba\3\2\2\2\u00bc!\3\2\2\2\u00bd"+
-		"\u00be\7\f\2\2\u00be\u00bf\58\35\2\u00bf\u00c0\7\3\2\2\u00c0\u00c1\5\26"+
+		"\u00be\7\f\2\2\u00be\u00bf\58\35\2\u00bf\u00c0\7\7\2\2\u00c0\u00c1\5\26"+
 		"\f\2\u00c1#\3\2\2\2\u00c2\u00c3\5:\36\2\u00c3%\3\2\2\2\u00c4\u00c8\5("+
 		"\25\2\u00c5\u00c7\5*\26\2\u00c6\u00c5\3\2\2\2\u00c7\u00ca\3\2\2\2\u00c8"+
 		"\u00c6\3\2\2\2\u00c8\u00c9\3\2\2\2\u00c9\u00cc\3\2\2\2\u00ca\u00c8\3\2"+
@@ -3013,14 +2715,14 @@ public class LimeGrammarParser extends Parser {
 		"\2\u00ff\u0102\3\2\2\2\u0100\u0102\5\66\34\2\u0101\u00f0\3\2\2\2\u0101"+
 		"\u00f4\3\2\2\2\u0101\u00f8\3\2\2\2\u0101\u00fc\3\2\2\2\u0101\u0100\3\2"+
 		"\2\2\u0102\65\3\2\2\2\u0103\u0108\7\63\2\2\u0104\u0108\7\64\2\2\u0105"+
-		"\u0106\7\7\2\2\u0106\u0108\7\63\2\2\u0107\u0103\3\2\2\2\u0107\u0104\3"+
+		"\u0106\7\b\2\2\u0106\u0108\7\63\2\2\u0107\u0103\3\2\2\2\u0107\u0104\3"+
 		"\2\2\2\u0107\u0105\3\2\2\2\u0108\67\3\2\2\2\u0109\u010e\7\63\2\2\u010a"+
-		"\u010b\7\4\2\2\u010b\u010d\7\63\2\2\u010c\u010a\3\2\2\2\u010d\u0110\3"+
+		"\u010b\7\5\2\2\u010b\u010d\7\63\2\2\u010c\u010a\3\2\2\2\u010d\u0110\3"+
 		"\2\2\2\u010e\u010c\3\2\2\2\u010e\u010f\3\2\2\2\u010f9\3\2\2\2\u0110\u010e"+
-		"\3\2\2\2\u0111\u0116\5<\37\2\u0112\u0113\7\4\2\2\u0113\u0115\5<\37\2\u0114"+
+		"\3\2\2\2\u0111\u0116\5<\37\2\u0112\u0113\7\5\2\2\u0113\u0115\5<\37\2\u0114"+
 		"\u0112\3\2\2\2\u0115\u0118\3\2\2\2\u0116\u0114\3\2\2\2\u0116\u0117\3\2"+
 		"\2\2\u0117;\3\2\2\2\u0118\u0116\3\2\2\2\u0119\u011a\b\37\1\2\u011a\u011b"+
-		"\7\'\2\2\u011b\u0120\5<\37\13\u011c\u011d\7\7\2\2\u011d\u0120\5<\37\n"+
+		"\7\'\2\2\u011b\u0120\5<\37\13\u011c\u011d\7\b\2\2\u011d\u0120\5<\37\n"+
 		"\u011e\u0120\5> \2\u011f\u0119\3\2\2\2\u011f\u011c\3\2\2\2\u011f\u011e"+
 		"\3\2\2\2\u0120\u0135\3\2\2\2\u0121\u0122\f\t\2\2\u0122\u0123\t\5\2\2\u0123"+
 		"\u0134\5<\37\n\u0124\u0125\f\b\2\2\u0125\u0126\t\6\2\2\u0126\u0134\5<"+
@@ -3035,7 +2737,7 @@ public class LimeGrammarParser extends Parser {
 		"\2\u013d\u013f\5@!\2\u013e\u0138\3\2\2\2\u013e\u0139\3\2\2\2\u013e\u013a"+
 		"\3\2\2\2\u013e\u013b\3\2\2\2\u013e\u013c\3\2\2\2\u013e\u013d\3\2\2\2\u013f"+
 		"?\3\2\2\2\u0140\u0141\7\16\2\2\u0141\u0142\7\63\2\2\u0142\u0148\5B\"\2"+
-		"\u0143\u0144\7\63\2\2\u0144\u0145\7\b\2\2\u0145\u0146\7\63\2\2\u0146\u0148"+
+		"\u0143\u0144\7\63\2\2\u0144\u0145\7\6\2\2\u0145\u0146\7\63\2\2\u0146\u0148"+
 		"\5B\"\2\u0147\u0140\3\2\2\2\u0147\u0143\3\2\2\2\u0148A\3\2\2\2\u0149\u014b"+
 		"\7/\2\2\u014a\u014c\5:\36\2\u014b\u014a\3\2\2\2\u014b\u014c\3\2\2\2\u014c"+
 		"\u014d\3\2\2\2\u014d\u014e\7\60\2\2\u014eC\3\2\2\2\36GR[ow\u0084\u008b"+

@@ -14,23 +14,23 @@ global Node2_has
 
 Node2_init:
 Node2_init_realloc:
-    PUSH DWORD 32768
+    PUSH DWORD 4096
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
     JE   Node2_init_realloc
-    MOV  DWORD [EAX + 32768 - 1*4], 0    ; key 
-    MOV  DWORD [EAX + 32768 - 2*4], 0    ; p 
-    MOV  DWORD [EAX + 32768 - 3*4], 0    ; left 
-    MOV  DWORD [EAX + 32768 - 4*4], 0    ; right 
-    MOV  DWORD [EAX + 32768 - 5*4], 0    ; a 
-    MOV  DWORD [EAX + 32768 - 36 + 12], 0    ; next
-    MOV  DWORD [EAX + 32768 - 36 + 8], 0     ; lock
-    LEA  ECX,  [EAX + 32768 - 36 - 4]
-    MOV  DWORD [EAX + 32768 - 36 + 4], ECX   ; Pre ESP
-    LEA  ECX,  [EAX + 32768 - 36]
-    MOV  DWORD [EAX + 32768 - 36], ECX       ; Pre EBP
-    ADD  DWORD EAX, 32768 - 36
+    MOV  DWORD [EAX + 4096 - 1*4], 0    ; key 
+    MOV  DWORD [EAX + 4096 - 2*4], 0    ; p 
+    MOV  DWORD [EAX + 4096 - 3*4], 0    ; left 
+    MOV  DWORD [EAX + 4096 - 4*4], 0    ; right 
+    MOV  DWORD [EAX + 4096 - 5*4], 0    ; a 
+    MOV  DWORD [EAX + 4096 - 36 + 12], 0    ; next
+    MOV  DWORD [EAX + 4096 - 36 + 8], 0     ; lock
+    LEA  ECX,  [EAX + 4096 - 36 - 4]
+    MOV  DWORD [EAX + 4096 - 36 + 4], ECX   ; Pre ESP
+    LEA  ECX,  [EAX + 4096 - 36]
+    MOV  DWORD [EAX + 4096 - 36], ECX       ; Pre EBP
+    ADD  DWORD EAX, 4096 - 36
     ; init code goes here
 
     ; Node2_init_code

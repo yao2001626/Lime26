@@ -15,25 +15,25 @@ global PQ_remove
 
 PQ_init:
 PQ_init_realloc:
-    PUSH DWORD 32768
+    PUSH DWORD 4096
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
     JE   PQ_init_realloc
-    MOV  DWORD [EAX + 32768 - 1*4], 0    ; m 
-    MOV  DWORD [EAX + 32768 - 2*4], 0    ; p 
-    MOV  DWORD [EAX + 32768 - 3*4], 0    ; l 
-    MOV  DWORD [EAX + 32768 - 4*4], 0    ; a 
-    MOV  DWORD [EAX + 32768 - 5*4], 0    ; r 
-    MOV  DWORD [EAX + 32768 - 36 + 12], 0    ; next
-    MOV  DWORD [EAX + 32768 - 36 + 8], 0     ; lock
-    LEA  ECX,  [EAX + 32768 - 36 - 4]
-    MOV  DWORD [EAX + 32768 - 36 + 4], ECX   ; Pre ESP
-    LEA  ECX,  [EAX + 32768 - 36]
-    MOV  DWORD [EAX + 32768 - 36], ECX       ; Pre EBP
+    MOV  DWORD [EAX + 4096 - 1*4], 0    ; m 
+    MOV  DWORD [EAX + 4096 - 2*4], 0    ; p 
+    MOV  DWORD [EAX + 4096 - 3*4], 0    ; l 
+    MOV  DWORD [EAX + 4096 - 4*4], 0    ; a 
+    MOV  DWORD [EAX + 4096 - 5*4], 0    ; r 
+    MOV  DWORD [EAX + 4096 - 36 + 12], 0    ; next
+    MOV  DWORD [EAX + 4096 - 36 + 8], 0     ; lock
+    LEA  ECX,  [EAX + 4096 - 36 - 4]
+    MOV  DWORD [EAX + 4096 - 36 + 4], ECX   ; Pre ESP
+    LEA  ECX,  [EAX + 4096 - 36]
+    MOV  DWORD [EAX + 4096 - 36], ECX       ; Pre EBP
     LEA  ECX,  [PQ_doactions]
-    MOV  DWORD [EAX + 32768 - 36 - 4], ECX   ; PQ_doactions
-    ADD  DWORD EAX, 32768 - 36
+    MOV  DWORD [EAX + 4096 - 36 - 4], ECX   ; PQ_doactions
+    ADD  DWORD EAX, 4096 - 36
     PUSH DWORD EBP
     PUSH DWORD EAX
     CALL runqput

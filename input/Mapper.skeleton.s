@@ -15,24 +15,24 @@ global Mapper_map
 
 Mapper_init:
 Mapper_init_realloc:
-    PUSH DWORD 32768
+    PUSH DWORD 4096
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
     JE   Mapper_init_realloc
-    MOV  DWORD [EAX + 32768 - 1*4], 0    ; next 
-    MOV  DWORD [EAX + 32768 - 2*4], 0    ; a 
-    MOV  DWORD [EAX + 32768 - 3*4], 0    ; e 
-    MOV  DWORD [EAX + 32768 - 4*4], 0    ; index 
-    MOV  DWORD [EAX + 32768 - 32 + 12], 0    ; next
-    MOV  DWORD [EAX + 32768 - 32 + 8], 0     ; lock
-    LEA  ECX,  [EAX + 32768 - 32 - 4]
-    MOV  DWORD [EAX + 32768 - 32 + 4], ECX   ; Pre ESP
-    LEA  ECX,  [EAX + 32768 - 32]
-    MOV  DWORD [EAX + 32768 - 32], ECX       ; Pre EBP
+    MOV  DWORD [EAX + 4096 - 1*4], 0    ; next 
+    MOV  DWORD [EAX + 4096 - 2*4], 0    ; a 
+    MOV  DWORD [EAX + 4096 - 3*4], 0    ; e 
+    MOV  DWORD [EAX + 4096 - 4*4], 0    ; index 
+    MOV  DWORD [EAX + 4096 - 32 + 12], 0    ; next
+    MOV  DWORD [EAX + 4096 - 32 + 8], 0     ; lock
+    LEA  ECX,  [EAX + 4096 - 32 - 4]
+    MOV  DWORD [EAX + 4096 - 32 + 4], ECX   ; Pre ESP
+    LEA  ECX,  [EAX + 4096 - 32]
+    MOV  DWORD [EAX + 4096 - 32], ECX       ; Pre EBP
     LEA  ECX,  [Mapper_doactions]
-    MOV  DWORD [EAX + 32768 - 32 - 4], ECX   ; Mapper_doactions
-    ADD  DWORD EAX, 32768 - 32
+    MOV  DWORD [EAX + 4096 - 32 - 4], ECX   ; Mapper_doactions
+    ADD  DWORD EAX, 4096 - 32
     PUSH DWORD EBP
     PUSH DWORD EAX
     CALL runqput

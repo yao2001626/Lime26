@@ -1,4 +1,4 @@
-// Generated from LimeGrammar.g4 by ANTLR 4.7.2
+// Generated from LimeGrammar.g4 by ANTLR 4.4
 
     package lime.antlr4;
 
@@ -13,95 +13,42 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class LimeGrammarLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, Class=7, Method=8, Action=9, 
+		T__5=1, T__4=2, T__3=3, T__2=4, T__1=5, T__0=6, Class=7, Method=8, Action=9, 
 		Var=10, Init=11, New=12, When=13, Do=14, If=15, Else=16, Elif=17, Then=18, 
 		While=19, Return=20, Null=21, Booltype=22, Inttype=23, Voidtype=24, True=25, 
 		False=26, Assign=27, Or=28, And=29, Equals=30, NEquals=31, GTEquals=32, 
 		LTEquals=33, GT=34, LT=35, Add=36, Subtract=37, Multiply=38, Divide=39, 
 		Modulus=40, OBrace=41, CBrace=42, OBracket=43, CBracket=44, OParen=45, 
 		CParen=46, NEWLINE=47, SKIP_=48, ID=49, INTEGER=50;
-	public static String[] channelNames = {
-		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
-	};
-
 	public static String[] modeNames = {
 		"DEFAULT_MODE"
 	};
 
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "Class", "Method", "Action", 
-			"Var", "Init", "New", "When", "Do", "If", "Else", "Elif", "Then", "While", 
-			"Return", "Null", "Booltype", "Inttype", "Voidtype", "True", "False", 
-			"Assign", "Or", "And", "Equals", "NEquals", "GTEquals", "LTEquals", "GT", 
-			"LT", "Add", "Subtract", "Multiply", "Divide", "Modulus", "OBrace", "CBrace", 
-			"OBracket", "CBracket", "OParen", "CParen", "SPACES", "NEWLINE", "SKIP_", 
-			"LINE_JOINING", "ID", "LETTER", "INTEGER"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
-
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "':'", "','", "';'", "'='", "'not'", "'.'", "'class'", "'method'", 
-			"'action'", "'var'", "'init'", "'new'", "'when'", "'do'", "'if'", "'else'", 
-			"'elif'", "'then'", "'while'", "'return'", "'nil'", "'bool'", "'int'", 
-			"'void'", "'true'", "'false'", "':='", "'or'", "'and'", "'=='", "'!='", 
-			"'>='", "'<='", "'>'", "'<'", "'+'", "'-'", "'*'", "'/'", "'%'", "'{'", 
-			"'}'", "'['", "']'", "'('", "')'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, null, null, null, null, null, null, "Class", "Method", "Action", 
-			"Var", "Init", "New", "When", "Do", "If", "Else", "Elif", "Then", "While", 
-			"Return", "Null", "Booltype", "Inttype", "Voidtype", "True", "False", 
-			"Assign", "Or", "And", "Equals", "NEquals", "GTEquals", "LTEquals", "GT", 
-			"LT", "Add", "Subtract", "Multiply", "Divide", "Modulus", "OBrace", "CBrace", 
-			"OBracket", "CBracket", "OParen", "CParen", "NEWLINE", "SKIP_", "ID", 
-			"INTEGER"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
-	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
-
-	/**
-	 * @deprecated Use {@link #VOCABULARY} instead.
-	 */
-	@Deprecated
-	public static final String[] tokenNames;
-	static {
-		tokenNames = new String[_SYMBOLIC_NAMES.length];
-		for (int i = 0; i < tokenNames.length; i++) {
-			tokenNames[i] = VOCABULARY.getLiteralName(i);
-			if (tokenNames[i] == null) {
-				tokenNames[i] = VOCABULARY.getSymbolicName(i);
-			}
-
-			if (tokenNames[i] == null) {
-				tokenNames[i] = "<INVALID>";
-			}
-		}
-	}
-
-	@Override
-	@Deprecated
-	public String[] getTokenNames() {
-		return tokenNames;
-	}
-
-	@Override
-
-	public Vocabulary getVocabulary() {
-		return VOCABULARY;
-	}
+	public static final String[] tokenNames = {
+		"'\\u0000'", "'\\u0001'", "'\\u0002'", "'\\u0003'", "'\\u0004'", "'\\u0005'", 
+		"'\\u0006'", "'\\u0007'", "'\b'", "'\t'", "'\n'", "'\\u000B'", "'\f'", 
+		"'\r'", "'\\u000E'", "'\\u000F'", "'\\u0010'", "'\\u0011'", "'\\u0012'", 
+		"'\\u0013'", "'\\u0014'", "'\\u0015'", "'\\u0016'", "'\\u0017'", "'\\u0018'", 
+		"'\\u0019'", "'\\u001A'", "'\\u001B'", "'\\u001C'", "'\\u001D'", "'\\u001E'", 
+		"'\\u001F'", "' '", "'!'", "'\"'", "'#'", "'$'", "'%'", "'&'", "'''", 
+		"'('", "')'", "'*'", "'+'", "','", "'-'", "'.'", "'/'", "'0'", "'1'", 
+		"'2'"
+	};
+	public static final String[] ruleNames = {
+		"T__5", "T__4", "T__3", "T__2", "T__1", "T__0", "Class", "Method", "Action", 
+		"Var", "Init", "New", "When", "Do", "If", "Else", "Elif", "Then", "While", 
+		"Return", "Null", "Booltype", "Inttype", "Voidtype", "True", "False", 
+		"Assign", "Or", "And", "Equals", "NEquals", "GTEquals", "LTEquals", "GT", 
+		"LT", "Add", "Subtract", "Multiply", "Divide", "Modulus", "OBrace", "CBrace", 
+		"OBracket", "CBracket", "OParen", "CParen", "SPACES", "NEWLINE", "SKIP_", 
+		"LINE_JOINING", "ID", "LETTER", "INTEGER"
+	};
 
 
 	  // A queue where extra tokens are pushed on (see the NEWLINE lexer rule).
@@ -192,13 +139,13 @@ public class LimeGrammarLexer extends Lexer {
 	public String getGrammarFileName() { return "LimeGrammar.g4"; }
 
 	@Override
+	public String[] getTokenNames() { return tokenNames; }
+
+	@Override
 	public String[] getRuleNames() { return ruleNames; }
 
 	@Override
 	public String getSerializedATN() { return _serializedATN; }
-
-	@Override
-	public String[] getChannelNames() { return channelNames; }
 
 	@Override
 	public String[] getModeNames() { return modeNames; }
@@ -209,133 +156,103 @@ public class LimeGrammarLexer extends Lexer {
 	@Override
 	public void action(RuleContext _localctx, int ruleIndex, int actionIndex) {
 		switch (ruleIndex) {
-		case 40:
-			OBrace_action((RuleContext)_localctx, actionIndex);
-			break;
-		case 41:
-			CBrace_action((RuleContext)_localctx, actionIndex);
-			break;
-		case 42:
-			OBracket_action((RuleContext)_localctx, actionIndex);
-			break;
-		case 43:
-			CBracket_action((RuleContext)_localctx, actionIndex);
-			break;
-		case 44:
-			OParen_action((RuleContext)_localctx, actionIndex);
-			break;
-		case 45:
-			CParen_action((RuleContext)_localctx, actionIndex);
-			break;
-		case 47:
-			NEWLINE_action((RuleContext)_localctx, actionIndex);
-			break;
+		case 40: OBrace_action((RuleContext)_localctx, actionIndex); break;
+		case 41: CBrace_action((RuleContext)_localctx, actionIndex); break;
+		case 42: OBracket_action((RuleContext)_localctx, actionIndex); break;
+		case 43: CBracket_action((RuleContext)_localctx, actionIndex); break;
+		case 44: OParen_action((RuleContext)_localctx, actionIndex); break;
+		case 45: CParen_action((RuleContext)_localctx, actionIndex); break;
+		case 47: NEWLINE_action((RuleContext)_localctx, actionIndex); break;
 		}
 	}
 	private void OBrace_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
-		case 0:
-			opened++;
-			break;
-		}
-	}
-	private void CBrace_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 1:
-			opened--;
-			break;
-		}
-	}
-	private void OBracket_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 2:
-			opened++;
-			break;
-		}
-	}
-	private void CBracket_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 3:
-			opened--;
-			break;
-		}
-	}
-	private void OParen_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 4:
-			opened++;
-			break;
-		}
-	}
-	private void CParen_action(RuleContext _localctx, int actionIndex) {
-		switch (actionIndex) {
-		case 5:
-			opened--;
-			break;
+		case 0: opened++; break;
 		}
 	}
 	private void NEWLINE_action(RuleContext _localctx, int actionIndex) {
 		switch (actionIndex) {
-		case 6:
-
-			     String newLine = getText().replaceAll("[^\r\n\f]+", "");
-			     String spaces = getText().replaceAll("[\r\n\f]+", "");
-			     int next = _input.LA(1);
-			     if (opened > 0 || next == '\r' || next == '\n' || next == '\f' || next == '#') {
-			       // If we're inside a list or on a blank line, ignore all indents, 
-			       // dedents and line breaks.
-			       skip();
-			     }
-			     else {
-			       emit(commonToken(NEWLINE, newLine));
-			       int indent = getIndentationCount(spaces);
-			       int previous = indents.isEmpty() ? 0 : indents.peek();
-			       if (indent == previous) {
-			         // skip indents of the same size as the present indent-size
-			         skip();
-			       }
-			       else if (indent > previous) {
-			         indents.push(indent);
-			         emit(commonToken(LimeGrammarParser.INDENT, spaces));
-			       }
-			       else {
-			         // Possibly emit more than 1 DEDENT token.
-			         while(!indents.isEmpty() && indents.peek() > indent) {
-			           this.emit(createDedent());
-			           indents.pop();
-			         }
-			       }
-			     }
-			   
-			break;
+		case 6: 
+		     String newLine = getText().replaceAll("[^\r\n\f]+", "");
+		     String spaces = getText().replaceAll("[\r\n\f]+", "");
+		     int next = _input.LA(1);
+		     if (opened > 0 || next == '\r' || next == '\n' || next == '\f' || next == '#') {
+		       // If we're inside a list or on a blank line, ignore all indents, 
+		       // dedents and line breaks.
+		       skip();
+		     }
+		     else {
+		       emit(commonToken(NEWLINE, newLine));
+		       int indent = getIndentationCount(spaces);
+		       int previous = indents.isEmpty() ? 0 : indents.peek();
+		       if (indent == previous) {
+		         // skip indents of the same size as the present indent-size
+		         skip();
+		       }
+		       else if (indent > previous) {
+		         indents.push(indent);
+		         emit(commonToken(LimeGrammarParser.INDENT, spaces));
+		       }
+		       else {
+		         // Possibly emit more than 1 DEDENT token.
+		         while(!indents.isEmpty() && indents.peek() > indent) {
+		           this.emit(createDedent());
+		           indents.pop();
+		         }
+		       }
+		     }
+		    break;
+		}
+	}
+	private void CBrace_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 1: opened--; break;
+		}
+	}
+	private void CBracket_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 3: opened--; break;
+		}
+	}
+	private void CParen_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 5: opened--; break;
+		}
+	}
+	private void OBracket_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 2: opened++; break;
+		}
+	}
+	private void OParen_action(RuleContext _localctx, int actionIndex) {
+		switch (actionIndex) {
+		case 4: opened++; break;
 		}
 	}
 	@Override
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 47:
-			return NEWLINE_sempred((RuleContext)_localctx, predIndex);
+		case 47: return NEWLINE_sempred((RuleContext)_localctx, predIndex);
 		}
 		return true;
 	}
 	private boolean NEWLINE_sempred(RuleContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0:
-			return atStartOfInput();
+		case 0: return atStartOfInput();
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\2\64\u014b\b\1\4\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\2\64\u014b\b\1\4\2"+
 		"\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4"+
 		"\13\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22"+
 		"\t\22\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31"+
 		"\t\31\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\4 \t"+
 		" \4!\t!\4\"\t\"\4#\t#\4$\t$\4%\t%\4&\t&\4\'\t\'\4(\t(\4)\t)\4*\t*\4+\t"+
 		"+\4,\t,\4-\t-\4.\t.\4/\t/\4\60\t\60\4\61\t\61\4\62\t\62\4\63\t\63\4\64"+
-		"\t\64\4\65\t\65\4\66\t\66\3\2\3\2\3\3\3\3\3\4\3\4\3\5\3\5\3\6\3\6\3\6"+
-		"\3\6\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3"+
+		"\t\64\4\65\t\65\4\66\t\66\3\2\3\2\3\3\3\3\3\4\3\4\3\5\3\5\3\6\3\6\3\7"+
+		"\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3"+
 		"\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\r\3\r"+
 		"\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\20\3\20\3\20\3\21\3"+
 		"\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\22\3\23\3\23\3\23\3\23\3\23\3"+
@@ -353,19 +270,19 @@ public class LimeGrammarLexer extends Lexer {
 		"\t\6\13\7\r\b\17\t\21\n\23\13\25\f\27\r\31\16\33\17\35\20\37\21!\22#\23"+
 		"%\24\'\25)\26+\27-\30/\31\61\32\63\33\65\34\67\359\36;\37= ?!A\"C#E$G"+
 		"%I&K\'M(O)Q*S+U,W-Y.[/]\60_\2a\61c\62e\2g\63i\2k\64\3\2\4\4\2\13\13\""+
-		"\"\5\2C\\aac|\2\u0153\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2"+
-		"\2\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3\2\2\2\2\23\3\2\2\2\2\25"+
-		"\3\2\2\2\2\27\3\2\2\2\2\31\3\2\2\2\2\33\3\2\2\2\2\35\3\2\2\2\2\37\3\2"+
-		"\2\2\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\2\'\3\2\2\2\2)\3\2\2\2\2+\3\2\2"+
-		"\2\2-\3\2\2\2\2/\3\2\2\2\2\61\3\2\2\2\2\63\3\2\2\2\2\65\3\2\2\2\2\67\3"+
-		"\2\2\2\29\3\2\2\2\2;\3\2\2\2\2=\3\2\2\2\2?\3\2\2\2\2A\3\2\2\2\2C\3\2\2"+
-		"\2\2E\3\2\2\2\2G\3\2\2\2\2I\3\2\2\2\2K\3\2\2\2\2M\3\2\2\2\2O\3\2\2\2\2"+
-		"Q\3\2\2\2\2S\3\2\2\2\2U\3\2\2\2\2W\3\2\2\2\2Y\3\2\2\2\2[\3\2\2\2\2]\3"+
-		"\2\2\2\2a\3\2\2\2\2c\3\2\2\2\2g\3\2\2\2\2k\3\2\2\2\3m\3\2\2\2\5o\3\2\2"+
-		"\2\7q\3\2\2\2\ts\3\2\2\2\13u\3\2\2\2\ry\3\2\2\2\17{\3\2\2\2\21\u0081\3"+
-		"\2\2\2\23\u0088\3\2\2\2\25\u008f\3\2\2\2\27\u0093\3\2\2\2\31\u0098\3\2"+
-		"\2\2\33\u009c\3\2\2\2\35\u00a1\3\2\2\2\37\u00a4\3\2\2\2!\u00a7\3\2\2\2"+
-		"#\u00ac\3\2\2\2%\u00b1\3\2\2\2\'\u00b6\3\2\2\2)\u00bc\3\2\2\2+\u00c3\3"+
+		"\"\5\2C\\aac|\u0153\2\3\3\2\2\2\2\5\3\2\2\2\2\7\3\2\2\2\2\t\3\2\2\2\2"+
+		"\13\3\2\2\2\2\r\3\2\2\2\2\17\3\2\2\2\2\21\3\2\2\2\2\23\3\2\2\2\2\25\3"+
+		"\2\2\2\2\27\3\2\2\2\2\31\3\2\2\2\2\33\3\2\2\2\2\35\3\2\2\2\2\37\3\2\2"+
+		"\2\2!\3\2\2\2\2#\3\2\2\2\2%\3\2\2\2\2\'\3\2\2\2\2)\3\2\2\2\2+\3\2\2\2"+
+		"\2-\3\2\2\2\2/\3\2\2\2\2\61\3\2\2\2\2\63\3\2\2\2\2\65\3\2\2\2\2\67\3\2"+
+		"\2\2\29\3\2\2\2\2;\3\2\2\2\2=\3\2\2\2\2?\3\2\2\2\2A\3\2\2\2\2C\3\2\2\2"+
+		"\2E\3\2\2\2\2G\3\2\2\2\2I\3\2\2\2\2K\3\2\2\2\2M\3\2\2\2\2O\3\2\2\2\2Q"+
+		"\3\2\2\2\2S\3\2\2\2\2U\3\2\2\2\2W\3\2\2\2\2Y\3\2\2\2\2[\3\2\2\2\2]\3\2"+
+		"\2\2\2a\3\2\2\2\2c\3\2\2\2\2g\3\2\2\2\2k\3\2\2\2\3m\3\2\2\2\5o\3\2\2\2"+
+		"\7q\3\2\2\2\ts\3\2\2\2\13u\3\2\2\2\rw\3\2\2\2\17{\3\2\2\2\21\u0081\3\2"+
+		"\2\2\23\u0088\3\2\2\2\25\u008f\3\2\2\2\27\u0093\3\2\2\2\31\u0098\3\2\2"+
+		"\2\33\u009c\3\2\2\2\35\u00a1\3\2\2\2\37\u00a4\3\2\2\2!\u00a7\3\2\2\2#"+
+		"\u00ac\3\2\2\2%\u00b1\3\2\2\2\'\u00b6\3\2\2\2)\u00bc\3\2\2\2+\u00c3\3"+
 		"\2\2\2-\u00c7\3\2\2\2/\u00cc\3\2\2\2\61\u00d0\3\2\2\2\63\u00d5\3\2\2\2"+
 		"\65\u00da\3\2\2\2\67\u00e0\3\2\2\29\u00e3\3\2\2\2;\u00e6\3\2\2\2=\u00ea"+
 		"\3\2\2\2?\u00ed\3\2\2\2A\u00f0\3\2\2\2C\u00f3\3\2\2\2E\u00f6\3\2\2\2G"+
@@ -373,9 +290,9 @@ public class LimeGrammarLexer extends Lexer {
 		"\2\2Q\u0102\3\2\2\2S\u0104\3\2\2\2U\u0107\3\2\2\2W\u010a\3\2\2\2Y\u010d"+
 		"\3\2\2\2[\u0110\3\2\2\2]\u0113\3\2\2\2_\u0117\3\2\2\2a\u0127\3\2\2\2c"+
 		"\u012d\3\2\2\2e\u0131\3\2\2\2g\u013c\3\2\2\2i\u0144\3\2\2\2k\u0147\3\2"+
-		"\2\2mn\7<\2\2n\4\3\2\2\2op\7.\2\2p\6\3\2\2\2qr\7=\2\2r\b\3\2\2\2st\7?"+
-		"\2\2t\n\3\2\2\2uv\7p\2\2vw\7q\2\2wx\7v\2\2x\f\3\2\2\2yz\7\60\2\2z\16\3"+
-		"\2\2\2{|\7e\2\2|}\7n\2\2}~\7c\2\2~\177\7u\2\2\177\u0080\7u\2\2\u0080\20"+
+		"\2\2mn\7=\2\2n\4\3\2\2\2op\7?\2\2p\6\3\2\2\2qr\7.\2\2r\b\3\2\2\2st\7\60"+
+		"\2\2t\n\3\2\2\2uv\7<\2\2v\f\3\2\2\2wx\7p\2\2xy\7q\2\2yz\7v\2\2z\16\3\2"+
+		"\2\2{|\7e\2\2|}\7n\2\2}~\7c\2\2~\177\7u\2\2\177\u0080\7u\2\2\u0080\20"+
 		"\3\2\2\2\u0081\u0082\7o\2\2\u0082\u0083\7g\2\2\u0083\u0084\7v\2\2\u0084"+
 		"\u0085\7j\2\2\u0085\u0086\7q\2\2\u0086\u0087\7f\2\2\u0087\22\3\2\2\2\u0088"+
 		"\u0089\7c\2\2\u0089\u008a\7e\2\2\u008a\u008b\7v\2\2\u008b\u008c\7k\2\2"+
