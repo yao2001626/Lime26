@@ -47,7 +47,10 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		}else {
 			size += (size+4)*4; 
 		}*/
-		int size =32768;
+		// coroutine size = 32768
+		//int size =32768;
+		//coroutine size = 4096
+		int size = 4096;
 		t.add("size", size);
 		int xyz = (((ClassSymbol)currentScope).getDefinedFields().size()+ 4)*4 ;
 		t.add("XYZ", xyz);
