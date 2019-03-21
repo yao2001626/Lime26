@@ -96,9 +96,9 @@ fieldDecl
 initDecl returns [Scope scope]
 	: 'init' parameters NEWLINE INDENT block DEDENT ;
 methodDecl returns [Scope scope]
-	: 'method' ID  parameters (':' type)? NEWLINE INDENT ('when' guard 'do')? block DEDENT ; 
+	: 'method' ID  parameters (':' type)?  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)?; 
 actionDecl returns [Scope scope]
-	: 'action' ID NEWLINE INDENT ('when' guard 'do')? block DEDENT ;
+	: 'action' ID  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)? ;
 parameters
 	: '(' typeparslist? ')' ;
 typeparslist
@@ -260,7 +260,7 @@ NEWLINE
 ;
 
 SKIP_
-	: (SPACES|LINE_JOINING) -> skip ;
+	: ( SPACES| COMMENT | LINE_JOINING) -> skip ;
 fragment LINE_JOINING
  	: '\\' SPACES? ( '\r'? '\n' | '\r' | '\f') ;
 ID
@@ -270,3 +270,6 @@ LETTER
 	: 'A'..'Z' | 'a'..'z' | '_' ;
 INTEGER 
 	: '0'..'9'+ ;
+	
+fragment COMMENT
+ : '#' ~[\r\n\f]* ;

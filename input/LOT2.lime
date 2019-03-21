@@ -4,24 +4,24 @@ class Node2
 	var a : bool
 	init(x: int)
 		key, left, right, a := x, nil, nil, false 
+#l;dkf
 	method add(x: int)
-		when not a do
-			if left != nil then 
-				a,p := true,x
-				if p <= key then 
-					left.add(p) 
-				else 
-					right.add(p)
-				a := false  
-			elif x < key then
-				left, right, key := new Node2(x), new Node2(key), x 
-			elif x > key then
-				left, right := new Node2(key), new Node2(x) 
-	method has(x: int) : bool
-		when not a do
-			if left = nil then 
-				return x = key
-			elif x <= key then 
-				return left.has(x) 
+		#this is comments
+		if left != nil then 
+			a,p := true,x
+			if p <= key then 
+				left.add(p) 
 			else 
-				return right.has(x)
+				right.add(p)
+			a := false  
+		elif x < key then
+			left, right, key := new Node2(x), new Node2(key), x 
+		elif x > key then
+			left, right := new Node2(key), new Node2(x) 
+	method has(x: int) : bool
+		if left = nil then 
+			return x = key
+		elif x <= key then 
+			return left.has(x) 
+		else 
+			return right.has(x)

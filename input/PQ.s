@@ -15,25 +15,25 @@ global PQ_remove
 
 PQ_init:
 PQ_init_realloc:
-    PUSH DWORD 32768
+    PUSH DWORD 4096
     CALL malloc
     ADD  ESP, 4
     CMP  DWORD EAX, 0
     JE   PQ_init_realloc
-    MOV  DWORD [EAX + 32768 - 1*4], 0    ; m 
-    MOV  DWORD [EAX + 32768 - 2*4], 0    ; p 
-    MOV  DWORD [EAX + 32768 - 3*4], 0    ; l 
-    MOV  DWORD [EAX + 32768 - 4*4], 0    ; a 
-    MOV  DWORD [EAX + 32768 - 5*4], 0    ; r 
-    MOV  DWORD [EAX + 32768 - 36 + 12], 0    ; next
-    MOV  DWORD [EAX + 32768 - 36 + 8], 0     ; lock
-    LEA  ECX,  [EAX + 32768 - 36 - 4]
-    MOV  DWORD [EAX + 32768 - 36 + 4], ECX   ; Pre ESP
-    LEA  ECX,  [EAX + 32768 - 36]
-    MOV  DWORD [EAX + 32768 - 36], ECX       ; Pre EBP
+    MOV  DWORD [EAX + 4096 - 1*4], 0    ; m 
+    MOV  DWORD [EAX + 4096 - 2*4], 0    ; p 
+    MOV  DWORD [EAX + 4096 - 3*4], 0    ; l 
+    MOV  DWORD [EAX + 4096 - 4*4], 0    ; a 
+    MOV  DWORD [EAX + 4096 - 5*4], 0    ; r 
+    MOV  DWORD [EAX + 4096 - 36 + 12], 0    ; next
+    MOV  DWORD [EAX + 4096 - 36 + 8], 0     ; lock
+    LEA  ECX,  [EAX + 4096 - 36 - 4]
+    MOV  DWORD [EAX + 4096 - 36 + 4], ECX   ; Pre ESP
+    LEA  ECX,  [EAX + 4096 - 36]
+    MOV  DWORD [EAX + 4096 - 36], ECX       ; Pre EBP
     LEA  ECX,  [PQ_doactions]
-    MOV  DWORD [EAX + 32768 - 36 - 4], ECX   ; PQ_doactions
-    ADD  DWORD EAX, 32768 - 36
+    MOV  DWORD [EAX + 4096 - 36 - 4], ECX   ; PQ_doactions
+    ADD  DWORD EAX, 4096 - 36
     PUSH DWORD EBP
     PUSH DWORD EAX
     CALL runqput
@@ -82,23 +82,7 @@ PQ_empty_suspend:
     JMP  PQ_empty_start
 PQ_empty_succeed:
     ; method body starts here
-    	;_startproc
-; %bb.0:
-	push	eax
-	;_def_cfa_offset 8
-	mov	eax, dword   [esp + 8]
-	mov	ecx, dword   [esp + 8]
-	cmp	dword   [ecx + 24], 0
-	sete	dl
-	and	dl, 1
-	movzx	ecx, dl
-	mov	dword   [esp], eax    ; 4-byte Spill
-	mov	eax, ecx
-	pop	ecx
-	;ret
-.Lfunc_end0:
-	;.size	PQ_empty, .Lfunc_end0-PQ_empty
-
+    
     ; method body ends here
 PQ_empty_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -134,37 +118,7 @@ PQ_add_suspend:
     JMP  PQ_add_start
 PQ_add_succeed:
     ; method body starts here
-    	;_startproc
-; %bb.0:
-	sub	esp, 12
-	;_def_cfa_offset 16
-	mov	eax, dword   [esp + 20]
-	mov	ecx, dword   [esp + 16]
-	mov	dword   [esp + 8], eax
-	mov	eax, dword   [esp + 8]
-	cmp	dword   [eax + 24], 0
-	mov	dword   [esp + 4], ecx ; 4-byte Spill
-	jne	.LBB1_2
-; %bb.1:
-	mov	eax, dword   [esp + 16]
-	mov	ecx, dword   [esp + 8]
-	mov	dword   [ecx + 16], eax
-	call	PQ_init
-	mov	ecx, dword   [esp + 8]
-	mov	dword   [ecx + 24], eax
-	jmp	.LBB1_3
-.LBB1_2:
-	mov	eax, dword   [esp + 16]
-	mov	ecx, dword   [esp + 8]
-	mov	dword   [ecx + 20], eax
-	mov	eax, dword   [esp + 8]
-	mov	dword   [eax + 28], 1
-.LBB1_3:
-	add	esp, 12
-	;ret
-.Lfunc_end1:
-	;.size	PQ_add, .Lfunc_end1-PQ_add
-
+    
     ; method body ends here
 PQ_add_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -207,22 +161,7 @@ PQ_remove_suspend:
     JMP  PQ_remove_start
 PQ_remove_succeed:
     ; method body starts here
-    	;_startproc
-; %bb.0:
-	push	eax
-	;_def_cfa_offset 8
-	mov	eax, dword   [esp + 8]
-	mov	ecx, dword   [esp + 8]
-	mov	dword   [ecx + 32], 1
-	mov	ecx, dword   [esp + 8]
-	mov	ecx, dword   [ecx + 16]
-	mov	dword   [esp], eax    ; 4-byte Spill
-	mov	eax, ecx
-	pop	ecx
-	;ret
-.Lfunc_end2:
-	;.size	PQ_remove, .Lfunc_end2-PQ_remove
-
+    
     ; method body ends here
 PQ_remove_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -252,46 +191,7 @@ JE PQ_doAdd_succeed
     JMP   PQ_doAdd_checkguard_fail
 PQ_doAdd_succeed:
     ; action body start
-    	;_startproc
-; %bb.0:
-	sub	esp, 12
-	;_def_cfa_offset 16
-	mov	eax, dword   [esp + 16]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 16]
-	mov	edx, dword   [esp + 16]
-	cmp	ecx, dword   [edx + 20]
-	mov	dword   [esp + 8], eax ; 4-byte Spill
-	jge	.LBB3_2
-; %bb.1:
-	mov	eax, dword   [esp + 16]
-	mov	eax, dword   [eax + 20]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 24]
-	mov	dword   [esp], eax
-	mov	dword   [esp + 4], ecx
-	call	PQ_add
-	jmp	.LBB3_3
-.LBB3_2:
-	mov	eax, dword   [esp + 16]
-	mov	eax, dword   [eax + 16]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 24]
-	mov	dword   [esp], eax
-	mov	dword   [esp + 4], ecx
-	call	PQ_add
-	mov	eax, dword   [esp + 16]
-	mov	eax, dword   [eax + 20]
-	mov	ecx, dword   [esp + 16]
-	mov	dword   [ecx + 16], eax
-.LBB3_3:
-	mov	eax, dword   [esp + 16]
-	mov	dword   [eax + 28], 0
-	add	esp, 12
-	;ret
-.Lfunc_end3:
-	;.size	PQ_doAdd, .Lfunc_end3-PQ_doAdd
-
+    
     ; action body end
 PQ_doAdd_checkguard_fail:
     RET
@@ -310,37 +210,7 @@ JE PQ_doRemove_succeed
     JMP   PQ_doRemove_checkguard_fail
 PQ_doRemove_succeed:
     ; action body start
-    	;_startproc
-; %bb.0:
-	sub	esp, 12
-	;_def_cfa_offset 16
-	mov	eax, dword   [esp + 16]
-	mov	ecx, dword   [esp + 16]
-	mov	ecx, dword   [ecx + 24]
-	mov	dword   [esp], ecx
-	mov	dword   [esp + 8], eax ; 4-byte Spill
-	call	PQ_empty
-	cmp	eax, 0
-	je	.LBB4_2
-; %bb.1:
-	mov	eax, dword   [esp + 16]
-	mov	dword   [eax + 24], 0
-	jmp	.LBB4_3
-.LBB4_2:
-	mov	eax, dword   [esp + 16]
-	mov	eax, dword   [eax + 24]
-	mov	dword   [esp], eax
-	call	PQ_remove
-	mov	ecx, dword   [esp + 16]
-	mov	dword   [ecx + 16], eax
-.LBB4_3:
-	mov	eax, dword   [esp + 16]
-	mov	dword   [eax + 32], 0
-	add	esp, 12
-	;ret
-.Lfunc_end4:
-	;.size	PQ_doRemove, .Lfunc_end4-PQ_doRemove
-
+    
     ; action body end
 PQ_doRemove_checkguard_fail:
     RET

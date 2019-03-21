@@ -1,13 +1,13 @@
-	.text
+	.section	__TEXT,__text,regular,pure_instructions
+	.macosx_version_min 10, 12
 	.intel_syntax noprefix
-	.file	"PQ.c"
-	.globl	PQ_empty                # -- Begin function PQ_empty
+	.globl	_PQ_empty               ## -- Begin function PQ_empty
 	.p2align	4, 0x90
-	.type	PQ_empty,@function
-PQ_empty:                               # @PQ_empty
+_PQ_empty:                              ## @PQ_empty
 	.cfi_startproc
-# %bb.0:
+## BB#0:
 	push	eax
+Lcfi0:
 	.cfi_def_cfa_offset 8
 	mov	eax, dword ptr [esp + 8]
 	mov	ecx, dword ptr [esp + 8]
@@ -15,152 +15,141 @@ PQ_empty:                               # @PQ_empty
 	sete	dl
 	and	dl, 1
 	movzx	ecx, dl
-	mov	dword ptr [esp], eax    # 4-byte Spill
+	mov	dword ptr [esp], eax    ## 4-byte Spill
 	mov	eax, ecx
 	pop	ecx
 	ret
-.Lfunc_end0:
-	.size	PQ_empty, .Lfunc_end0-PQ_empty
 	.cfi_endproc
-                                        # -- End function
-	.globl	PQ_add                  # -- Begin function PQ_add
+                                        ## -- End function
+	.globl	_PQ_add                 ## -- Begin function PQ_add
 	.p2align	4, 0x90
-	.type	PQ_add,@function
-PQ_add:                                 # @PQ_add
+_PQ_add:                                ## @PQ_add
 	.cfi_startproc
-# %bb.0:
+## BB#0:
 	sub	esp, 12
+Lcfi1:
 	.cfi_def_cfa_offset 16
 	mov	eax, dword ptr [esp + 20]
 	mov	ecx, dword ptr [esp + 16]
 	mov	dword ptr [esp + 8], eax
 	mov	eax, dword ptr [esp + 8]
 	cmp	dword ptr [eax + 24], 0
-	mov	dword ptr [esp + 4], ecx # 4-byte Spill
-	jne	.LBB1_2
-# %bb.1:
+	mov	dword ptr [esp + 4], ecx ## 4-byte Spill
+	jne	LBB1_2
+## BB#1:
 	mov	eax, dword ptr [esp + 16]
 	mov	ecx, dword ptr [esp + 8]
 	mov	dword ptr [ecx + 16], eax
-	call	PQ_init
+	call	_PQ_init
 	mov	ecx, dword ptr [esp + 8]
 	mov	dword ptr [ecx + 24], eax
-	jmp	.LBB1_3
-.LBB1_2:
+	jmp	LBB1_3
+LBB1_2:
 	mov	eax, dword ptr [esp + 16]
 	mov	ecx, dword ptr [esp + 8]
 	mov	dword ptr [ecx + 20], eax
 	mov	eax, dword ptr [esp + 8]
 	mov	dword ptr [eax + 28], 1
-.LBB1_3:
+LBB1_3:
 	add	esp, 12
 	ret
-.Lfunc_end1:
-	.size	PQ_add, .Lfunc_end1-PQ_add
 	.cfi_endproc
-                                        # -- End function
-	.globl	PQ_remove               # -- Begin function PQ_remove
+                                        ## -- End function
+	.globl	_PQ_remove              ## -- Begin function PQ_remove
 	.p2align	4, 0x90
-	.type	PQ_remove,@function
-PQ_remove:                              # @PQ_remove
+_PQ_remove:                             ## @PQ_remove
 	.cfi_startproc
-# %bb.0:
+## BB#0:
 	push	eax
+Lcfi2:
 	.cfi_def_cfa_offset 8
 	mov	eax, dword ptr [esp + 8]
 	mov	ecx, dword ptr [esp + 8]
 	mov	dword ptr [ecx + 32], 1
 	mov	ecx, dword ptr [esp + 8]
 	mov	ecx, dword ptr [ecx + 16]
-	mov	dword ptr [esp], eax    # 4-byte Spill
+	mov	dword ptr [esp], eax    ## 4-byte Spill
 	mov	eax, ecx
 	pop	ecx
 	ret
-.Lfunc_end2:
-	.size	PQ_remove, .Lfunc_end2-PQ_remove
 	.cfi_endproc
-                                        # -- End function
-	.globl	PQ_doAdd                # -- Begin function PQ_doAdd
+                                        ## -- End function
+	.globl	_PQ_doAdd               ## -- Begin function PQ_doAdd
 	.p2align	4, 0x90
-	.type	PQ_doAdd,@function
-PQ_doAdd:                               # @PQ_doAdd
+_PQ_doAdd:                              ## @PQ_doAdd
 	.cfi_startproc
-# %bb.0:
+## BB#0:
 	sub	esp, 12
+Lcfi3:
 	.cfi_def_cfa_offset 16
 	mov	eax, dword ptr [esp + 16]
 	mov	ecx, dword ptr [esp + 16]
 	mov	ecx, dword ptr [ecx + 16]
 	mov	edx, dword ptr [esp + 16]
 	cmp	ecx, dword ptr [edx + 20]
-	mov	dword ptr [esp + 8], eax # 4-byte Spill
-	jge	.LBB3_2
-# %bb.1:
+	mov	dword ptr [esp + 8], eax ## 4-byte Spill
+	jge	LBB3_2
+## BB#1:
 	mov	eax, dword ptr [esp + 16]
 	mov	eax, dword ptr [eax + 20]
 	mov	ecx, dword ptr [esp + 16]
 	mov	ecx, dword ptr [ecx + 24]
 	mov	dword ptr [esp], eax
 	mov	dword ptr [esp + 4], ecx
-	call	PQ_add
-	jmp	.LBB3_3
-.LBB3_2:
+	call	_PQ_add
+	jmp	LBB3_3
+LBB3_2:
 	mov	eax, dword ptr [esp + 16]
 	mov	eax, dword ptr [eax + 16]
 	mov	ecx, dword ptr [esp + 16]
 	mov	ecx, dword ptr [ecx + 24]
 	mov	dword ptr [esp], eax
 	mov	dword ptr [esp + 4], ecx
-	call	PQ_add
+	call	_PQ_add
 	mov	eax, dword ptr [esp + 16]
 	mov	eax, dword ptr [eax + 20]
 	mov	ecx, dword ptr [esp + 16]
 	mov	dword ptr [ecx + 16], eax
-.LBB3_3:
+LBB3_3:
 	mov	eax, dword ptr [esp + 16]
 	mov	dword ptr [eax + 28], 0
 	add	esp, 12
 	ret
-.Lfunc_end3:
-	.size	PQ_doAdd, .Lfunc_end3-PQ_doAdd
 	.cfi_endproc
-                                        # -- End function
-	.globl	PQ_doRemove             # -- Begin function PQ_doRemove
+                                        ## -- End function
+	.globl	_PQ_doRemove            ## -- Begin function PQ_doRemove
 	.p2align	4, 0x90
-	.type	PQ_doRemove,@function
-PQ_doRemove:                            # @PQ_doRemove
+_PQ_doRemove:                           ## @PQ_doRemove
 	.cfi_startproc
-# %bb.0:
+## BB#0:
 	sub	esp, 12
+Lcfi4:
 	.cfi_def_cfa_offset 16
 	mov	eax, dword ptr [esp + 16]
 	mov	ecx, dword ptr [esp + 16]
 	mov	ecx, dword ptr [ecx + 24]
 	mov	dword ptr [esp], ecx
-	mov	dword ptr [esp + 8], eax # 4-byte Spill
-	call	PQ_empty
+	mov	dword ptr [esp + 8], eax ## 4-byte Spill
+	call	_PQ_empty
 	cmp	eax, 0
-	je	.LBB4_2
-# %bb.1:
+	je	LBB4_2
+## BB#1:
 	mov	eax, dword ptr [esp + 16]
 	mov	dword ptr [eax + 24], 0
-	jmp	.LBB4_3
-.LBB4_2:
+	jmp	LBB4_3
+LBB4_2:
 	mov	eax, dword ptr [esp + 16]
 	mov	eax, dword ptr [eax + 24]
 	mov	dword ptr [esp], eax
-	call	PQ_remove
+	call	_PQ_remove
 	mov	ecx, dword ptr [esp + 16]
 	mov	dword ptr [ecx + 16], eax
-.LBB4_3:
+LBB4_3:
 	mov	eax, dword ptr [esp + 16]
 	mov	dword ptr [eax + 32], 0
 	add	esp, 12
 	ret
-.Lfunc_end4:
-	.size	PQ_doRemove, .Lfunc_end4-PQ_doRemove
 	.cfi_endproc
-                                        # -- End function
+                                        ## -- End function
 
-	.ident	"clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)"
-	.section	".note.GNU-stack","",@progbits
+.subsections_via_symbols
