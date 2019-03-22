@@ -154,9 +154,11 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		// System.out.println("exit method guard: "+ctx.guard().getText()+"\n"+
 		// guardASMcode);
 		guardmap.put(className + methodName, guardASMcode);
+		
 		MethodSymbol ms = (MethodSymbol) currentScope;
 		ms.guard = this.guardASMcode;
 		ms.setEnabled(((ClassSymbol) currentScope.getEnclosingScope()).classGuardIds);
+		if(ctx.guard()==null) ms.setUnguarded();
 		inMethod = false;
 		this.guardASMcode = "";
 		currentScope = currentScope.getEnclosingScope();
@@ -182,6 +184,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		guardmap.put(className + methodName, guardASMcode);
 		ActionSymbol as = (ActionSymbol) currentScope;
 		as.guard = this.guardASMcode;
+		if(ctx.guard()==null) as.setUnguarded();
 		this.guardASMcode = "";
 		currentScope = currentScope.getEnclosingScope();
 		methodName = "";

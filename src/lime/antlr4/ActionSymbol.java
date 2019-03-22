@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ActionSymbol extends FunctionSymbol implements MemberSymbol{
 	protected static int slot = 0;
-
+	protected boolean unguarded = false;
 	public ActionSymbol(String name) {
 		super(name);
 	}
@@ -13,4 +13,13 @@ public class ActionSymbol extends FunctionSymbol implements MemberSymbol{
 	public int getSlotNumber() { return ++slot; }
 	@Override
 	public String toString() { return name; }
+	
+	public void setUnguarded() {
+		unguarded = true;
+	}
+	
+	public boolean unguarded() {
+		return unguarded;
+	}
+	
 }

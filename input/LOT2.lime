@@ -4,9 +4,9 @@ class Node2
 	var a : bool
 	init(x: int)
 		key, left, right, a := x, nil, nil, false 
-#l;dkf
+	# this is a comments
 	method add(x: int)
-		#this is comments
+		#this is comments two
 		if left != nil then 
 			a,p := true,x
 			if p <= key then 

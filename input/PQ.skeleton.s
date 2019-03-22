@@ -169,7 +169,6 @@ PQ_doAdd_start:
     ; action guard start
     _PQ_doAdd_guard
     ; action guard end
-
     JMP   PQ_doAdd_checkguard_fail
 PQ_doAdd_succeed:
     ; action body start
@@ -185,7 +184,6 @@ PQ_doRemove_start:
     ; action guard start
     _PQ_doRemove_guard
     ; action guard end
-
     JMP   PQ_doRemove_checkguard_fail
 PQ_doRemove_succeed:
     ; action body start

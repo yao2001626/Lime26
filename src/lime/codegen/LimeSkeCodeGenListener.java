@@ -3,6 +3,7 @@ package lime.codegen;
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
+import lime.antlr4.ActionSymbol;
 import lime.antlr4.ClassSymbol;
 import lime.antlr4.LimeGrammarBaseListener;
 import lime.antlr4.MethodSymbol;
@@ -38,6 +39,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("actions", ((ClassSymbol)currentScope).getDefinedActions());
 		boolean activated = ((ClassSymbol)currentScope).getActions().size()>0;
 		t.add("active", activated);
+		
 		t.add("init", ((ClassSymbol)currentScope).getObjInitCode());
 		/*
 		int size = ((ClassSymbol)currentScope).getDefinedFields().size();
@@ -58,17 +60,18 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		content += t.render();
 	}
 	
-	//action(class_name, action_name)
+	//action(class_name, action_name, unguarded)
 	@Override
 	public void enterActionDecl(ActionDeclContext ctx) {
 		currentScope = ctx.scope;
 		ST t = templates.getInstanceOf("action");
 		t.add("class_name", curClassName);
 		t.add("action_name", ctx.ID().toString());
+		t.add("unguarded", ((ActionSymbol)currentScope).unguarded());
 		content += t.render();
 	}
 	
-	//method(class_name, method_name, paranum, enabled)
+	//method(class_name, method_name, paranum, enabled, unguarded)
 	@Override
 	public void enterMethodDecl(MethodDeclContext ctx) {
 		currentScope = ctx.scope;
@@ -77,6 +80,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("method_name", ctx.ID().toString());
 		t.add("paranum", ((MethodSymbol)currentScope).getNumberOfParameters());
 		t.add("enabled", ((MethodSymbol)currentScope).isEnabled()&& ((ClassSymbol)currentScope.getEnclosingScope()).getActions().size()>0);
+		t.add("unguarded", ((MethodSymbol)currentScope).unguarded());
 		content += t.render();
 	}
 	

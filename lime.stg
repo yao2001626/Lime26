@@ -58,7 +58,7 @@ extern  malloc
 <endif>
 >>
 
-method(class_name, method_name, paranum, enabled) ::=<<
+method(class_name, method_name, paranum, enabled, unguarded) ::=<<
 ;define method <class_name>_<method_name>
 <class_name>_<method_name>:
 <class_name>_<method_name>_start:
@@ -71,6 +71,9 @@ method(class_name, method_name, paranum, enabled) ::=<<
 <class_name>_<method_name>_checkguard:
     ; method guard starts here
     _<class_name>_<method_name>_guard
+<if(unguarded)>
+	JMP <class_name>_<method_name>_succeed
+<endif>
     ; method guard ends here
 <class_name>_<method_name>_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -100,7 +103,7 @@ method(class_name, method_name, paranum, enabled) ::=<<
 <class_name>_<method_name>_ret:
     RET 
 >>
-action(class_name, action_name)::=<<
+action(class_name, action_name, unguarded)::=<<
 
 ; define action
 ; <class_name>: <action_name> 
@@ -110,7 +113,9 @@ action(class_name, action_name)::=<<
     ; action guard start
     _<class_name>_<action_name>_guard
     ; action guard end
-
+<if(unguarded)>
+	JMP <class_name>_<action_name>_succeed
+<endif>
     JMP   <class_name>_<action_name>_checkguard_fail
 <class_name>_<action_name>_succeed:
     ; action body start

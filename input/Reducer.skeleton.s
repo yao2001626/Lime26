@@ -140,7 +140,6 @@ Reducer_doReduce_start:
     ; action guard start
     _Reducer_doReduce_guard
     ; action guard end
-
     JMP   Reducer_doReduce_checkguard_fail
 Reducer_doReduce_succeed:
     ; action body start

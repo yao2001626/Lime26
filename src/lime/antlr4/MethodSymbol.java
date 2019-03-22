@@ -10,6 +10,7 @@ import java.util.Set;
 public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	protected int slot = -1;
 	protected boolean enabled = false;
+	protected boolean unguarded = false;
 	public Set<String> methodAssignLvalue;
 	
 	public MethodSymbol(String name) {
@@ -37,6 +38,14 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	@Override
 	public int getSlotNumber() { return slot; }
 	
+	
+	public void setUnguarded() {
+		unguarded = true;
+	}
+	
+	public boolean unguarded() {
+		return unguarded;
+	}
 	
 	public boolean isEnabled() {
 		return enabled;

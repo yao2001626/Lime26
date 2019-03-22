@@ -52,6 +52,7 @@ Node2_add_checklock:
 Node2_add_checkguard:
     ; method guard starts here
     _Node2_add_guard
+	JMP Node2_add_succeed
     ; method guard ends here
 Node2_add_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -82,6 +83,7 @@ Node2_has_checklock:
 Node2_has_checkguard:
     ; method guard starts here
     _Node2_has_guard
+	JMP Node2_has_succeed
     ; method guard ends here
 Node2_has_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock

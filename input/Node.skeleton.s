@@ -132,7 +132,6 @@ Node_addToChild_start:
     ; action guard start
     _Node_addToChild_guard
     ; action guard end
-
     JMP   Node_addToChild_checkguard_fail
 Node_addToChild_succeed:
     ; action body start

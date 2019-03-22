@@ -102,7 +102,6 @@ Mapper_doMap_start:
     ; action guard start
     _Mapper_doMap_guard
     ; action guard end
-
     JMP   Mapper_doMap_checkguard_fail
 Mapper_doMap_succeed:
     ; action body start
