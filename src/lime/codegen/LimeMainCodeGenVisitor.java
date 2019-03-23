@@ -1,0 +1,527 @@
+package lime.codegen;
+
+import org.stringtemplate.v4.STGroup;
+
+import lime.antlr4.ClassSymbol;
+import lime.antlr4.FieldSymbol;
+import lime.antlr4.LimeGrammarBaseVisitor;
+import lime.antlr4.LimeGrammarLexer;
+import lime.antlr4.ParameterSymbol;
+import lime.antlr4.Scope;
+import lime.antlr4.Symbol;
+import lime.antlr4.SymbolTable;
+import lime.antlr4.VariableSymbol;
+import lime.antlr4.LimeGrammarParser.AddexprContext;
+import lime.antlr4.LimeGrammarParser.AndexprContext;
+import lime.antlr4.LimeGrammarParser.ArgsContext;
+import lime.antlr4.LimeGrammarParser.AtomContext;
+import lime.antlr4.LimeGrammarParser.AtomexprContext;
+import lime.antlr4.LimeGrammarParser.BlockContext;
+import lime.antlr4.LimeGrammarParser.ClassDeclContext;
+import lime.antlr4.LimeGrammarParser.ClassMemberContext;
+import lime.antlr4.LimeGrammarParser.CompexprContext;
+import lime.antlr4.LimeGrammarParser.CompilationUnitContext;
+import lime.antlr4.LimeGrammarParser.Compound_stmtContext;
+import lime.antlr4.LimeGrammarParser.Elif_statContext;
+import lime.antlr4.LimeGrammarParser.Else_statContext;
+import lime.antlr4.LimeGrammarParser.EqexprContext;
+import lime.antlr4.LimeGrammarParser.Expr_listContext;
+import lime.antlr4.LimeGrammarParser.Expr_stmtContext;
+import lime.antlr4.LimeGrammarParser.For_stmtContext;
+import lime.antlr4.LimeGrammarParser.GetArgContext;
+import lime.antlr4.LimeGrammarParser.Id_listContext;
+import lime.antlr4.LimeGrammarParser.If_statContext;
+import lime.antlr4.LimeGrammarParser.If_stmtContext;
+import lime.antlr4.LimeGrammarParser.InitDeclContext;
+import lime.antlr4.LimeGrammarParser.MethodcallContext;
+import lime.antlr4.LimeGrammarParser.MultexprContext;
+import lime.antlr4.LimeGrammarParser.Multi_assignContext;
+import lime.antlr4.LimeGrammarParser.NewcallContext;
+import lime.antlr4.LimeGrammarParser.NotexprContext;
+import lime.antlr4.LimeGrammarParser.OrexprContext;
+import lime.antlr4.LimeGrammarParser.PrintContext;
+import lime.antlr4.LimeGrammarParser.RandContext;
+import lime.antlr4.LimeGrammarParser.Simple_stmtContext;
+import lime.antlr4.LimeGrammarParser.Single_assignContext;
+import lime.antlr4.LimeGrammarParser.Small_stmtContext;
+import lime.antlr4.LimeGrammarParser.StmtContext;
+import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
+import lime.antlr4.LimeGrammarParser.While_stmtContext;
+
+public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
+	SymbolTable symtab;
+	Scope currentScope;
+	String content;
+	String ou="";
+	
+	public LimeMainCodeGenVisitor(SymbolTable st){
+		this.symtab = st;
+		this.currentScope = st.GLOBALS;
+		this.content="";
+	}
+	//compilationUnit
+    // : classDecl EOF ;
+	@Override
+	public String visitCompilationUnit(CompilationUnitContext ctx) {
+		for(ClassDeclContext c :ctx.classDecl()) {
+			String t = this.visit(c);
+			if(t!=null)ou +=t; 
+			ou += "\n";
+		}
+		return ou;
+	}
+	@Override
+	public String visitClassDecl(ClassDeclContext ctx) {
+		String s = "";
+		
+		if(ctx.ID().getText().equals("Start")) {
+			//System.out.println("Start");
+			s += "void lime_main(void * self){\n";
+			Symbol cs = this.symtab.GLOBALS.resolve(ctx.ID().getText());
+			if(cs instanceof ClassSymbol){
+				for (FieldSymbol f: ((ClassSymbol) cs).getFields()) {
+					String typ = f.getType().getName();
+					if(typ.equals("int")|| typ.equals("bool")) {
+						s+="int " +f.getName()+";\n";
+					}else {
+						s+="void *" +f.getName()+";\n";
+					}
+				}
+			}
+			for(ClassMemberContext m :ctx.classMember()) {
+				String t = this.visit(m);
+				if (t!=null) s += t+"\n";
+			}
+			s += "}";
+		}
+		//System.out.println("Start end");
+		
+		
+		
+		return s;
+	}
+	
+	//block
+		//: simple_stmt | NEWLINE INDENT stmt+ DEDENT ;
+		@Override
+		public String visitBlock(BlockContext ctx) {
+			String s="";
+			if(ctx.simple_stmt()!=null) {
+				//System.out.print("missing something\n"+ctx.getText());
+				String t = this.visit(ctx.simple_stmt());
+				if(t!=null) s+=t;
+			}
+			if(ctx.stmt()!=null) {
+				for(StmtContext x : ctx.stmt()) {
+					String t = this.visit(x);
+					if(t!=null)
+						s += t;
+				}
+			}
+			return s;
+		}
+		
+		//stmt
+		//: simple_stmt | compound_stmt ;
+		@Override
+		public String visitStmt(StmtContext ctx) {
+			String s="";
+			if(ctx.simple_stmt()!=null) {
+				s+=this.visit(ctx.simple_stmt());
+			}
+			if(ctx.compound_stmt()!=null) {
+				s+=this.visit(ctx.compound_stmt());
+			}
+			return s;
+		}
+		//simple_stmt
+		//: small_stmt (';' small_stmt)* (';')? NEWLINE ;
+		@Override
+		public String visitSimple_stmt(Simple_stmtContext ctx) {
+			String s="";
+			if(ctx.small_stmt()!=null) {
+				for(Small_stmtContext ss:ctx.small_stmt()) {
+					String t =this.visit(ss);
+					if(t!=null) s+=t;
+				}
+			}
+			return s;
+		}
+		
+		//small_stmt
+		//: multi_assign | expr_stmt | localDecl | return_stmt | method_call;
+		@Override
+		public String visitSmall_stmt(Small_stmtContext ctx) {
+			String s="";
+			if(ctx.multi_assign()!=null) {
+				String t =this.visit(ctx.multi_assign());
+				if(t!=null) s+=t;
+			}
+			if(ctx.expr_stmt()!=null) {
+				String t =this.visit(ctx.expr_stmt());
+				if(t!=null) s+=t;
+			}
+			if(ctx.method_call()!=null) {
+				String t =this.visit(ctx.method_call());
+				if(t!=null) s+=t;
+			}
+			
+			return s;
+		}
+	
+		
+		
+		//multi_assign
+		//: id_list ':=' expr_list;
+		@Override
+		public String visitMulti_assign(Multi_assignContext ctx) {
+			//String s = "";
+			String src = this.visit(ctx.id_list());
+			//System.out.println(ctx.getText());
+			if(ctx.expr_list()!=null) {
+				String des = this.visit(ctx.expr_list());
+				String[] ss = src.split(",");
+				String[] dd = des.split(",");
+				String res="";
+				for(int i=0;i<ss.length;++i) {
+					res+= ss[i]+" = " +dd[i]+";\n";
+				}
+				return res;
+			}
+			//return src+";";
+			return src;
+		}
+		
+		//expr_stmt
+		//: src=expr_list;
+		@Override
+		public String visitExpr_stmt(Expr_stmtContext ctx) {
+			String src = this.visit(ctx.src);
+			//init code
+			return src+";";
+		}
+		//if_stmt
+		//: if_stat elif_stat* else_stat?;
+		@Override
+		public String visitIf_stmt(If_stmtContext ctx) {
+			String s="";
+			s += this.visit(ctx.if_stat());
+			for(Elif_statContext elif: ctx.elif_stat()) {
+				s+=this.visit(elif);
+			}
+			if(ctx.else_stat()!=null)
+				s += this.visit(ctx.else_stat());
+			return s;
+		}
+		//if_stat
+		//: 'if' expr 'then' block;
+		@Override
+		public String visitIf_stat(If_statContext ctx) {
+			String s="";
+			s+= "\nif (";
+			s+= this.visit(ctx.expr());
+			s+= "){\n";
+			s+= this.visit(ctx.block());
+			s+= "\n}\n";
+			return s;
+		}
+		//elif_stat
+		//	 : 'elif' expr 'then' block;
+		@Override
+		public String visitElif_stat(Elif_statContext ctx) {
+			String s="";
+			s+= "else if(";
+			s+= this.visit(ctx.expr());
+			s+= "){\n";
+			s+= this.visit(ctx.block());
+			s+= "\n}";
+			return s;
+		}
+		//else_stat
+		// : 'else' block;
+		@Override
+		public String visitElse_stat(Else_statContext ctx) {
+			String s="";
+			s+= "else {\n";
+			s+=this.visit(ctx.block());
+			s+= "\n}\n";
+			return s;
+		}
+		//	while_stmt
+		//	: 'while' test 'do' block ; 
+		@Override
+		public String visitWhile_stmt(While_stmtContext ctx) {
+			String s="";
+			s+="while(";
+			s+=this.visit(ctx.expr());
+			s+="){\n\t";
+			s+=this.visit(ctx.block());
+			s+="\n}";
+			return s;
+		}
+		
+		@Override
+		public String visitSingle_assign(Single_assignContext ctx) {
+			String s="";
+			s += ctx.ID().getText();
+			s += " = ";
+			s += this.visit(ctx.expr());
+			s += ";";
+			return s;
+		}
+		//  for_stmt
+		//  : 'for' single_assign 'to' expr 'do' block;
+		@Override
+		public String visitFor_stmt(For_stmtContext ctx) {
+			String s = "";
+			s += "for(";
+			s += this.visit(ctx.single_assign());
+			s += ctx.single_assign().getChild(0).getText() + "<= ";
+			s += this.visit(ctx.expr());
+			s += "; ++"+ ctx.single_assign().getChild(0).getText();
+			s += "){\n\t";
+			s += this.visit(ctx.block());
+			s += "\n}\n";
+			return s;
+		}
+		//id_list
+		//: ID (',' ID)*;
+		@Override
+		public String visitId_list(Id_listContext ctx) {
+			String s="";
+			s+=ctx.ID(0).getText();
+			for(int i=1;i<ctx.ID().size();++i) {
+				s += ",";
+				s +=ctx.ID(i).getText();
+			}
+
+			return s;
+		}
+		@Override
+		public String visitEqexpr(EqexprContext ctx) {
+			String s="";
+			if(ctx.expr(0)!=null)s+=this.visit(ctx.expr(0));
+			//System.out.printf("%s\n", ctx.op.getText());
+			if(ctx.op.getType()==LimeGrammarLexer.NEquals){
+				//System.out.printf("done\n");
+				s += " != ";
+			}else {
+				s += " == ";
+			}
+			if(ctx.expr(1)!=null)s+=this.visit(ctx.expr(1));
+			return s;
+		}
+		//| 'not' expr                               #notexpr
+		@Override
+		public String visitNotexpr(NotexprContext ctx) {
+			String s = "";
+			s += "!";
+			if(ctx.expr()!=null) {
+				s+=this.visit(ctx.expr());
+			}
+			return s;
+		}
+		//| expr op=( '*' | '/' | '%' ) expr         #multexpr
+		@Override
+		public String visitMultexpr(MultexprContext ctx) {
+			String s ="";
+			if(ctx.expr(0)!=null) s+=this.visit(ctx.expr(0));
+			s+=ctx.op.getText();
+			if(ctx.expr(1)!=null) s+=this.visit(ctx.expr(1));
+			return s;
+		}
+		// | expr op=( '>=' | '<=' | '>' | '<' ) expr #compexpr
+		@Override
+		public String visitCompexpr(CompexprContext ctx) {
+			String s="";
+			if(ctx.expr(0)!=null) s+=this.visit(ctx.expr(0));
+			s+=ctx.op.getText();
+			if(ctx.expr(1)!=null) s+=this.visit(ctx.expr(1));
+			return s;
+		}
+		//: '-' expr                                 #unaryMinusexpr
+		@Override
+		public String visitUnaryMinusexpr(UnaryMinusexprContext ctx) {
+			String s ="";
+			s += "-";
+			if(ctx.expr()!=null) s+=this.visit(ctx.expr());
+			return s;
+		}
+		 //| expr op=( '+' | '-' ) expr               #addexpr
+		@Override
+		public String visitAddexpr(AddexprContext ctx) {
+			String s ="";
+			if(ctx.expr(0)!=null) s+=this.visit(ctx.expr(0));
+			s+=" "+ ctx.op.getText()+" ";
+			if(ctx.expr(1)!=null) s+=this.visit(ctx.expr(1));
+			return s;
+		}
+		//| atom										#atomexpr
+		@Override
+		public String visitAtomexpr(AtomexprContext ctx) {
+			return this.visit(ctx.atom());
+		}
+		//| expr 'or' expr                           #orexpr
+		@Override
+		public String visitOrexpr(OrexprContext ctx) {
+			String s ="";
+			if(ctx.expr(0)!=null) s+=this.visit(ctx.expr(0));
+			s+="||";
+			if(ctx.expr(1)!=null) s+=this.visit(ctx.expr(1));
+			return s;
+		}
+		//| expr 'and' expr                          #andexpr
+		@Override
+		public String visitAndexpr(AndexprContext ctx) {
+			String s ="";
+			if(ctx.expr(0)!=null) s+=this.visit(ctx.expr(0));
+			s+="&&";
+			if(ctx.expr(1)!=null) s+=this.visit(ctx.expr(1));
+			return s;
+		}
+		//expr_list
+		//: expr (',' expr)*;
+		@Override
+		public String visitExpr_list(Expr_listContext ctx) {
+			String s ="";
+			s += this.visit(ctx.expr(0));
+			for(int i = 1;i<ctx.expr().size();++i) {
+				s += ", ";
+				s += this.visit(ctx.expr(i));
+			}
+			return s;
+		}
+		//: 'new' n=ID args 					   #newcall
+		@Override
+		public String visitNewcall(NewcallContext ctx) {
+			String s ="";
+			s+= "(void *) " + ctx.n.getText()+"_init";
+			s+="(";
+			s+=this.visit(ctx.args());
+			s+=")";
+			return s;
+		}
+		//| c=ID '.' m=ID args 					   #methodcall
+		@Override
+		public String visitMethodcall(MethodcallContext ctx) {
+			String s="";
+			//String t = ((Symbol)this.symtab.GLOBALS.findSymbol(ctx.c.getText())).getScope().getName();
+			String t = ((FieldSymbol)this.symtab.GLOBALS.findSymbol(ctx.c.getText())).getType().getName();
+			s=t+"_"+ctx.m.getText();
+			s+="(";
+			String tt = this.visit(ctx.args());
+			if(tt!="") {
+				s+=tt+", ";
+			}
+			s+=ctx.c.getText();
+			s+=", self)";
+			return s;
+		}
+		//args
+		//: '(' expr_list? ')';
+		@Override
+		public String visitArgs(ArgsContext ctx) {
+			String s = "";
+			if(ctx.expr_list()!=null) {
+				s+=this.visit(ctx.expr_list());
+			}
+			return s;
+		}
+		//compound_stmt
+		//: if_stmt | while_stmt  | for_stmt ;
+		@Override
+		public String visitCompound_stmt(Compound_stmtContext ctx) {
+			String s="";
+			if(ctx.if_stmt()!=null) {
+				s+=this.visit(ctx.if_stmt());
+			}
+			if(ctx.while_stmt()!=null) {
+				s+=this.visit(ctx.while_stmt());
+			}
+			if(ctx.for_stmt()!=null) {
+				s+=this.visit(ctx.for_stmt());
+			}
+			return s;
+		}
+	@Override
+	public String visitInitDecl(InitDeclContext ctx) {
+		String res="";
+		//res += this.visit(ctx.parameters());
+		res += this.visit(ctx.block());
+		//System.out.print(res);
+		return res;
+	}
+	@Override
+	public String visitPrint(PrintContext ctx) {
+		String s ="";
+		s += "print";
+		s += "(";
+		//s += ctx.atom().getText();
+		s += this.visit(ctx.atom());
+		s += ")";
+		return s;
+	}
+	
+	@Override
+	public String visitRand(RandContext ctx) {
+		String s ="";
+		s += "rand";
+		s += "(";
+		//s += ctx.atom().getText();
+		//s += this.visit(ctx.atom());
+		s += ")";
+		return s;
+	}
+	@Override
+	public String visitGetArg(GetArgContext ctx) {
+		String s ="";
+		s += "getArg";
+		s += "(";
+		//s += ctx.atom().getText();
+		s += this.visit(ctx.atom());
+		s += ")";
+		return s;
+	}
+	//atom
+	//:  INTEGER | True | False | Null | ID | method_call;
+	@Override
+	public String visitAtom(AtomContext ctx) {
+		if(ctx.INTEGER()!=null) {
+			//System.out.println("find a integer: "+ ctx.INTEGER().getText());
+			return ctx.INTEGER().getText();
+		}else if(ctx.Null()!=null) {
+			//System.out.println("find a null: "+ ctx.Null().getText());
+			return "NULL";
+		}else if(ctx.True()!=null){
+			//System.out.println("find a true: "+ ctx.True().getText());
+			return "1";
+		}else if(ctx.False()!=null){
+			return "0";
+		}else if (ctx.ID()!=null) {
+			//System.out.println("find a ID: this->"+ ctx.ID().getText());
+			Symbol s = this.symtab.GLOBALS.findSymbol(ctx.ID().getText());
+			if(s instanceof FieldSymbol) {
+				//return "this->"+ctx.ID().getText();
+				return ctx.ID().getText();
+			}else if(s instanceof VariableSymbol) {
+				//System.out.println("variable symbol: "+ ctx.ID().getText());
+				return ctx.ID().getText();
+			}else if(s instanceof ParameterSymbol) {
+				//System.out.println("Parameter symbol: "+ ctx.ID().getText());
+				return ctx.ID().getText();
+			}else {
+				//System.out.println("symbol: "+ ctx.ID().getText());
+				return ctx.ID().getText();
+			}
+		}else if(ctx.method_call()!=null) {
+			return this.visit(ctx.method_call());
+		}else return "";
+	}
+	
+	
+	
+	public String toString() {
+		return ou;
+	}
+	
+}

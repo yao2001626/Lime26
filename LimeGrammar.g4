@@ -86,7 +86,11 @@ tokens {
 }
 //Lime parser
 compilationUnit
-    : (classDecl+) EOF ;
+    : import_stmt* classDecl+ EOF ;
+    
+import_stmt
+	: 'import' ID'(' type_list ')' (':' type)? NEWLINE; 
+    
 classDecl returns [Scope scope]
 	: 'class' ID NEWLINE INDENT classMember* DEDENT ;
 classMember 
@@ -94,7 +98,7 @@ classMember
 fieldDecl 
 	: 'var' id_list ':' type NEWLINE ;
 initDecl returns [Scope scope]
-	: 'init' parameters NEWLINE INDENT block DEDENT ;
+	: 'init' parameters block;
 methodDecl returns [Scope scope]
 	: 'method' ID  parameters (':' type)?  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)?; 
 actionDecl returns [Scope scope]
@@ -107,6 +111,8 @@ parsdef
 	: ID ':' type ;
 type
 	: 'int' | 'bool' | 'void' | ID ;
+type_list
+	: type (',' type)* ;
 stmt
 	: simple_stmt | compound_stmt ;
 simple_stmt
@@ -115,8 +121,10 @@ small_stmt
 	: multi_assign | expr_stmt | localDecl | return_stmt | method_call;
 multi_assign
 	: id_list ':=' expr_list;
+single_assign
+	: ID ':=' expr;
 compound_stmt
-	: if_stmt | while_stmt ;
+	: if_stmt | while_stmt | for_stmt;
 localDecl 
 	: 'var' id_list ':' type ;
 expr_stmt
@@ -132,6 +140,8 @@ else_stat
  	: 'else' block;
 while_stmt
 	: 'while' expr 'do' block ; 
+for_stmt
+	: 'for' single_assign 'to' expr 'do' block;
 return_stmt
 	: 'return' (expr)? ;
 block
@@ -168,6 +178,9 @@ atom
 method_call
 	: 'new' n=ID args 						   #newcall
 	| c=ID '.' m=ID args 					   #methodcall
+	| 'print' '(' atom ')' 			   #print
+	| 'rand' '(' ')'						   #rand
+	| 'getArg' '(' atom ')' 		   #getArg
 	;
 args
 	: '(' expr_list? ')';

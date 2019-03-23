@@ -20,7 +20,7 @@ void PQ_add(int e,struct PQ_struct *this){
 
 if (this->l == NULL){
 this->m = e;
-this->l =  PQ_init();
+this->l =  (struct PQ_struct *) PQ_init();
 
 }
 else {

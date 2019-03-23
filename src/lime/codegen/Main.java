@@ -1,9 +1,14 @@
 package lime.codegen;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
-
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,10 +22,12 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.Builder;
 import lime.antlr4.ClassSymbol;
+import lime.antlr4.FunctionSymbol;
 import lime.antlr4.LimeGrammarLexer;
 import lime.antlr4.LimeGrammarParser;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
 import lime.antlr4.MethodSymbol;
+import lime.antlr4.Symbol;
 import lime.antlr4.SymbolTable;
 
 import lime.codegen.LimeLLVMCodeGenVisitor;
@@ -117,7 +124,7 @@ public class Main {
                 Set<String> objs = symtab.GLOBALS.getSymbolNames();
                 JSONArray limeClasses = new JSONArray();
                 for(String o:objs) {
-                	if(o=="int"||o=="bool") continue;
+                	if(o.equals("int")||o.equals("bool")||o.equals("void")||o.equals("Start")) continue;
                 	JSONObject className = new JSONObject();
                 	className.put("class_name", o);
                 	JSONObject limeguards = new JSONObject();
@@ -152,7 +159,77 @@ public class Main {
                 ex.printStackTrace();
         	}
         }
+        public static void genMain(String source, SymbolTable symtab, String mainBody) throws Exception{
+        	try {
+        		String fileName = source.substring(0, source.length()-5);
+                String mainfileName = fileName+"_main.c";
+                String mainheaderfileName = fileName+"_main.h";
+                FileWriter mainF = new FileWriter(mainfileName);
+                FileWriter mainH = new FileWriter(mainheaderfileName);
+                
+                String st; 
+                File file = new File("builtin.c"); 
+                BufferedReader br = new BufferedReader(new FileReader(file)); 
+                while ((st = br.readLine()) != null) {
+                  //System.out.println(st); 
+                	mainF.write(st);
+                	mainF.write("\n");
+                } 
+                
+                File fileH = new File("builtin.h"); 
+                BufferedReader brH = new BufferedReader(new FileReader(fileH)); 
+                while ((st = brH.readLine()) != null) {
+                  //System.out.println(st);
+                	mainH.write(st);
+                	mainH.write("\n");
+                }
+                
+                // copy the default predefined method
+                //mainF.write(FileUtils.readFileToString(builtinF));
+                //Files.copy(Paths.get("builtin.c"), mainF);
+                //Files.copy(Paths.get("builtin.h"), new FileOutputStream(mainfileName));
 
+                
+                //mainH.write(FileUtils.readFileToString(builtinF));
+                //System.out.println(symtab.PREDEFINED);
+                // generate the imported methods
+                for(Symbol s: symtab.PREDEFINED.getAllSymbols()) {
+                	if(s.getName().equals("print")|| s.getName().equals("rand")||s.getName().equals("getArg")) continue;
+                	// imported method in the .c 
+                	//System.out.println((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName()));
+                	String importedMethod = ((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName())).getType().getName() + " " + s.getName() + "(";
+                	int k = ((MethodSymbol)s).getNumArgs();
+                	if (k==1) {
+                		importedMethod += "int)";
+                	}else if(k>1) {
+                		importedMethod += "int";
+                		int l = k;
+                		while(l>0) {
+                			importedMethod += ", int";
+                		}
+                		importedMethod += ")";
+                		
+                	}else {
+                		importedMethod += ")";
+                	}	
+                	// declared method in the .h
+                	mainH.write(importedMethod+";\n");
+                	importedMethod += String.format("{\n\tprintf(\"Imported method %s did not implement\");\n\t return 0; \n}", s.getName());
+                	mainF.write(importedMethod);
+                }
+                // generate lime main function
+                mainF.write(mainBody);
+                br.close();
+                brH.close();
+                mainF.close();
+                mainH.close();
+        	}catch(Exception ex) {
+        		System.err.println("Build Lime main file threw an exception:\n\n");
+                ex.printStackTrace();
+        	}
+        	
+        	
+        }
         public static void parseSource(String source) throws Exception
         {
             // Parse a Lime file
@@ -163,8 +240,8 @@ public class Main {
                 LimeGrammarLexer lexer = new Builder.Lexer(source).build(); 
                 LimeGrammarParser parser = new Builder.Parser(lexer).build();
                 parser.setBuildParseTree(true);
+                
                 ParseTree tree = parser.compilationUnit();
-
                 // step 2 SYMBOL DEFINE
                 SymbolTable symtab = new SymbolTable();
                 LimeParserTreeListener lptl = new LimeParserTreeListener(symtab);
@@ -182,8 +259,9 @@ public class Main {
                 // step 5 create lime classes skeleton files and LLVM files (one lime file may contains multiple classes)
                 LimeSkeCodeGenListener lcgl = new LimeSkeCodeGenListener(symtab, templates);
                 LimeLLVMCodeGenVisitor llvmcgv = new LimeLLVMCodeGenVisitor(symtab);
+                LimeMainCodeGenVisitor lmcg = new LimeMainCodeGenVisitor(symtab);
                 
-                for(int i=0; i<tree.getChildCount()-1; ++i) {
+                for(int i=0; i<tree.getChildCount()-1 && (tree.getChild(i) instanceof ClassDeclContext); ++i) {
                 	//lime class name
                 	String outputName = ((ClassDeclContext)tree.getChild(i)).ID().getText();
                 	String limeSkeletonName = outputName+".skeleton.s";
@@ -199,7 +277,11 @@ public class Main {
                 	//System.out.print("writing file: "+outputLLVMfile+"\n");
                 	outputLLVMfile.write(llvmcgv.visit(tree.getChild(i)));
                 	outputLLVMfile.close();
+                	
+                	
                 }
+            	//System.out.println(lmcg.visit(tree));
+                genMain(source, symtab, lmcg.visit(tree));
             }
             catch (FileNotFoundException ex)
             {

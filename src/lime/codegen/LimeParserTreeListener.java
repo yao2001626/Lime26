@@ -45,6 +45,7 @@ import lime.antlr4.LimeGrammarParser.GuardeqexprContext;
 import lime.antlr4.LimeGrammarParser.GuardorexprContext;
 import lime.antlr4.LimeGrammarParser.Id_listContext;
 import lime.antlr4.LimeGrammarParser.IdguardatomContext;
+import lime.antlr4.LimeGrammarParser.Import_stmtContext;
 import lime.antlr4.LimeGrammarParser.InitDeclContext;
 import lime.antlr4.LimeGrammarParser.IntguardatomContext;
 import lime.antlr4.LimeGrammarParser.LocalDeclContext;
@@ -135,6 +136,25 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		// System.out.println("symbols: "+ this.symtab.GLOBALS.getSymbols() +
 		// this.symtab.GLOBALS.getNumberOfSymbols());
 		className = "";
+	}
+	//import_stmt
+	//  : 'import' ID'(' type_list ')' (':' type)?;
+	@Override
+	public void enterImport_stmt(Import_stmtContext ctx) {
+		MethodSymbol ms = new MethodSymbol(ctx.ID().getText());
+		if(ctx.type()==null) {
+			ms.setType((Type)symtab.GLOBALS.getSymbol("void"));
+		}else {
+			ms.setType((Type)symtab.GLOBALS.getSymbol("int"));
+		}
+		int n = ctx.type_list().getChildCount();
+		ms.setNumArgs(n);
+		symtab.PREDEFINED.define(ms);
+	}
+
+	@Override
+	public void exitImport_stmt(Import_stmtContext ctx) {
+		System.out.println("imported method: "+ symtab.PREDEFINED);
 	}
 
 	@Override
@@ -230,23 +250,26 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 	 */
 	String genInitCode() {
 		String code = "";
-		if (initcodemap.size() > 0) {
-			for (String i : initcodemap.keySet()) {
-				int fieldIndex = ((ClassSymbol) currentScope.getEnclosingScope()).getFieldIndex(i);
-				if (fieldIndex == -1) {
-					System.err.println((ClassSymbol) (currentScope.getEnclosingScope()));
-					System.err.printf("Didn't find field %s in init code\n", i);
-				}
-				if (initcodemap.get(i).startsWith("arg")) {
-					int argIndex = ((MethodSymbol) currentScope).getParIndex(initcodemap.get(i).substring(3));
-					if (argIndex == -1) {
-						System.err.println((MethodSymbol) currentScope);
-						System.err.printf("Didn't find arg %s in init code\n", initcodemap.get(i).substring(3));
+		ClassSymbol cs = (ClassSymbol) currentScope.getEnclosingScope();
+		if(!cs.getName().equals("Start")) {
+			if (initcodemap.size() > 0) {
+				for (String i : initcodemap.keySet()) {
+					int fieldIndex = ((ClassSymbol) currentScope.getEnclosingScope()).getFieldIndex(i);
+					if (fieldIndex == -1) {
+						//System.err.println((ClassSymbol) (currentScope.getEnclosingScope()));
+						//System.err.printf("Didn't find field %s in init code\n", i);
 					}
-					code += String.format("MOV DWORD ECX, [ESP + %d]\n\t", (argIndex + 1) * 4);
-					code += String.format("MOV DWORD [EAX + %d], ECX\n\t", (fieldIndex+4) * 4);
-				} else {//
-					code += String.format("MOV DWORD [EAX + %d], %s\n\t", (fieldIndex+4) * 4, initcodemap.get(i));
+					if (initcodemap.get(i).startsWith("arg")) {
+						int argIndex = ((MethodSymbol) currentScope).getParIndex(initcodemap.get(i).substring(3));
+						if (argIndex == -1) {
+							System.err.println((MethodSymbol) currentScope);
+							System.err.printf("Didn't find arg %s in init code\n", initcodemap.get(i).substring(3));
+						}
+						code += String.format("MOV DWORD ECX, [ESP + %d]\n\t", (argIndex + 1) * 4);
+						code += String.format("MOV DWORD [EAX + %d], ECX\n\t", (fieldIndex+4) * 4);
+					} else {//
+						code += String.format("MOV DWORD [EAX + %d], %s\n\t", (fieldIndex+4) * 4, initcodemap.get(i));
+					}
 				}
 			}
 		}
@@ -506,7 +529,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		if (ctx.ID() != null) {
 			Symbol s = currentScope.resolve(ctx.ID().getText());
 			if (s == null) {
-				System.out.printf("Error: can't resolve %s!\n", ctx.ID().getText());
+				System.err.printf("Error: can't resolve %s!\n", ctx.ID().getText());
 			}
 		}
 	}
@@ -517,7 +540,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		if (ctx.n != null) {
 			Symbol s = currentScope.resolve(ctx.n.getText());
 			if (!(s instanceof ClassSymbol)) {
-				System.out.printf("Error: new ID args: ID  (%s) should be class symbol!\n", ctx.n.getText());
+				System.err.printf("Error: new ID args: ID  (%s) should be class symbol!\n", ctx.n.getText());
 			}
 		}
 	}
@@ -530,11 +553,11 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 			Symbol s = currentScope.resolve(ctx.c.getText());
 			Symbol c = this.symtab.GLOBALS.resolve(((FieldSymbol) s).getType().getName());
 			if (!(c instanceof ClassSymbol)) {
-				System.out.printf("Error: c=ID . m=ID args: c=ID (%s) should be class symbol!\n", ctx.c.getText());
+				System.err.printf("Error: c=ID . m=ID args: c=ID (%s) should be class symbol!\n", ctx.c.getText());
 			}
 			MethodSymbol m = ((ClassSymbol) c).resolveMethod(ctx.m.getText());
 			if (m == null) {
-				System.out.printf("Error: c=ID . m=ID args: c=ID (%s: %s) should be method symbol!\n", ctx.m.getText(),
+				System.err.printf("Error: c=ID . m=ID args: c=ID (%s: %s) should be method symbol!\n", ctx.m.getText(),
 						c.getScope());
 			}
 			//methodcalled

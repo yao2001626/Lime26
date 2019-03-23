@@ -39,6 +39,8 @@ import lime.antlr4.LimeGrammarParser.NotexprContext;
 import lime.antlr4.LimeGrammarParser.OrexprContext;
 import lime.antlr4.LimeGrammarParser.ParametersContext;
 import lime.antlr4.LimeGrammarParser.ParsdefContext;
+import lime.antlr4.LimeGrammarParser.PrintContext;
+import lime.antlr4.LimeGrammarParser.RandContext;
 import lime.antlr4.LimeGrammarParser.Return_stmtContext;
 import lime.antlr4.LimeGrammarParser.Simple_stmtContext;
 import lime.antlr4.LimeGrammarParser.Small_stmtContext;
@@ -540,7 +542,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 	@Override
 	public String visitNewcall(NewcallContext ctx) {
 		String s ="";
-		s+= ctx.n.getText()+"_init";
+		s+= "(struct "+ctx.n.getText()+"_struct *) " + ctx.n.getText()+"_init";
 		s+="(";
 		s+=this.visit(ctx.args());
 		s+=")";
@@ -559,6 +561,20 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		}
 		s+="this->"+ctx.c.getText();
 		s+=")";
+		return s;
+	}
+	@Override
+	public String visitRand(RandContext ctx) {
+		// TODO Auto-generated method stub
+		return super.visitRand(ctx);
+	}
+	@Override
+	public String visitPrint(PrintContext ctx) {
+		String s ="";
+		s += "print";
+		s += "(";
+		s += ctx.atom().getText();
+		s += ");\n";
 		return s;
 	}
 	//args

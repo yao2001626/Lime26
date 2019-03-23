@@ -1,3 +1,5 @@
+import hello(int):int
+
 class Node2
 	var key, p : int
 	var left, right : Node2
@@ -25,3 +27,13 @@ class Node2
 			return left.has(x) 
 		else 
 			return right.has(x)
+			
+class Start
+	var i,j : int
+	var root: Node2
+	init(x : int)
+		i := 0
+		root := new Node2(10)
+		for i:=10 to 100 do root.add(i) 
+		for i:=1 to 100 do root.has(i)
+		print(root.has(9))

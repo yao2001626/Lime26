@@ -11,14 +11,20 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	protected int slot = -1;
 	protected boolean enabled = false;
 	protected boolean unguarded = false;
+	protected int numargs = 0;
 	public Set<String> methodAssignLvalue;
 	
 	public MethodSymbol(String name) {
 		super(name);
 		methodAssignLvalue = new HashSet<String>();
-		
 	}
 	
+	public void setNumArgs(int n) {
+		numargs = n;
+	}
+	public int getNumArgs() {
+		return numargs;
+	}
 	public void setEnabled(Set<String> cgids) {
 		/*
 		Set<String> answer = Sets.j(methodGuardIds, methodAssignLvalue); 

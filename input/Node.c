@@ -19,13 +19,13 @@ this->p =  x;
 
 }
 else if(x<this->key){
-this->left = Node_init(x);
-this->right =  Node_init(this->key);
+this->left = (struct Node_struct *) Node_init(x);
+this->right =  (struct Node_struct *) Node_init(this->key);
 this->key =  x;
 
 }else if(x>this->key){
-this->left = Node_init(this->key);
-this->right =  Node_init(x);
+this->left = (struct Node_struct *) Node_init(this->key);
+this->right =  (struct Node_struct *) Node_init(x);
 
 }}
 

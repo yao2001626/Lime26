@@ -1,3 +1,5 @@
+import getMap(int):int
+import MR_init(int)
 class Reducer
     var index: int
     var next: Reducer 
@@ -35,3 +37,5 @@ class Mapper
                 next.reduce2(e*e)
             a := false
 
+
+		

@@ -27,3 +27,13 @@ class Node
 			else 
 				right.add(p)
 			a := false
+class Start
+	var root:Node
+	var num:int
+	var i:int
+	init()
+		num := getArg(2)
+		for i := 0 to num do root.add(rand())
+		for i := 0 to num do 
+			if root.has(i) then
+				print(i)

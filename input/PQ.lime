@@ -31,3 +31,12 @@ class PQ
 			else
 				m := l.remove()
 			r := false
+			
+class Start
+	var head : PQ
+	var i:int
+	var num:int
+	init()
+		num := getArg(2)
+		for i:=0 to num do head.add(rand())
+		for i:=0 to num do print(head.remove())
