@@ -137,7 +137,7 @@ public class SymbolTable {
 				"    int e;\n" + 
 				"    int a;\n" + 
 				"    struct Reducer *r;\n" + 
-				"};\n" + 
+				"};\n" +
 				"\n" + 
 				"struct Mapper **m;\n" + 
 				"struct Reducer **r;";
