@@ -14,6 +14,7 @@ class Reducer
     action doReduce
         when a1 and a2 do 
             if index = 1 then
+            	print(e1+e2)
             	e1, e2 := 0, 0
             elif index % 2 = 0 then 
                 next.reduce1(e1+e2)
@@ -43,8 +44,8 @@ class Start
     var num: int
     var repeat: int
     init()
-        num := getArg(2)
-        repeat := getArg(3)
+        num := getArg(1)
+        repeat := getArg(2)
         buildMR(num)
         while repeat>0 do
             for i:= 0 to num-1 do 

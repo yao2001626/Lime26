@@ -27,7 +27,7 @@ void Reducer_doReduce(struct Reducer_struct *this)
 {
 
 if (this->index == 1){
-this->e1 = 0;
+print(this->e1 + this->e2);this->e1 = 0;
 this->e2 =  0;
 
 }

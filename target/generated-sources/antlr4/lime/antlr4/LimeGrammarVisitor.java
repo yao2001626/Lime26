@@ -46,13 +46,6 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCompound_stmt(@NotNull LimeGrammarParser.Compound_stmtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code rand}
-	 * labeled alternative in {@link LimeGrammarParser#method_call}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRand(@NotNull LimeGrammarParser.RandContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#expr_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -76,6 +69,13 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturn_stmt(@NotNull LimeGrammarParser.Return_stmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code getRand}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGetRand(@NotNull LimeGrammarParser.GetRandContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#while_stmt}.
 	 * @param ctx the parse tree
@@ -295,6 +295,13 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGuardcompexpr(@NotNull LimeGrammarParser.GuardcompexprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code setRand}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSetRand(@NotNull LimeGrammarParser.SetRandContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#expr_stmt}.
 	 * @param ctx the parse tree

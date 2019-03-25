@@ -24,6 +24,8 @@ import lime.antlr4.LimeGrammarParser.Else_statContext;
 import lime.antlr4.LimeGrammarParser.EqexprContext;
 import lime.antlr4.LimeGrammarParser.Expr_listContext;
 import lime.antlr4.LimeGrammarParser.Expr_stmtContext;
+import lime.antlr4.LimeGrammarParser.GetArgContext;
+import lime.antlr4.LimeGrammarParser.GetRandContext;
 import lime.antlr4.LimeGrammarParser.Id_listContext;
 import lime.antlr4.LimeGrammarParser.If_statContext;
 import lime.antlr4.LimeGrammarParser.If_stmtContext;
@@ -40,8 +42,8 @@ import lime.antlr4.LimeGrammarParser.OrexprContext;
 import lime.antlr4.LimeGrammarParser.ParametersContext;
 import lime.antlr4.LimeGrammarParser.ParsdefContext;
 import lime.antlr4.LimeGrammarParser.PrintContext;
-import lime.antlr4.LimeGrammarParser.RandContext;
 import lime.antlr4.LimeGrammarParser.Return_stmtContext;
+import lime.antlr4.LimeGrammarParser.SetRandContext;
 import lime.antlr4.LimeGrammarParser.Simple_stmtContext;
 import lime.antlr4.LimeGrammarParser.Small_stmtContext;
 import lime.antlr4.LimeGrammarParser.StmtContext;
@@ -563,18 +565,41 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		s+=")";
 		return s;
 	}
+	
 	@Override
-	public String visitRand(RandContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitRand(ctx);
+	public String visitGetRand(GetRandContext ctx) {
+		String s ="";
+		s += "getRand";
+		s += "(";
+		s += this.visit(ctx.args());
+		s += ")";
+		return s;
+	}
+	@Override
+	public String visitGetArg(GetArgContext ctx) {
+		String s ="";
+		s += "getArg";
+		s += "(";
+		s += this.visit(ctx.args());
+		s += ")";
+		return s;
+	}
+	@Override
+	public String visitSetRand(SetRandContext ctx) {
+		String s ="";
+		s += "setRand";
+		s += "(";
+		s += this.visit(ctx.args());
+		s += ")";
+		return s;
 	}
 	@Override
 	public String visitPrint(PrintContext ctx) {
 		String s ="";
 		s += "print";
 		s += "(";
-		s += ctx.atom().getText();
-		s += ");\n";
+		s += this.visit(ctx.args());
+		s += ")";
 		return s;
 	}
 	//args

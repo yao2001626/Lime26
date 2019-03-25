@@ -178,9 +178,10 @@ atom
 method_call
 	: 'new' n=ID args 						   #newcall
 	| c=ID '.' m=ID args 					   #methodcall
-	| 'print' '(' atom ')' 			   		   #print
-	| 'rand' '(' ')'						   #rand
-	| 'getArg' '(' atom ')' 		   		   #getArg
+	| 'print' args 			   		   		   #print
+	| 'getRand'  args						   #getRand
+	| 'setRand'  args						   #setRand
+	| 'getArg' args 		   		   		   #getArg
 	| ID args 								   #userDefined
 	;
 args

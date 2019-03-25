@@ -65,18 +65,6 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitCompound_stmt(@NotNull LimeGrammarParser.Compound_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code rand}
-	 * labeled alternative in {@link LimeGrammarParser#method_call}.
-	 * @param ctx the parse tree
-	 */
-	void enterRand(@NotNull LimeGrammarParser.RandContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code rand}
-	 * labeled alternative in {@link LimeGrammarParser#method_call}.
-	 * @param ctx the parse tree
-	 */
-	void exitRand(@NotNull LimeGrammarParser.RandContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#expr_list}.
 	 * @param ctx the parse tree
 	 */
@@ -116,6 +104,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturn_stmt(@NotNull LimeGrammarParser.Return_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code getRand}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterGetRand(@NotNull LimeGrammarParser.GetRandContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code getRand}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitGetRand(@NotNull LimeGrammarParser.GetRandContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#while_stmt}.
 	 * @param ctx the parse tree
@@ -486,6 +486,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGuardcompexpr(@NotNull LimeGrammarParser.GuardcompexprContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code setRand}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetRand(@NotNull LimeGrammarParser.SetRandContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code setRand}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetRand(@NotNull LimeGrammarParser.SetRandContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#expr_stmt}.
 	 * @param ctx the parse tree

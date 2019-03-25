@@ -66,8 +66,8 @@ void *mp;
 int i;
 int num;
 int repeat;
-num = getArg(2);
-repeat = getArg(3);
+num = getArg(1);
+repeat = getArg(2);
 buildMR(num);while(repeat>0){
 	for(i = 0;i<= num - 1; ++i){
 	mp = getMapper(i);

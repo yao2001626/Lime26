@@ -79,18 +79,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRand(@NotNull LimeGrammarParser.RandContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRand(@NotNull LimeGrammarParser.RandContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpr_list(@NotNull LimeGrammarParser.Expr_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -134,6 +122,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturn_stmt(@NotNull LimeGrammarParser.Return_stmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGetRand(@NotNull LimeGrammarParser.GetRandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGetRand(@NotNull LimeGrammarParser.GetRandContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -542,6 +542,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGuardcompexpr(@NotNull LimeGrammarParser.GuardcompexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSetRand(@NotNull LimeGrammarParser.SetRandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSetRand(@NotNull LimeGrammarParser.SetRandContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
