@@ -115,28 +115,28 @@ public class SymbolTable {
 				"    //return NULL;\n" + 
 				"}";
 		preDefinedMethod.put(key, value);
-		preDeclaredMR = "struct Reducer{\n" + 
-				"  void *ebp;\n" + 
-				"  void *doAction;\n" + 
-				"  int lock;\n" + 
-				"  void *next;\n" + 
-				"  int e2;\n" + 
-				"  int e1;\n" + 
-				"  int a2;\n" + 
-				"  int a1;\n" + 
-				"  struct Reducer *r;\n" + 
-				"  int index;\n" + 
-				"};\n" + 
+		preDeclaredMR = "struct Reducer_struct{\n" + 
+				"int pre_ebp;\n" + 
+				"int pre_esp;\n" + 
+				"int lock;\n" + 
+				"int system_next;\n" + 
+				"int index;\n" + 
+				"struct Reducer_struct *next;\n" + 
+				"int a1;\n" + 
+				"int a2;\n" + 
+				"int e1;\n" + 
+				"int e2;\n" + 
+				"};"+ 
 				"\n" + 
-				"struct Mapper{\n" + 
-				"    void *ebp;\n" + 
-				"    void *doAction;\n" + 
-				"    int lock;\n" + 
-				"    void * next;\n" + 
-				"    int index;\n" + 
-				"    int e;\n" + 
-				"    int a;\n" + 
-				"    struct Reducer *r;\n" + 
+				"struct Mapper_struct{\n" + 
+				"int pre_ebp;\n" + 
+				"int pre_esp;\n" + 
+				"int lock;\n" + 
+				"int system_next;\n" + 
+				"struct Reducer_struct *next;\n" + 
+				"int a;\n" + 
+				"int e;\n" + 
+				"int index;\n" + 
 				"};\n" +
 				"\n" + 
 				"struct Mapper **m;\n" + 
