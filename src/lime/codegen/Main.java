@@ -182,8 +182,8 @@ public class Main {
                 // called methods
                 for(String s:externFunctions) {
                 	
-                	System.out.println(s);
-                	System.out.println(symtab.PREDEFINED);
+                	//System.out.println(s);
+                	//System.out.println(symtab.PREDEFINED);
                 	if(symtab.PREDEFINED.resolve(s)!=null) {
                 		continue;
                 	}else if(s.split("_")[s.split("_").length-1].equals("init")) {
@@ -208,9 +208,9 @@ public class Main {
                 		mainH.write(tmp);
                 	}else {//method_call
                 		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(s.split("_")[0]);
-                		System.out.println(s.split("_")[1]);
+                		//System.out.println(s.split("_")[1]);
                 		MethodSymbol ms = (MethodSymbol)cs.resolveMethod(s.split("_")[1]);
-                		System.out.println(ms.getName()+ms.getNumArgs());
+                		//System.out.println(ms.getName()+ms.getNumArgs());
                 		String tmp="";
                 		if(ms.getType().getName().equals("void")) {
                 			tmp += "void ";

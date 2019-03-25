@@ -115,7 +115,10 @@ public class SymbolTable {
 				"    //return NULL;\n" + 
 				"}";
 		preDefinedMethod.put(key, value);
-		preDeclaredMR = "struct Reducer_struct{\n" + 
+		preDeclaredMR = "int Mapper_init(int);\n"+
+				"int Reducer_init(int);\n"+
+				"void Mapper_map(int, void*,void*);\n"+
+				"struct Reducer_struct{\n" + 
 				"int pre_ebp;\n" + 
 				"int pre_esp;\n" + 
 				"int lock;\n" + 
