@@ -211,6 +211,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIntguardatom(@NotNull LimeGrammarParser.IntguardatomContext ctx) { }
 	/**
 	 * {@inheritDoc}

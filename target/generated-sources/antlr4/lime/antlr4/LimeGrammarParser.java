@@ -2799,6 +2799,26 @@ public class LimeGrammarParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class UserDefinedContext extends Method_callContext {
+		public TerminalNode ID() { return getToken(LimeGrammarParser.ID, 0); }
+		public ArgsContext args() {
+			return getRuleContext(ArgsContext.class,0);
+		}
+		public UserDefinedContext(Method_callContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof LimeGrammarListener ) ((LimeGrammarListener)listener).enterUserDefined(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof LimeGrammarListener ) ((LimeGrammarListener)listener).exitUserDefined(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof LimeGrammarVisitor ) return ((LimeGrammarVisitor<? extends T>)visitor).visitUserDefined(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class GetArgContext extends Method_callContext {
 		public AtomContext atom() {
 			return getRuleContext(AtomContext.class,0);
@@ -2844,9 +2864,9 @@ public class LimeGrammarParser extends Parser {
 		Method_callContext _localctx = new Method_callContext(_ctx, getState());
 		enterRule(_localctx, 70, RULE_method_call);
 		try {
-			setState(382);
-			switch (_input.LA(1)) {
-			case New:
+			setState(384);
+			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
+			case 1:
 				_localctx = new NewcallContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
@@ -2855,7 +2875,7 @@ public class LimeGrammarParser extends Parser {
 				setState(364); args();
 				}
 				break;
-			case ID:
+			case 2:
 				_localctx = new MethodcallContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
@@ -2865,7 +2885,7 @@ public class LimeGrammarParser extends Parser {
 				setState(368); args();
 				}
 				break;
-			case T__8:
+			case 3:
 				_localctx = new PrintContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
@@ -2875,7 +2895,7 @@ public class LimeGrammarParser extends Parser {
 				setState(372); match(CParen);
 				}
 				break;
-			case T__5:
+			case 4:
 				_localctx = new RandContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
@@ -2884,7 +2904,7 @@ public class LimeGrammarParser extends Parser {
 				setState(376); match(CParen);
 				}
 				break;
-			case T__2:
+			case 5:
 				_localctx = new GetArgContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
@@ -2894,8 +2914,14 @@ public class LimeGrammarParser extends Parser {
 				setState(380); match(CParen);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
+			case 6:
+				_localctx = new UserDefinedContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(382); match(ID);
+				setState(383); args();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -2939,16 +2965,16 @@ public class LimeGrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(384); match(OParen);
-			setState(386);
+			setState(386); match(OParen);
+			setState(388);
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__5) | (1L << T__2) | (1L << T__1) | (1L << New) | (1L << Null) | (1L << True) | (1L << False) | (1L << Subtract) | (1L << ID) | (1L << INTEGER))) != 0)) {
 				{
-				setState(385); expr_list();
+				setState(387); expr_list();
 				}
 			}
 
-			setState(388); match(CParen);
+			setState(390); match(CParen);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2981,7 +3007,7 @@ public class LimeGrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3<\u0189\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3<\u018b\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -3008,36 +3034,36 @@ public class LimeGrammarParser extends Parser {
 		"\"\16\"\u0144\13\"\3#\3#\3#\3#\3#\3#\5#\u014c\n#\3#\3#\3#\3#\3#\3#\3#"+
 		"\3#\3#\3#\3#\3#\3#\3#\3#\3#\3#\3#\7#\u0160\n#\f#\16#\u0163\13#\3$\3$\3"+
 		"$\3$\3$\3$\5$\u016b\n$\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3%\3"+
-		"%\3%\3%\3%\3%\5%\u0181\n%\3&\3&\5&\u0185\n&\3&\3&\3&\2\3D\'\2\4\6\b\n"+
-		"\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJ\2\7\4\2\36"+
-		" 99\3\2(+\4\2\4\4\'\'\3\2.\60\3\2,-\u019a\2O\3\2\2\2\4Y\3\2\2\2\6d\3\2"+
-		"\2\2\bt\3\2\2\2\nv\3\2\2\2\f|\3\2\2\2\16\u0080\3\2\2\2\20\u0093\3\2\2"+
-		"\2\22\u00a1\3\2\2\2\24\u00a7\3\2\2\2\26\u00af\3\2\2\2\30\u00b3\3\2\2\2"+
-		"\32\u00b5\3\2\2\2\34\u00bf\3\2\2\2\36\u00c1\3\2\2\2 \u00d3\3\2\2\2\"\u00d5"+
-		"\3\2\2\2$\u00d9\3\2\2\2&\u00e0\3\2\2\2(\u00e2\3\2\2\2*\u00e7\3\2\2\2,"+
-		"\u00e9\3\2\2\2.\u00f3\3\2\2\2\60\u00f8\3\2\2\2\62\u00fd\3\2\2\2\64\u0100"+
-		"\3\2\2\2\66\u0105\3\2\2\28\u010c\3\2\2\2:\u011a\3\2\2\2<\u012d\3\2\2\2"+
-		">\u0133\3\2\2\2@\u0135\3\2\2\2B\u013d\3\2\2\2D\u014b\3\2\2\2F\u016a\3"+
-		"\2\2\2H\u0180\3\2\2\2J\u0182\3\2\2\2LN\5\4\3\2ML\3\2\2\2NQ\3\2\2\2OM\3"+
-		"\2\2\2OP\3\2\2\2PS\3\2\2\2QO\3\2\2\2RT\5\6\4\2SR\3\2\2\2TU\3\2\2\2US\3"+
-		"\2\2\2UV\3\2\2\2VW\3\2\2\2WX\7\2\2\3X\3\3\2\2\2YZ\7\16\2\2Z[\79\2\2[\\"+
-		"\7\65\2\2\\]\5\32\16\2]`\7\66\2\2^_\7\13\2\2_a\5\30\r\2`^\3\2\2\2`a\3"+
-		"\2\2\2ab\3\2\2\2bc\7\67\2\2c\5\3\2\2\2de\7\17\2\2ef\79\2\2fg\7\67\2\2"+
-		"gk\7;\2\2hj\5\b\5\2ih\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2ln\3\2\2\2"+
-		"mk\3\2\2\2no\7<\2\2o\7\3\2\2\2pu\5\n\6\2qu\5\f\7\2ru\5\16\b\2su\5\20\t"+
-		"\2tp\3\2\2\2tq\3\2\2\2tr\3\2\2\2ts\3\2\2\2u\t\3\2\2\2vw\7\22\2\2wx\5@"+
-		"!\2xy\7\13\2\2yz\5\30\r\2z{\7\67\2\2{\13\3\2\2\2|}\7\23\2\2}~\5\22\n\2"+
-		"~\177\5:\36\2\177\r\3\2\2\2\u0080\u0081\7\20\2\2\u0081\u0082\79\2\2\u0082"+
-		"\u0085\5\22\n\2\u0083\u0084\7\13\2\2\u0084\u0086\5\30\r\2\u0085\u0083"+
-		"\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u008d\3\2\2\2\u0087\u0088\7\67\2\2"+
-		"\u0088\u0089\7;\2\2\u0089\u008a\7\25\2\2\u008a\u008b\5<\37\2\u008b\u008c"+
-		"\7\26\2\2\u008c\u008e\3\2\2\2\u008d\u0087\3\2\2\2\u008d\u008e\3\2\2\2"+
-		"\u008e\u008f\3\2\2\2\u008f\u0091\5:\36\2\u0090\u0092\7<\2\2\u0091\u0090"+
-		"\3\2\2\2\u0091\u0092\3\2\2\2\u0092\17\3\2\2\2\u0093\u0094\7\21\2\2\u0094"+
-		"\u009b\79\2\2\u0095\u0096\7\67\2\2\u0096\u0097\7;\2\2\u0097\u0098\7\25"+
-		"\2\2\u0098\u0099\5<\37\2\u0099\u009a\7\26\2\2\u009a\u009c\3\2\2\2\u009b"+
-		"\u0095\3\2\2\2\u009b\u009c\3\2\2\2\u009c\u009d\3\2\2\2\u009d\u009f\5:"+
-		"\36\2\u009e\u00a0\7<\2\2\u009f\u009e\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0"+
+		"%\3%\3%\3%\3%\3%\3%\5%\u0183\n%\3&\3&\5&\u0187\n&\3&\3&\3&\2\3D\'\2\4"+
+		"\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@BDFHJ\2\7"+
+		"\4\2\36 99\3\2(+\4\2\4\4\'\'\3\2.\60\3\2,-\u019d\2O\3\2\2\2\4Y\3\2\2\2"+
+		"\6d\3\2\2\2\bt\3\2\2\2\nv\3\2\2\2\f|\3\2\2\2\16\u0080\3\2\2\2\20\u0093"+
+		"\3\2\2\2\22\u00a1\3\2\2\2\24\u00a7\3\2\2\2\26\u00af\3\2\2\2\30\u00b3\3"+
+		"\2\2\2\32\u00b5\3\2\2\2\34\u00bf\3\2\2\2\36\u00c1\3\2\2\2 \u00d3\3\2\2"+
+		"\2\"\u00d5\3\2\2\2$\u00d9\3\2\2\2&\u00e0\3\2\2\2(\u00e2\3\2\2\2*\u00e7"+
+		"\3\2\2\2,\u00e9\3\2\2\2.\u00f3\3\2\2\2\60\u00f8\3\2\2\2\62\u00fd\3\2\2"+
+		"\2\64\u0100\3\2\2\2\66\u0105\3\2\2\28\u010c\3\2\2\2:\u011a\3\2\2\2<\u012d"+
+		"\3\2\2\2>\u0133\3\2\2\2@\u0135\3\2\2\2B\u013d\3\2\2\2D\u014b\3\2\2\2F"+
+		"\u016a\3\2\2\2H\u0182\3\2\2\2J\u0184\3\2\2\2LN\5\4\3\2ML\3\2\2\2NQ\3\2"+
+		"\2\2OM\3\2\2\2OP\3\2\2\2PS\3\2\2\2QO\3\2\2\2RT\5\6\4\2SR\3\2\2\2TU\3\2"+
+		"\2\2US\3\2\2\2UV\3\2\2\2VW\3\2\2\2WX\7\2\2\3X\3\3\2\2\2YZ\7\16\2\2Z[\7"+
+		"9\2\2[\\\7\65\2\2\\]\5\32\16\2]`\7\66\2\2^_\7\13\2\2_a\5\30\r\2`^\3\2"+
+		"\2\2`a\3\2\2\2ab\3\2\2\2bc\7\67\2\2c\5\3\2\2\2de\7\17\2\2ef\79\2\2fg\7"+
+		"\67\2\2gk\7;\2\2hj\5\b\5\2ih\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2ln\3"+
+		"\2\2\2mk\3\2\2\2no\7<\2\2o\7\3\2\2\2pu\5\n\6\2qu\5\f\7\2ru\5\16\b\2su"+
+		"\5\20\t\2tp\3\2\2\2tq\3\2\2\2tr\3\2\2\2ts\3\2\2\2u\t\3\2\2\2vw\7\22\2"+
+		"\2wx\5@!\2xy\7\13\2\2yz\5\30\r\2z{\7\67\2\2{\13\3\2\2\2|}\7\23\2\2}~\5"+
+		"\22\n\2~\177\5:\36\2\177\r\3\2\2\2\u0080\u0081\7\20\2\2\u0081\u0082\7"+
+		"9\2\2\u0082\u0085\5\22\n\2\u0083\u0084\7\13\2\2\u0084\u0086\5\30\r\2\u0085"+
+		"\u0083\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u008d\3\2\2\2\u0087\u0088\7\67"+
+		"\2\2\u0088\u0089\7;\2\2\u0089\u008a\7\25\2\2\u008a\u008b\5<\37\2\u008b"+
+		"\u008c\7\26\2\2\u008c\u008e\3\2\2\2\u008d\u0087\3\2\2\2\u008d\u008e\3"+
+		"\2\2\2\u008e\u008f\3\2\2\2\u008f\u0091\5:\36\2\u0090\u0092\7<\2\2\u0091"+
+		"\u0090\3\2\2\2\u0091\u0092\3\2\2\2\u0092\17\3\2\2\2\u0093\u0094\7\21\2"+
+		"\2\u0094\u009b\79\2\2\u0095\u0096\7\67\2\2\u0096\u0097\7;\2\2\u0097\u0098"+
+		"\7\25\2\2\u0098\u0099\5<\37\2\u0099\u009a\7\26\2\2\u009a\u009c\3\2\2\2"+
+		"\u009b\u0095\3\2\2\2\u009b\u009c\3\2\2\2\u009c\u009d\3\2\2\2\u009d\u009f"+
+		"\5:\36\2\u009e\u00a0\7<\2\2\u009f\u009e\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0"+
 		"\21\3\2\2\2\u00a1\u00a3\7\65\2\2\u00a2\u00a4\5\24\13\2\u00a3\u00a2\3\2"+
 		"\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6\7\66\2\2\u00a6"+
 		"\23\3\2\2\2\u00a7\u00ac\5\26\f\2\u00a8\u00a9\7\7\2\2\u00a9\u00ab\5\26"+
@@ -3104,18 +3130,19 @@ public class LimeGrammarParser extends Parser {
 		"\u016b\7!\2\2\u0166\u016b\7\"\2\2\u0167\u016b\7\35\2\2\u0168\u016b\79"+
 		"\2\2\u0169\u016b\5H%\2\u016a\u0164\3\2\2\2\u016a\u0165\3\2\2\2\u016a\u0166"+
 		"\3\2\2\2\u016a\u0167\3\2\2\2\u016a\u0168\3\2\2\2\u016a\u0169\3\2\2\2\u016b"+
-		"G\3\2\2\2\u016c\u016d\7\24\2\2\u016d\u016e\79\2\2\u016e\u0181\5J&\2\u016f"+
-		"\u0170\79\2\2\u0170\u0171\7\b\2\2\u0171\u0172\79\2\2\u0172\u0181\5J&\2"+
+		"G\3\2\2\2\u016c\u016d\7\24\2\2\u016d\u016e\79\2\2\u016e\u0183\5J&\2\u016f"+
+		"\u0170\79\2\2\u0170\u0171\7\b\2\2\u0171\u0172\79\2\2\u0172\u0183\5J&\2"+
 		"\u0173\u0174\7\6\2\2\u0174\u0175\7\65\2\2\u0175\u0176\5F$\2\u0176\u0177"+
-		"\7\66\2\2\u0177\u0181\3\2\2\2\u0178\u0179\7\t\2\2\u0179\u017a\7\65\2\2"+
-		"\u017a\u0181\7\66\2\2\u017b\u017c\7\f\2\2\u017c\u017d\7\65\2\2\u017d\u017e"+
-		"\5F$\2\u017e\u017f\7\66\2\2\u017f\u0181\3\2\2\2\u0180\u016c\3\2\2\2\u0180"+
-		"\u016f\3\2\2\2\u0180\u0173\3\2\2\2\u0180\u0178\3\2\2\2\u0180\u017b\3\2"+
-		"\2\2\u0181I\3\2\2\2\u0182\u0184\7\65\2\2\u0183\u0185\5B\"\2\u0184\u0183"+
-		"\3\2\2\2\u0184\u0185\3\2\2\2\u0185\u0186\3\2\2\2\u0186\u0187\7\66\2\2"+
-		"\u0187K\3\2\2\2#OU`kt\u0085\u008d\u0091\u009b\u009f\u00a3\u00ac\u00ba"+
-		"\u00bf\u00c6\u00ca\u00d3\u00e0\u00ed\u00f1\u010e\u0116\u011a\u012d\u0133"+
-		"\u013a\u0142\u014b\u015f\u0161\u016a\u0180\u0184";
+		"\7\66\2\2\u0177\u0183\3\2\2\2\u0178\u0179\7\t\2\2\u0179\u017a\7\65\2\2"+
+		"\u017a\u0183\7\66\2\2\u017b\u017c\7\f\2\2\u017c\u017d\7\65\2\2\u017d\u017e"+
+		"\5F$\2\u017e\u017f\7\66\2\2\u017f\u0183\3\2\2\2\u0180\u0181\79\2\2\u0181"+
+		"\u0183\5J&\2\u0182\u016c\3\2\2\2\u0182\u016f\3\2\2\2\u0182\u0173\3\2\2"+
+		"\2\u0182\u0178\3\2\2\2\u0182\u017b\3\2\2\2\u0182\u0180\3\2\2\2\u0183I"+
+		"\3\2\2\2\u0184\u0186\7\65\2\2\u0185\u0187\5B\"\2\u0186\u0185\3\2\2\2\u0186"+
+		"\u0187\3\2\2\2\u0187\u0188\3\2\2\2\u0188\u0189\7\66\2\2\u0189K\3\2\2\2"+
+		"#OU`kt\u0085\u008d\u0091\u009b\u009f\u00a3\u00ac\u00ba\u00bf\u00c6\u00ca"+
+		"\u00d3\u00e0\u00ed\u00f1\u010e\u0116\u011a\u012d\u0133\u013a\u0142\u014b"+
+		"\u015f\u0161\u016a\u0182\u0186";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

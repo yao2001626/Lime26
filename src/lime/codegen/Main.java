@@ -166,35 +166,30 @@ public class Main {
                 String mainheaderfileName = fileName+"_main.h";
                 FileWriter mainF = new FileWriter(mainfileName);
                 FileWriter mainH = new FileWriter(mainheaderfileName);
+                String f = "#include <stdlib.h>\n" + 
+                		"#include <stdio.h>\n" + 
+                		"#include \"%s_test.h\"\n";
+                String mainFinclude = String.format(f, fileName.split("/")[fileName.split("/").length-1]);
+                mainF.write(mainFinclude);
+                //predefined methods filename_main.c
+                mainF.write(symtab.preDefinedMethod.get("print")+"\n");
+                mainF.write(symtab.preDefinedMethod.get("getArg")+"\n");
+                mainF.write(symtab.preDefinedMethod.get("setRand")+"\n");
+                mainF.write(symtab.preDefinedMethod.get("getRand")+"\n");
+                //predefined methods filename_main.h
+                mainH.write(symtab.preDeclaredMethod+"\n");
                 
-                String st; 
-                File file = new File("builtin.c"); 
-                BufferedReader br = new BufferedReader(new FileReader(file)); 
-                while ((st = br.readLine()) != null) {
-                  //System.out.println(st); 
-                	mainF.write(st);
-                	mainF.write("\n");
+                //MR functions
+                if(fileName.split("/")[fileName.split("/").length-1].equals("MR")) {
+                	symtab.preDefinedbuildMR();
+                	symtab.preDefinedgetMapper();
+                	mainF.write(symtab.preDefinedMethod.get("buildMR")+"\n");
+                    mainF.write(symtab.preDefinedMethod.get("getMapper")+"\n");
+                    mainH.write(symtab.preDeclaredMR+"\n");
                 } 
-                
-                File fileH = new File("builtin.h"); 
-                BufferedReader brH = new BufferedReader(new FileReader(fileH)); 
-                while ((st = brH.readLine()) != null) {
-                  //System.out.println(st);
-                	mainH.write(st);
-                	mainH.write("\n");
-                }
-                
-                // copy the default predefined method
-                //mainF.write(FileUtils.readFileToString(builtinF));
-                //Files.copy(Paths.get("builtin.c"), mainF);
-                //Files.copy(Paths.get("builtin.h"), new FileOutputStream(mainfileName));
 
-                
-                //mainH.write(FileUtils.readFileToString(builtinF));
-                //System.out.println(symtab.PREDEFINED);
-                // generate the imported methods
                 for(Symbol s: symtab.PREDEFINED.getAllSymbols()) {
-                	if(s.getName().equals("print")|| s.getName().equals("rand")||s.getName().equals("getArg")) continue;
+                	if(s.getName().equals("print")|| s.getName().equals("setRand")||s.getName().equals("getArg")||s.getName().equals("getRand")|| s.getName().equals("buildMR")||s.getName().equals("getMapper")) continue;
                 	// imported method in the .c 
                 	//System.out.println((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName()));
                 	String importedMethod = ((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName())).getType().getName() + " " + s.getName() + "(";
@@ -219,8 +214,6 @@ public class Main {
                 }
                 // generate lime main function
                 mainF.write(mainBody);
-                br.close();
-                brH.close();
                 mainF.close();
                 mainH.close();
         	}catch(Exception ex) {
@@ -236,6 +229,7 @@ public class Main {
             //
             try
             {  	
+            	
             	// step 1 LEXER & PARSER
                 LimeGrammarLexer lexer = new Builder.Lexer(source).build(); 
                 LimeGrammarParser parser = new Builder.Parser(lexer).build();
@@ -260,21 +254,22 @@ public class Main {
                 LimeSkeCodeGenListener lcgl = new LimeSkeCodeGenListener(symtab, templates);
                 LimeLLVMCodeGenVisitor llvmcgv = new LimeLLVMCodeGenVisitor(symtab);
                 LimeMainCodeGenVisitor lmcg = new LimeMainCodeGenVisitor(symtab);
-                
-                for(int i=0; i<tree.getChildCount()-1 && (tree.getChild(i) instanceof ClassDeclContext); ++i) {
+                System.out.println(source);
+                for(int i=0; i<tree.getChildCount() && (tree.getChild(i) instanceof ClassDeclContext); ++i) {
                 	//lime class name
                 	String outputName = ((ClassDeclContext)tree.getChild(i)).ID().getText();
+                	if(outputName.equals("Start"))continue;
                 	String limeSkeletonName = outputName+".skeleton.s";
                 	String limeLLVMName = outputName+".c";
                 	
                 	FileWriter outputSkefile = new FileWriter(new File(dir, limeSkeletonName));
-                	//System.out.print("writing file: "+outputSkefile+"\n");
+                	System.out.print("writing file: "+limeSkeletonName+"\n");
                 	ParseTreeWalker.DEFAULT.walk(lcgl, tree.getChild(i));
                 	outputSkefile.write(lcgl.content);
                 	outputSkefile.close();
                 	
                 	FileWriter outputLLVMfile = new FileWriter(new File(dir, limeLLVMName));
-                	//System.out.print("writing file: "+outputLLVMfile+"\n");
+                	System.out.print("writing file: "+limeLLVMName +"\n");
                 	outputLLVMfile.write(llvmcgv.visit(tree.getChild(i)));
                 	outputLLVMfile.close();
                 	

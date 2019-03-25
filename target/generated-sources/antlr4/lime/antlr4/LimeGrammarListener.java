@@ -179,6 +179,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitFieldDecl(@NotNull LimeGrammarParser.FieldDeclContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code userDefined}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code userDefined}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code intguardatom}
 	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
 	 * @param ctx the parse tree

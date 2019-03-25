@@ -114,6 +114,13 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFieldDecl(@NotNull LimeGrammarParser.FieldDeclContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code userDefined}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code intguardatom}
 	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
 	 * @param ctx the parse tree

@@ -46,6 +46,7 @@ import lime.antlr4.LimeGrammarParser.Single_assignContext;
 import lime.antlr4.LimeGrammarParser.Small_stmtContext;
 import lime.antlr4.LimeGrammarParser.StmtContext;
 import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
+import lime.antlr4.LimeGrammarParser.UserDefinedContext;
 import lime.antlr4.LimeGrammarParser.While_stmtContext;
 
 public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
@@ -395,7 +396,7 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		@Override
 		public String visitNewcall(NewcallContext ctx) {
 			String s ="";
-			s+= "(void *) " + ctx.n.getText()+"_init";
+			s+=ctx.n.getText()+"_init";
 			s+="(";
 			s+=this.visit(ctx.args());
 			s+=")";
@@ -415,6 +416,17 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			}
 			s+=ctx.c.getText();
 			s+=", self)";
+			return s;
+		}
+		// ID args
+		@Override
+		public String visitUserDefined(UserDefinedContext ctx) {
+			String s= "";
+			Symbol t = this.symtab.PREDEFINED.findSymbol(ctx.ID().getText());
+			s += ctx.ID().getText();
+			s += "(";
+			s += this.visit(ctx.args());
+			s += ")";
 			return s;
 		}
 		//args

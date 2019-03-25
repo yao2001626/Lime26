@@ -86,7 +86,7 @@ tokens {
 }
 //Lime parser
 compilationUnit
-    : import_stmt* classDecl+ EOF ;
+    : import_stmt* (classDecl)+ EOF ;
     
 import_stmt
 	: 'import' ID'(' type_list ')' (':' type)? NEWLINE; 
@@ -178,9 +178,10 @@ atom
 method_call
 	: 'new' n=ID args 						   #newcall
 	| c=ID '.' m=ID args 					   #methodcall
-	| 'print' '(' atom ')' 			   #print
+	| 'print' '(' atom ')' 			   		   #print
 	| 'rand' '(' ')'						   #rand
-	| 'getArg' '(' atom ')' 		   #getArg
+	| 'getArg' '(' atom ')' 		   		   #getArg
+	| ID args 								   #userDefined
 	;
 args
 	: '(' expr_list? ')';

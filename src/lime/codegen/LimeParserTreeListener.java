@@ -75,6 +75,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 	String objInitCode = "";
 	boolean initcode = false;
 	boolean inMethod =false;
+	boolean startClass = false;
 	public Map<String, String> guardmap;
 	public Map<String, String> initcodemap;
 
@@ -103,6 +104,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		currentScope.define(cs);
 		currentScope = cs;
 		className = ctx.ID().getText();
+		if(cs.getName().equals("Start")) startClass = true;
 	}
 
 	@Override
@@ -136,6 +138,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		// System.out.println("symbols: "+ this.symtab.GLOBALS.getSymbols() +
 		// this.symtab.GLOBALS.getNumberOfSymbols());
 		className = "";
+		startClass = false;
 	}
 	//import_stmt
 	//  : 'import' ID'(' type_list ')' (':' type)?;
@@ -152,14 +155,10 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		symtab.PREDEFINED.define(ms);
 	}
 
-	@Override
-	public void exitImport_stmt(Import_stmtContext ctx) {
-		System.out.println("imported method: "+ symtab.PREDEFINED);
-	}
-
+	
 	@Override
 	public void enterMethodDecl(MethodDeclContext ctx) {
-		// System.out.println("enter method: "+ currentScope);
+		//System.out.println("enter method: "+ currentScope);
 		MethodSymbol ms = new MethodSymbol(ctx.ID().getText());
 		ctx.scope = ms;
 		ms.setDefNode((ParserRuleContext) ctx);
@@ -281,7 +280,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 	// : id_list ':=' expr_list;
 	@Override
 	public void enterMulti_assign(Multi_assignContext ctx) {
-		if (initcode) {
+		if (initcode && !startClass) {
 			String[] ids = ctx.id_list().getText().split(",");
 			String[] vals = ctx.expr_list().getText().split(",");
 			if (ids.length != vals.length) {
@@ -300,7 +299,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 							initcodemap.put(ids[i], "arg" + vals[i]);
 						} else {
 							System.err.printf(
-									"init code multi assign only support simple value, such as constant number, parameters %s:=%s)\n", ids[i],vals[i]);
+									"init code multi assign only support simple value, such as constant number, parameters %s:=%s class: %s bool %b)\n", ids[i],vals[i], className, startClass);
 						}
 					}
 				}

@@ -27,13 +27,13 @@ this->a = 0;
 
 }
 else if(x<this->key){
-this->left = Node2_init(x);
-this->right =  Node2_init(this->key);
+this->left = (struct Node2_struct *) Node2_init(x);
+this->right =  (struct Node2_struct *) Node2_init(this->key);
 this->key =  x;
 
 }else if(x>this->key){
-this->left = Node2_init(this->key);
-this->right =  Node2_init(x);
+this->left = (struct Node2_struct *) Node2_init(this->key);
+this->right =  (struct Node2_struct *) Node2_init(x);
 
 }}
 

@@ -1,5 +1,3 @@
-import getMap(int):int
-import MR_init(int)
 class Reducer
     var index: int
     var next: Reducer 
@@ -37,5 +35,18 @@ class Mapper
                 next.reduce2(e*e)
             a := false
 
-
-		
+class Start
+    var m: Mapper
+    var i: int
+    var num: int
+    var repeat: int
+    init()
+        num := getArg(2)
+        repeat := getArg(3)
+        buildMR(num)
+        while repeat>0 do
+            for i:= 0 to num do 
+                m := getMapper(i)
+                m.map(i)
+            repeat := repeat - 1
+	
