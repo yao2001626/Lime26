@@ -168,7 +168,7 @@ public class Main {
                 FileWriter mainH = new FileWriter(mainheaderfileName);
                 String f = "#include <stdlib.h>\n" + 
                 		"#include <stdio.h>\n" + 
-                		"#include \"%s_test.h\"\n";
+                		"#include \"%s_main.h\"\n";
                 String mainFinclude = String.format(f, fileName.split("/")[fileName.split("/").length-1]);
                 mainF.write(mainFinclude);
                 //predefined methods filename_main.c
