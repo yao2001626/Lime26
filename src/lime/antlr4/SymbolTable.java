@@ -139,8 +139,8 @@ public class SymbolTable {
 				"int index;\n" + 
 				"};\n" +
 				"\n" + 
-				"struct Mapper **m;\n" + 
-				"struct Reducer **r;";
+				"struct Mapper_struct **m;\n" + 
+				"struct Reducer_struct **r;";
 	}
 	
 	public void initPredefineMethod() {

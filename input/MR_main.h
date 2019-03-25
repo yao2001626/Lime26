@@ -29,5 +29,5 @@ int e;
 int index;
 };
 
-struct Mapper **m;
-struct Reducer **r;
+struct Mapper_struct **m;
+struct Reducer_struct **r;
