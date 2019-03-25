@@ -37,7 +37,7 @@ int i;
 int j;
 void *root;
 i = 0;
-root = Node2_init(10);
+root = (void *) Node2_init(10);
 for(i = 10;i<= 100; ++i){
 	Node2_add(i, root, self);
 }

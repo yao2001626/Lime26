@@ -36,7 +36,7 @@ void lime_main(void * self){
 void *root;
 int num;
 int i;
-root = Node_init(5000);
+root = (void *) Node_init(5000);
 num = getArg(2);
 setRand(num);for(i = 0;i<= num; ++i){
 	Node_add(getRand(), root, self);

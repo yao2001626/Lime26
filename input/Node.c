@@ -11,6 +11,7 @@ struct Node_struct *left;
 struct Node_struct *right;
 int a;
 };
+struct Node_struct * Node_init(int);
 void Node_add(int x,struct Node_struct *this){
 
 if (this->left != NULL){

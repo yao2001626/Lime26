@@ -397,7 +397,7 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		@Override
 		public String visitNewcall(NewcallContext ctx) {
 			String s ="";
-			s+=ctx.n.getText()+"_init";
+			s+="(void *) "+ctx.n.getText()+"_init";
 			s+="(";
 			s+=this.visit(ctx.args());
 			s+=")";
@@ -548,9 +548,6 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			return this.visit(ctx.method_call());
 		}else return "";
 	}
-	
-	
-	
 	public String toString() {
 		return ou;
 	}

@@ -50,6 +50,7 @@ import lime.antlr4.LimeGrammarParser.StmtContext;
 import lime.antlr4.LimeGrammarParser.TypeparslistContext;
 import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
 import lime.antlr4.LimeGrammarParser.While_stmtContext;
+import lime.antlr4.MethodSymbol;
 import lime.antlr4.ParameterSymbol;
 import lime.antlr4.Scope;
 import lime.antlr4.Symbol;
@@ -112,6 +113,24 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		}
 		l+="};\n";
 		
+		//declare Classname_init()
+		MethodSymbol ms = (MethodSymbol)((ClassSymbol)cs).resolveMethod("init");
+		if(ms!=null) {
+			l+= "struct "+cs.getName()+"_struct * " + cs.getName() +"_init(";
+			//args
+			int n = ms.getNumArgs();
+			if(n==0) l+= ");\n";
+			else if(n==1) l+="int);\n";
+			else {
+				l+="int";
+				int nn=n-1;
+				while(nn>0){
+					l+=", int";
+					nn--;
+				}
+				l+=");\n";
+			}		
+		}
 		
 		for(ClassMemberContext m :ctx.classMember()) {
 			String t = this.visit(m);

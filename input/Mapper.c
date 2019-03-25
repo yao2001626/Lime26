@@ -10,6 +10,7 @@ int a;
 int e;
 int index;
 };
+struct Mapper_struct * Mapper_init(int);
 void Mapper_map(int n,struct Mapper_struct *this){
 this->e = n;
 this->a =  1;

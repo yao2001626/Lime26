@@ -11,6 +11,7 @@ struct PQ_struct *l;
 int a;
 int r;
 };
+struct PQ_struct * PQ_init();
 int PQ_empty(struct PQ_struct *this){
 
 return this->l == NULL;

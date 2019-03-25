@@ -11,6 +11,7 @@ struct Node2_struct *left;
 struct Node2_struct *right;
 int a;
 };
+struct Node2_struct * Node2_init(int);
 void Node2_add(int x,struct Node2_struct *this){
 
 if (this->left != NULL){

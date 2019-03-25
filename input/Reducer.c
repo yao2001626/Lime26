@@ -12,6 +12,7 @@ int a2;
 int e1;
 int e2;
 };
+struct Reducer_struct * Reducer_init(int);
 void Reducer_reduce1(int x,struct Reducer_struct *this){
 this->e1 = x;
 this->a1 =  1;
