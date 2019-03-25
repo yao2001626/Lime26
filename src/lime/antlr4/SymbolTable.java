@@ -94,11 +94,11 @@ public class SymbolTable {
 				"    m = (struct Mapper **) malloc (sizeof(struct Mapper *)*num);\n" + 
 				"    int i = 0;\n" + 
 				"    int N = num;\n" + 
-				"    m[0] = (struct Mapper *)MAPPER_init(0);\n" + 
+				"    m[0] = (struct Mapper *)Mapper_init(0);\n" + 
 				"    i = 1;\n" + 
 				"    while(i<N){\n" + 
-				"        m[i] = (struct Mapper *)MAPPER_init(i);\n" + 
-				"        r[i] = (struct Reducer *)REDUCER_init(i);\n" + 
+				"        m[i] = (struct Mapper *)Mapper_init(i);\n" + 
+				"        r[i] = (struct Reducer *)Reducer_init(i);\n" + 
 				"        i = i + 1;\n" + 
 				"    }\n" + 
 				"    i = 1;\n" + 
