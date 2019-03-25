@@ -6,3 +6,6 @@ void setRand(int num);
 void print(int x);
 int getArg(int index);
 void lime_main(void * self);
+void PQ_add(int , void*, void*);
+int PQ_init();
+int PQ_remove(void*, void*);

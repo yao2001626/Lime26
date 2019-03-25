@@ -60,6 +60,7 @@ import lime.antlr4.LimeGrammarParser.NotguardtomContext;
 import lime.antlr4.LimeGrammarParser.OrexprContext;
 import lime.antlr4.LimeGrammarParser.ParsdefContext;
 import lime.antlr4.LimeGrammarParser.TypeContext;
+import lime.antlr4.LimeGrammarParser.TypeparslistContext;
 import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
 import lime.antlr4.MemberSymbol;
 
@@ -155,17 +156,21 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		symtab.PREDEFINED.define(ms);
 	}
 
-	
+	//: 'method' ID  parameters (':' type)?  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)?; 
 	@Override
 	public void enterMethodDecl(MethodDeclContext ctx) {
 		//System.out.println("enter method: "+ currentScope);
 		MethodSymbol ms = new MethodSymbol(ctx.ID().getText());
 		ctx.scope = ms;
 		ms.setDefNode((ParserRuleContext) ctx);
+		if(ctx.type()==null)ms.setType((Type)symtab.GLOBALS.resolve("void"));
+		else ms.setType((Type)symtab.GLOBALS.resolve(ctx.type().getText()));
 		currentScope.define(ms);
 		currentScope = ms;
 		methodName = ctx.ID().getText();
 		inMethod = true;
+		
+		
 	}
 
 	@Override
@@ -221,6 +226,12 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 
 	public boolean isNumeric(String s) {
 		return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+	}
+
+	@Override
+	public void enterTypeparslist(TypeparslistContext ctx) {
+		MethodSymbol ms = (MethodSymbol) currentScope;
+		ms.setNumArgs(ctx.getChildCount());
 	}
 
 	@Override
@@ -541,6 +552,9 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 			if (!(s instanceof ClassSymbol)) {
 				System.err.printf("Error: new ID args: ID  (%s) should be class symbol!\n", ctx.n.getText());
 			}
+			
+			//add init method
+			((ClassSymbol)(currentScope.getEnclosingScope())).methodCalled.add(ctx.n.getText()+"_init");
 		}
 	}
 

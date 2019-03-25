@@ -6,6 +6,7 @@ void setRand(int num);
 void print(int x);
 int getArg(int index);
 void lime_main(void * self);
+void Mapper_map(int , void*, void*);
 struct Reducer_struct{
 int pre_ebp;
 int pre_esp;

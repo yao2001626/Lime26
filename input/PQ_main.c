@@ -36,9 +36,10 @@ void lime_main(void * self){
 void *head;
 int i;
 int num;
+head = PQ_init();
 num = getArg(2);
 for(i = 0;i<= num; ++i){
-	PQ_add(rand(), head, self);
+	PQ_add(getRand(), head, self);
 }
 for(i = 0;i<= num; ++i){
 	print(PQ_remove(head, self));

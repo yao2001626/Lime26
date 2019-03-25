@@ -6,3 +6,6 @@ void setRand(int num);
 void print(int x);
 int getArg(int index);
 void lime_main(void * self);
+void Node2_add(int , void*, void*);
+int Node2_has(int , void*, void*);
+int Node2_init(int);

@@ -37,6 +37,7 @@ class Start
 	var i:int
 	var num:int
 	init()
+		head := new PQ()
 		num := getArg(2)
-		for i:=0 to num do head.add(rand())
+		for i:=0 to num do head.add(getRand())
 		for i:=0 to num do print(head.remove())

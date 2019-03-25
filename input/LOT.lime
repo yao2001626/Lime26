@@ -32,8 +32,10 @@ class Start
 	var num:int
 	var i:int
 	init()
+		root := new Node(5000) 
 		num := getArg(2)
-		for i := 0 to num do root.add(rand())
+		setRand(num)
+		for i := 0 to num do root.add(getRand())
 		for i := 0 to num do 
 			if root.has(i) then
 				print(i)

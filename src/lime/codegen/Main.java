@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -159,7 +160,7 @@ public class Main {
                 ex.printStackTrace();
         	}
         }
-        public static void genMain(String source, SymbolTable symtab, String mainBody) throws Exception{
+        public static void genMain(String source, SymbolTable symtab, String mainBody, HashSet<String> externFunctions) throws Exception{
         	try {
         		String fileName = source.substring(0, source.length()-5);
                 String mainfileName = fileName+"_main.c";
@@ -178,6 +179,64 @@ public class Main {
                 mainF.write(symtab.preDefinedMethod.get("getRand")+"\n");
                 //predefined methods filename_main.h
                 mainH.write(symtab.preDeclaredMethod+"\n");
+                // called methods
+                for(String s:externFunctions) {
+                	
+                	System.out.println(s);
+                	System.out.println(symtab.PREDEFINED);
+                	if(symtab.PREDEFINED.resolve(s)!=null) {
+                		continue;
+                	}else if(s.split("_")[s.split("_").length-1].equals("init")) {
+                		
+                		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(s.split("_")[0]);
+                		int n = ((MethodSymbol)cs.resolve("init")).getNumArgs();
+                		String tmp ="int ";
+                		tmp += s;
+                		tmp +="(";
+                		if(n==0)tmp+=");\n";
+                		else if(n==1) {
+                			tmp+="int);\n";
+                		}else {//n>1
+                			tmp+="int ";
+                			int nn = n-1;
+                			while(nn>0) {
+                				tmp+=", int";
+                				nn--;
+                			}
+                			tmp+=");\n";
+                		}
+                		mainH.write(tmp);
+                	}else {//method_call
+                		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(s.split("_")[0]);
+                		System.out.println(s.split("_")[1]);
+                		MethodSymbol ms = (MethodSymbol)cs.resolveMethod(s.split("_")[1]);
+                		System.out.println(ms.getName()+ms.getNumArgs());
+                		String tmp="";
+                		if(ms.getType().getName().equals("void")) {
+                			tmp += "void ";
+                		}else {
+                			tmp += "int ";
+                		}
+                		int n = ms.getNumArgs();
+                		
+                		tmp += s;
+                		tmp+="(";
+                		if(n==0) {
+                			tmp+="void*, void*";
+                		}else {//n>0
+                			tmp +="int ";
+                			int nn=n-1;
+                			while(nn>0) {
+                				tmp+=",int ";
+                				nn--;
+                			}
+                			tmp+=", void*, void*";
+                		}
+                		tmp+=");\n";
+                		mainH.write(tmp);
+                	}
+                	
+                }
                 
                 //MR functions
                 if(fileName.split("/")[fileName.split("/").length-1].equals("MR")) {
@@ -254,29 +313,35 @@ public class Main {
                 LimeSkeCodeGenListener lcgl = new LimeSkeCodeGenListener(symtab, templates);
                 LimeLLVMCodeGenVisitor llvmcgv = new LimeLLVMCodeGenVisitor(symtab);
                 LimeMainCodeGenVisitor lmcg = new LimeMainCodeGenVisitor(symtab);
-                System.out.println(source);
+                //System.out.println(source);
+                HashSet<String> externFunctions = new HashSet<String>();
                 for(int i=0; i<tree.getChildCount() && (tree.getChild(i) instanceof ClassDeclContext); ++i) {
                 	//lime class name
                 	String outputName = ((ClassDeclContext)tree.getChild(i)).ID().getText();
-                	if(outputName.equals("Start"))continue;
+                	if(outputName.equals("Start")) {
+                		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.getSymbol("Start");
+                		//System.out.println(cs.externMethods);
+                		externFunctions.addAll(cs.externMethods);
+                		continue;
+                	}
                 	String limeSkeletonName = outputName+".skeleton.s";
                 	String limeLLVMName = outputName+".c";
                 	
                 	FileWriter outputSkefile = new FileWriter(new File(dir, limeSkeletonName));
-                	System.out.print("writing file: "+limeSkeletonName+"\n");
+                	//System.out.print("writing file: "+limeSkeletonName+"\n");
                 	ParseTreeWalker.DEFAULT.walk(lcgl, tree.getChild(i));
                 	outputSkefile.write(lcgl.content);
                 	outputSkefile.close();
                 	
                 	FileWriter outputLLVMfile = new FileWriter(new File(dir, limeLLVMName));
-                	System.out.print("writing file: "+limeLLVMName +"\n");
+                	//System.out.print("writing file: "+limeLLVMName +"\n");
                 	outputLLVMfile.write(llvmcgv.visit(tree.getChild(i)));
                 	outputLLVMfile.close();
                 	
                 	
                 }
             	//System.out.println(lmcg.visit(tree));
-                genMain(source, symtab, lmcg.visit(tree));
+                genMain(source, symtab, lmcg.visit(tree), externFunctions);
             }
             catch (FileNotFoundException ex)
             {
