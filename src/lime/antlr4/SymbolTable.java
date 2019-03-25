@@ -81,8 +81,8 @@ public class SymbolTable {
 	
 	public void preDefinedgetMapper() {
 		String key="getMapper";
-		String value ="struct Mapper * getMapper(int index){\n" + 
-				"	return (struct Mapper *)m[index];\n" + 
+		String value ="struct Mapper_struct * getMapper(int index){\n" + 
+				"	return (struct Mapper_struct *)m[index];\n" + 
 				"}";
 		preDefinedMethod.put(key, value);
 	}
@@ -90,50 +90,50 @@ public class SymbolTable {
 	public void preDefinedbuildMR() {
 		String key="buildMR";
 		String value ="void buildMR(int num){\n" + 
-				"    r = (struct Reducer **) malloc (sizeof(struct Reducer *)*num);\n" + 
-				"    m = (struct Mapper **) malloc (sizeof(struct Mapper *)*num);\n" + 
+				"    r = (struct Reducer_struct **) malloc (sizeof(struct Reducer_struct *)*num);\n" + 
+				"    m = (struct Mapper_struct **) malloc (sizeof(struct Mapper_struct *)*num);\n" + 
 				"    int i = 0;\n" + 
 				"    int N = num;\n" + 
-				"    m[0] = (struct Mapper *)Mapper_init(0);\n" + 
+				"    m[0] = (struct Mapper_struct *)Mapper_init(0);\n" + 
 				"    i = 1;\n" + 
 				"    while(i<N){\n" + 
-				"        m[i] = (struct Mapper *)Mapper_init(i);\n" + 
-				"        r[i] = (struct Reducer *)Reducer_init(i);\n" + 
+				"        m[i] = (struct Mapper_struct *)Mapper_init(i);\n" + 
+				"        r[i] = (struct Reducer_struct *)Reducer_init(i);\n" + 
 				"        i = i + 1;\n" + 
 				"    }\n" + 
 				"    i = 1;\n" + 
 				"    while(i<N/2){\n" + 
-				"        r[i*2]->r = r[i];\n" + 
-				"        r[i*2+1]->r = r[i];\n" + 
+				"        r[i*2]->next = r[i];\n" + 
+				"        r[i*2+1]->next = r[i];\n" + 
 				"        i = i + 1;\n" + 
 				"    }\n" + 
 				"    i = 0;\n" + 
 				"    while(i<N){\n" + 
-				"        m[i]->r = r[(i+N)/2];\n" + 
+				"        m[i]->next = r[(i+N)/2];\n" + 
 				"        i = i + 1;\n" + 
 				"    }\n" + 
 				"    //return NULL;\n" + 
 				"}";
 		preDefinedMethod.put(key, value);
-		preDeclaredMR = "struct Reducer{\n" + 
+		preDeclaredMR = "struct Reducer_struct{\n" + 
 				"int pre_ebp;\n" + 
 				"int pre_esp;\n" + 
 				"int lock;\n" + 
 				"int system_next;\n" + 
 				"int index;\n" + 
-				"struct Reducer *r;\n" + 
+				"struct Reducer_struct *next;\n" + 
 				"int a1;\n" + 
 				"int a2;\n" + 
 				"int e1;\n" + 
 				"int e2;\n" + 
 				"};"+ 
 				"\n" + 
-				"struct Mapper{\n" + 
+				"struct Mapper_struct{\n" + 
 				"int pre_ebp;\n" + 
 				"int pre_esp;\n" + 
 				"int lock;\n" + 
 				"int system_next;\n" + 
-				"struct Reducer *r;\n" + 
+				"struct Reducer_struct *next;\n" + 
 				"int a;\n" + 
 				"int e;\n" + 
 				"int index;\n" + 

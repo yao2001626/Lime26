@@ -32,32 +32,32 @@ int getRand(int index){
 	return input[index];
 }
 void buildMR(int num){
-    r = (struct Reducer **) malloc (sizeof(struct Reducer *)*num);
-    m = (struct Mapper **) malloc (sizeof(struct Mapper *)*num);
+    r = (struct Reducer_struct **) malloc (sizeof(struct Reducer_struct *)*num);
+    m = (struct Mapper_struct **) malloc (sizeof(struct Mapper_struct *)*num);
     int i = 0;
     int N = num;
-    m[0] = (struct Mapper *)Mapper_init(0);
+    m[0] = (struct Mapper_struct *)Mapper_init(0);
     i = 1;
     while(i<N){
-        m[i] = (struct Mapper *)Mapper_init(i);
-        r[i] = (struct Reducer *)Reducer_init(i);
+        m[i] = (struct Mapper_struct *)Mapper_init(i);
+        r[i] = (struct Reducer_struct *)Reducer_init(i);
         i = i + 1;
     }
     i = 1;
     while(i<N/2){
-        r[i*2]->r = r[i];
-        r[i*2+1]->r = r[i];
+        r[i*2]->next = r[i];
+        r[i*2+1]->next = r[i];
         i = i + 1;
     }
     i = 0;
     while(i<N){
-        m[i]->r = r[(i+N)/2];
+        m[i]->next = r[(i+N)/2];
         i = i + 1;
     }
     //return NULL;
 }
-struct Mapper * getMapper(int index){
-	return (struct Mapper *)m[index];
+struct Mapper_struct * getMapper(int index){
+	return (struct Mapper_struct *)m[index];
 }
 
 
