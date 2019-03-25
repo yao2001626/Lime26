@@ -464,7 +464,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 	public String visitActionDecl(ActionDeclContext ctx) {
 		String s ="";
 		this.action_counter++;
-		s = "\nvoid " + this.className+"_"+ctx.ID().getText()+"(struct "+this.className+"_struct *this， void* self)";
+		s = "\nvoid " + this.className+"_"+ctx.ID().getText()+"(struct "+this.className+"_struct *this, void* self)";
 		s +="\n{\n";
 		s += this.visit(ctx.block());
 		s +="}\n";
