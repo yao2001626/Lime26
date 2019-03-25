@@ -12,17 +12,17 @@ struct Node2_struct *right;
 int a;
 };
 struct Node2_struct * Node2_init(int);
-void Node2_add(int x,struct Node2_struct *this){
+void Node2_add(int x,struct Node2_struct *this, void* self){
 
 if (this->left != NULL){
 this->a = 1;
 this->p =  x;
 
 if (this->p<=this->key){
-Node2_add(this->p,this->left);
+Node2_add(this->p,this->left, self);
 }
 else {
-Node2_add(this->p,this->right);
+Node2_add(this->p,this->right, self);
 }
 this->a = 0;
 
@@ -38,7 +38,7 @@ this->right =  (struct Node2_struct *) Node2_init(x);
 
 }}
 
-int Node2_has(int x,struct Node2_struct *this){
+int Node2_has(int x,struct Node2_struct *this, void* self){
 
 if (this->left == NULL){
 
@@ -47,11 +47,11 @@ return x == this->key;
 }
 else if(x<=this->key){
 
-return Node2_has(x,this->left);
+return Node2_has(x,this->left, self);
 
 }else {
 
-return Node2_has(x,this->right);
+return Node2_has(x,this->right, self);
 
 }
 }

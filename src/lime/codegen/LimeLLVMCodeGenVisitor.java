@@ -131,7 +131,44 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 				l+=");\n";
 			}		
 		}
-		
+		//declare externFunctions
+		String tmp="";
+		System.out.println(((ClassSymbol)cs).externMethods);
+		for (String s: ((ClassSymbol)cs).externMethods) {
+    		//System.out.println(s.split("_")[1]);
+    		
+			
+			if(symtab.PREDEFINED.resolve(s)!=null) {
+        		continue;
+        	}else {
+        		System.out.println(s.split("_")[1]);
+        		//MethodSymbol calledmethod = (MethodSymbol)((ClassSymbol)(symtab.GLOBALS.findSyresolveSymbol(s.split("_")[0])).resolveMethod(s.split("_")[1]);
+        		MethodSymbol calledmethod = ((ClassSymbol)symtab.GLOBALS.resolve(s.split("_")[0])).resolveMethod(s.split("_")[1]);
+        		if(calledmethod.getType()==null || calledmethod.getType().getName().equals("void")) {
+        			tmp += "void ";
+        		}else {
+        			tmp += "int ";
+        		}
+        		int n = calledmethod.getNumArgs();
+        		
+        		tmp += s;
+        		tmp+="(";
+        		if(n==0) {
+        			tmp+="void*, void*";
+        		}else {//n>0
+        			tmp +="int ";
+        			int nn=n-1;
+        			while(nn>0) {
+        				tmp+=",int ";
+        				nn--;
+        			}
+        			tmp+=", void*, void*";
+        		}
+        		tmp+=");\n";
+        	}
+		}
+		l+=tmp;
+
 		for(ClassMemberContext m :ctx.classMember()) {
 			String t = this.visit(m);
 			if (t!=null) l += t+"\n";
@@ -216,7 +253,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 			String t=this.visit(ctx.typeparslist());
 			if(t!=null)s+=t;
 		}
-		s+= "struct "+ this.className+"_struct *this";
+		s+= "struct "+ this.className+"_struct *this, void* self";
 		return s;
 		
 	}
@@ -427,7 +464,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 	public String visitActionDecl(ActionDeclContext ctx) {
 		String s ="";
 		this.action_counter++;
-		s = "\nvoid " + this.className+"_"+ctx.ID().getText()+"(struct "+this.className+"_struct *this)";
+		s = "\nvoid " + this.className+"_"+ctx.ID().getText()+"(struct "+this.className+"_struct *this， void* self)";
 		s +="\n{\n";
 		s += this.visit(ctx.block());
 		s +="}\n";
@@ -581,6 +618,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 			s+=tt+",";
 		}
 		s+="this->"+ctx.c.getText();
+		s+=", self";
 		s+=")";
 		return s;
 	}
