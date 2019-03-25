@@ -16,7 +16,7 @@ void Node2_add(int x,struct Node2_struct *this, void* self){
 
 if (this->left != NULL){
 this->a = 1;
-this->p =  x;
+this->p = x;
 
 if (this->p<=this->key){
 Node2_add(this->p,this->left, self);
@@ -29,12 +29,12 @@ this->a = 0;
 }
 else if(x<this->key){
 this->left = (struct Node2_struct *) Node2_init(x);
-this->right =  (struct Node2_struct *) Node2_init(this->key);
-this->key =  x;
+this->right = (struct Node2_struct *) Node2_init(this->key);
+this->key = x;
 
 }else if(x>this->key){
 this->left = (struct Node2_struct *) Node2_init(this->key);
-this->right =  (struct Node2_struct *) Node2_init(x);
+this->right = (struct Node2_struct *) Node2_init(x);
 
 }}
 

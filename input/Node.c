@@ -16,17 +16,17 @@ void Node_add(int x,struct Node_struct *this, void* self){
 
 if (this->left != NULL){
 this->a = 1;
-this->p =  x;
+this->p = x;
 
 }
 else if(x<this->key){
 this->left = (struct Node_struct *) Node_init(x);
-this->right =  (struct Node_struct *) Node_init(this->key);
-this->key =  x;
+this->right = (struct Node_struct *) Node_init(this->key);
+this->key = x;
 
 }else if(x>this->key){
 this->left = (struct Node_struct *) Node_init(this->key);
-this->right =  (struct Node_struct *) Node_init(x);
+this->right = (struct Node_struct *) Node_init(x);
 
 }}
 
@@ -49,7 +49,7 @@ return Node_has(x,this->right, self);
 }
 
 
-void Node_addToChild(struct Node_struct *this， void* self)
+void Node_addToChild(struct Node_struct *this, void* self)
 {
 
 if (this->p<=this->key){

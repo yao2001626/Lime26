@@ -369,6 +369,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 	
 	//multi_assign
 	//: id_list ':=' expr_list;
+	/*
 	@Override
 	public String visitMulti_assign(Multi_assignContext ctx) {
 		//String s = "";
@@ -377,7 +378,9 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		if(ctx.expr_list()!=null) {
 			String des = this.visit(ctx.expr_list());
 			String[] ss = src.split(",");
-			String[] dd = des.split(",");
+			// bug: a, method_call(x,y), c
+			String[] dd = des.split(" ,");
+			
 			String res="";
 			for(int i=0;i<ss.length;++i) {
 				res+= ss[i]+" = " +dd[i]+";\n";
@@ -385,9 +388,28 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 			return res;
 		}
 		return src+";";
+	}*/
+	
+	@Override
+	public String visitMulti_assign(Multi_assignContext ctx) {
+		String s = "";
+		String src = this.visit(ctx.id_list());
+		String[] ss = src.split(",");
+		String[] dd = new String[ctx.expr_list().getChildCount()];
+		//id list = id , id , id ....  id in the position(i*2) number of ids = (size + 1)/2 
+		for (int i=0; i<(ctx.id_list().getChildCount()+1)/2; ++i) {
+			dd[i] = this.visit(ctx.expr_list().getChild(i*2));
+			s += ss[i] + " = " + dd[i]+ ";\n";
+			//System.out.println(i);
+		}
+		//System.out.println(ss[0]);
+		return s;
 	}
+	
 	//expr_stmt
 	//: src=expr_list;
+	//expr_list
+	//: expr (',' expr)* ;
 	@Override
 	public String visitExpr_stmt(Expr_stmtContext ctx) {
 		String src = this.visit(ctx.src);
@@ -470,8 +492,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		s +="}\n";
 		return s;
 	}
-	//id_list
-	//: ID (',' ID)*;
+	
 	String getThisPrefix(String in) {
 		Symbol s = this.symtab.GLOBALS.findSymbol(in);
 		if(s instanceof FieldSymbol) {
@@ -501,6 +522,8 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 
 		return s;
 	}
+	
+	
 	//expr op=( '=' | '!=' ) expr             #eqexpr
 	@Override
 	public String visitEqexpr(EqexprContext ctx) {
@@ -618,8 +641,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 			s+=tt+",";
 		}
 		s+="this->"+ctx.c.getText();
-		s+=", self";
-		s+=")";
+		s+=", self)";
 		return s;
 	}
 	

@@ -15,11 +15,11 @@ void Reducer_reduce2(int , void*, void*);
 void Reducer_reduce1(int , void*, void*);
 void Mapper_map(int n,struct Mapper_struct *this, void* self){
 this->e = n;
-this->a =  1;
+this->a = 1;
 }
 
 
-void Mapper_doMap(struct Mapper_struct *this， void* self)
+void Mapper_doMap(struct Mapper_struct *this, void* self)
 {
 
 if (this->index%2 == 0){
