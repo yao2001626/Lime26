@@ -36,11 +36,11 @@ void buildMR(int num){
     m = (struct Mapper **) malloc (sizeof(struct Mapper *)*num);
     int i = 0;
     int N = num;
-    m[0] = (struct Mapper *)MAPPER_init(0);
+    m[0] = (struct Mapper *)Mapper_init(0);
     i = 1;
     while(i<N){
-        m[i] = (struct Mapper *)MAPPER_init(i);
-        r[i] = (struct Reducer *)REDUCER_init(i);
+        m[i] = (struct Mapper *)Mapper_init(i);
+        r[i] = (struct Reducer *)Reducer_init(i);
         i = i + 1;
     }
     i = 1;
@@ -62,16 +62,16 @@ struct Mapper * getMapper(int index){
 
 
 void lime_main(void * self){
-void *m;
+void *mp;
 int i;
 int num;
 int repeat;
 num = getArg(2);
 repeat = getArg(3);
 buildMR(num);while(repeat>0){
-	for(i = 0;i<= num; ++i){
-	m = getMapper(i);
-Mapper_map(i, m, self);
+	for(i = 0;i<= num - 1; ++i){
+	mp = getMapper(i);
+Mapper_map(i, mp, self);
 }
 repeat = repeat - 1;
 

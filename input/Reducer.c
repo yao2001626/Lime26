@@ -26,10 +26,14 @@ this->a2 =  1;
 void Reducer_doReduce(struct Reducer_struct *this)
 {
 
-if (this->index%2 == 0){
-Reducer_reduce1(this->e1 + this->e2,this->next);
+if (this->index == 1){
+this->e1 = 0;
+this->e2 =  0;
+
 }
-else {
+else if(this->index%2 == 0){
+Reducer_reduce1(this->e1 + this->e2,this->next);
+}else {
 Reducer_reduce2(this->e1 + this->e2,this->next);
 }
 this->a1 = 0;

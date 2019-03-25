@@ -13,7 +13,9 @@ class Reducer
             e2, a2 := x, true
     action doReduce
         when a1 and a2 do 
-            if index % 2 = 0 then 
+            if index = 1 then
+            	e1, e2 := 0, 0
+            elif index % 2 = 0 then 
                 next.reduce1(e1+e2)
             else
                 next.reduce2(e1+e2)
@@ -29,14 +31,14 @@ class Mapper
             e, a := n, true
     action doMap
         when a do 
-            if index%2 = 0 then 
+            if index %2 = 0 then 
                 next.reduce1(e*e)
             else 
                 next.reduce2(e*e)
             a := false
 
 class Start
-    var m: Mapper
+    var mp: Mapper
     var i: int
     var num: int
     var repeat: int
@@ -45,8 +47,8 @@ class Start
         repeat := getArg(3)
         buildMR(num)
         while repeat>0 do
-            for i:= 0 to num do 
-                m := getMapper(i)
-                m.map(i)
+            for i:= 0 to num-1 do 
+                mp := getMapper(i)
+                mp.map(i)
             repeat := repeat - 1
 	
