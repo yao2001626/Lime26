@@ -32,6 +32,8 @@ public class ClassSymbol extends DataAggregateSymbol {
 		classGuardIds = new HashSet<String>();
 		methodCalled = new HashSet<String>();
 		externMethods = new HashSet<String>();
+		externMethods.add("print");
+		externMethods.add("getRand");
 	}
 	public void addExternalFunction() {
 		Set<String> dms = new HashSet<String>();
