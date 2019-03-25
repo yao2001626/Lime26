@@ -121,7 +121,7 @@ public class SymbolTable {
 				"int lock;\n" + 
 				"int system_next;\n" + 
 				"int index;\n" + 
-				"struct Reducer_struct *next;\n" + 
+				"struct Reducer_struct *r;\n" + 
 				"int a1;\n" + 
 				"int a2;\n" + 
 				"int e1;\n" + 
@@ -133,7 +133,7 @@ public class SymbolTable {
 				"int pre_esp;\n" + 
 				"int lock;\n" + 
 				"int system_next;\n" + 
-				"struct Reducer_struct *next;\n" + 
+				"struct Reducer_struct *r;\n" + 
 				"int a;\n" + 
 				"int e;\n" + 
 				"int index;\n" + 
