@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "PQ-test.h"
+#include "PQ_test.h"
 void print(int x){
 	// This is the default built-in function: print
 	printf("%d\n", x);
