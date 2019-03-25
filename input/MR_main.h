@@ -6,24 +6,24 @@ void setRand(int num);
 void print(int x);
 int getArg(int index);
 void lime_main(void * self);
-struct Reducer_struct{
+struct Reducer{
 int pre_ebp;
 int pre_esp;
 int lock;
 int system_next;
 int index;
-struct Reducer_struct *r;
+struct Reducer *r;
 int a1;
 int a2;
 int e1;
 int e2;
 };
-struct Mapper_struct{
+struct Mapper{
 int pre_ebp;
 int pre_esp;
 int lock;
 int system_next;
-struct Reducer_struct *r;
+struct Reducer *r;
 int a;
 int e;
 int index;
