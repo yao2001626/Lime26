@@ -95,6 +95,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		Symbol cs = this.symtab.GLOBALS.resolve(ctx.ID().getText());
 		l+="#include <stddef.h>\n";
 		l+="#include <stdlib.h>\n";
+		l+="void print(int);\n";
 		l+="struct "+this.className+"_struct{\n";
 		l+="int pre_ebp;\n";
 		l+="int pre_esp;\n";
@@ -133,7 +134,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 		}
 		//declare externFunctions
 		String tmp="";
-		System.out.println(((ClassSymbol)cs).externMethods);
+		//System.out.println(((ClassSymbol)cs).externMethods);
 		for (String s: ((ClassSymbol)cs).externMethods) {
     		//System.out.println(s.split("_")[1]);
     		
@@ -141,7 +142,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String>{
 			if(symtab.PREDEFINED.resolve(s)!=null) {
         		continue;
         	}else {
-        		System.out.println(s.split("_")[1]);
+        		//System.out.println(s.split("_")[1]);
         		//MethodSymbol calledmethod = (MethodSymbol)((ClassSymbol)(symtab.GLOBALS.findSyresolveSymbol(s.split("_")[0])).resolveMethod(s.split("_")[1]);
         		MethodSymbol calledmethod = ((ClassSymbol)symtab.GLOBALS.resolve(s.split("_")[0])).resolveMethod(s.split("_")[1]);
         		if(calledmethod.getType()==null || calledmethod.getType().getName().equals("void")) {
