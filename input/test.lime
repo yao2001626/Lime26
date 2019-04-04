@@ -1,0 +1,4 @@
+class Test
+	var v  
+	init()
+	v := 0

@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="target/generated-sources/antlr4"/>
+	<classpathentry kind="lib" path="/Users/shucaiyao/Downloads/antlr-4.4-complete.jar"/>
 	<classpathentry kind="lib" path="/Users/shucaiyao/eclipse-workspace/Lime26/antlr-4.7.2-complete.jar"/>
 	<classpathentry kind="lib" path="/Users/shucaiyao/eclipse-workspace/Lime26/ST-4.1.jar"/>
 	<classpathentry kind="lib" path="/Users/shucaiyao/eclipse-workspace/Lime26/json-simple-1.1.1.jar"/>

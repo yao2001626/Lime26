@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdlib.h>
+void print(int);
 struct Node_struct{
 int pre_ebp;
 int pre_esp;

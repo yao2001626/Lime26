@@ -95,8 +95,7 @@ Mapper_map_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Mapper_map_ret:
-    RET 
-; define action
+    RET ; define action
 ; Mapper: doMap 
 Mapper_doMap:
 Mapper_doMap_start:

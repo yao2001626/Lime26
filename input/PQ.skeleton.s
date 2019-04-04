@@ -162,8 +162,7 @@ PQ_remove_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_remove_ret:
-    RET 
-; define action
+    RET ; define action
 ; PQ: doAdd 
 PQ_doAdd:
 PQ_doAdd_start:
@@ -177,8 +176,7 @@ PQ_doAdd_succeed:
     _PQ_doAdd_body
     ; action body end
 PQ_doAdd_checkguard_fail:
-    RET
-; define action
+    RET; define action
 ; PQ: doRemove 
 PQ_doRemove:
 PQ_doRemove_start:

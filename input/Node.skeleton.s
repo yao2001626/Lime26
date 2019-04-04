@@ -125,8 +125,7 @@ Node_has_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Node_has_ret:
-    RET 
-; define action
+    RET ; define action
 ; Node: addToChild 
 Node_addToChild:
 Node_addToChild_start:

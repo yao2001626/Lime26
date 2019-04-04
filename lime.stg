@@ -70,7 +70,7 @@ method(class_name, method_name, paranum, enabled, unguarded) ::=<<
     JNE  <class_name>_<method_name>_suspend
 <class_name>_<method_name>_checkguard:
     ; method guard starts here
-    _<class_name>_<method_name>_guard
+    ;<class_name>_<method_name>_guard
 <if(unguarded)>
 	JMP <class_name>_<method_name>_succeed
 <endif>
@@ -85,7 +85,7 @@ method(class_name, method_name, paranum, enabled, unguarded) ::=<<
     JMP  <class_name>_<method_name>_start
 <class_name>_<method_name>_succeed:
     ; method body starts here
-    _<class_name>_<method_name>_body
+    ;<class_name>_<method_name>_body
     ; method body ends here
 <class_name>_<method_name>_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
@@ -111,7 +111,7 @@ action(class_name, action_name, unguarded)::=<<
 <class_name>_<action_name>_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    _<class_name>_<action_name>_guard
+    ;<class_name>_<action_name>_guard
     ; action guard end
 <if(unguarded)>
 	JMP <class_name>_<action_name>_succeed
@@ -119,7 +119,7 @@ action(class_name, action_name, unguarded)::=<<
     JMP   <class_name>_<action_name>_checkguard_fail
 <class_name>_<action_name>_succeed:
     ; action body start
-    _<class_name>_<action_name>_body
+    ;<class_name>_<action_name>_body
     ; action body end
 <class_name>_<action_name>_checkguard_fail:
     RET

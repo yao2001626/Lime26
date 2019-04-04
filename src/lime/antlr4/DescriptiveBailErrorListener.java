@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.Recognizer;
 
 /**
  * An error listener that immediately bails out of the parse (does not recover)
- * and throws a runtime exception with a descriptive error message.
+ * and terminate the program immediately .
  */
 public class DescriptiveBailErrorListener extends BaseErrorListener {
 
@@ -15,10 +15,12 @@ public class DescriptiveBailErrorListener extends BaseErrorListener {
                             int line, int charPositionInLine,
                             String msg, RecognitionException e) {
 
-        String entireMessage = String.format("source: %s, line: %s, index: %s, error message: %s %s",
+        String entireMessage = String.format("Source: %s, line: %s, index: %s, \nError message: %s %s",
                 recognizer.getInputStream().getSourceName(), line, charPositionInLine, msg,
                 e == null ? "<null>" : e.getMessage());
-
-        throw new RuntimeException(entireMessage);
+        
+        //throw new RuntimeException(entireMessage);
+        System.err.println(entireMessage);
+        System.exit(0);
     }
 }

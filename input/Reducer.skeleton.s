@@ -133,8 +133,7 @@ Reducer_reduce2_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Reducer_reduce2_ret:
-    RET 
-; define action
+    RET ; define action
 ; Reducer: doReduce 
 Reducer_doReduce:
 Reducer_doReduce_start:
