@@ -194,7 +194,6 @@ def build(compileFlags, jsonFile):
     if(compileFlags.no_silence): print(cmd)
     os.system(cmd)
 
-
 def getMethodBody(name, lime_body_asm):
     start_str = '\s*'+name+':'
     end_str = '\s*.cfi_endproc'
