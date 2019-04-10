@@ -7,6 +7,7 @@ extern  runqput
 extern  malloc
 extern print 
 extern getRand 
+extern FFFF 
 ; global methods declare
 ; global Node_methods
 global Node_init 
@@ -69,7 +70,7 @@ Node_add_checklock:
     JNE  Node_add_suspend
 Node_add_checkguard:
     ; method guard starts here
-    _Node_add_guard
+    ;Node_add_guard
     ; method guard ends here
 Node_add_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -81,7 +82,7 @@ Node_add_suspend:
     JMP  Node_add_start
 Node_add_succeed:
     ; method body starts here
-    _Node_add_body
+    ;Node_add_body
     ; method body ends here
 Node_add_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -106,7 +107,7 @@ Node_has_checklock:
     JNE  Node_has_suspend
 Node_has_checkguard:
     ; method guard starts here
-    _Node_has_guard
+    ;Node_has_guard
     ; method guard ends here
 Node_has_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -118,7 +119,7 @@ Node_has_suspend:
     JMP  Node_has_start
 Node_has_succeed:
     ; method body starts here
-    _Node_has_body
+    ;Node_has_body
     ; method body ends here
 Node_has_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -131,12 +132,12 @@ Node_addToChild:
 Node_addToChild_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    _Node_addToChild_guard
+    ;Node_addToChild_guard
     ; action guard end
     JMP   Node_addToChild_checkguard_fail
 Node_addToChild_succeed:
     ; action body start
-    _Node_addToChild_body
+    ;Node_addToChild_body
     ; action body end
 Node_addToChild_checkguard_fail:
     RET

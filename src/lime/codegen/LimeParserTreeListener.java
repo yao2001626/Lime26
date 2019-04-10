@@ -45,7 +45,8 @@ import lime.antlr4.LimeGrammarParser.GuardeqexprContext;
 import lime.antlr4.LimeGrammarParser.GuardorexprContext;
 import lime.antlr4.LimeGrammarParser.Id_listContext;
 import lime.antlr4.LimeGrammarParser.IdguardatomContext;
-import lime.antlr4.LimeGrammarParser.Import_stmtContext;
+import lime.antlr4.LimeGrammarParser.ImportStmtsContext;
+import lime.antlr4.LimeGrammarParser.ImportstmtContext;
 import lime.antlr4.LimeGrammarParser.InitDeclContext;
 import lime.antlr4.LimeGrammarParser.IntguardatomContext;
 import lime.antlr4.LimeGrammarParser.LocalDeclContext;
@@ -91,11 +92,26 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		this.guardmap = new HashMap<String, String>();
 		this.initcodemap = new HashMap<String, String>();
 		this.objInitCode = "";
-
 	}
+	//importstmt
+	//: 'import' ID'(' type_list ')' (':' type)? NEWLINE; 
+	@Override
+	public void enterImportstmt(ImportstmtContext ctx) {
+		String importFun = " ";
+		if(ctx.type()!=null) {
+			importFun += ctx.type().getText() + importFun;
+		}else {
+			importFun += "void " + importFun;
+		}
+		importFun += ctx.ID().getText();
+		importFun +='(';
+		importFun += ctx.type_list().getText();
+		importFun +=");\n";
+		this.symtab.importedMethod.put(ctx.ID().getText(), importFun);
+	}
+
 	// compilationUnit
 	// : (classDecl+) EOF ;
-
 	@Override
 	public void enterClassDecl(ClassDeclContext ctx) {
 		// System.out.println("enter class"+ currentScope);
@@ -141,20 +157,6 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		className = "";
 		startClass = false;
 	}
-	//import_stmt
-	//  : 'import' ID'(' type_list ')' (':' type)?;
-	@Override
-	public void enterImport_stmt(Import_stmtContext ctx) {
-		MethodSymbol ms = new MethodSymbol(ctx.ID().getText());
-		if(ctx.type()==null) {
-			ms.setType((Type)symtab.GLOBALS.getSymbol("void"));
-		}else {
-			ms.setType((Type)symtab.GLOBALS.getSymbol("int"));
-		}
-		int n = ctx.type_list().getChildCount();
-		ms.setNumArgs(n);
-		symtab.PREDEFINED.define(ms);
-	}
 
 	//: 'method' ID  parameters (':' type)?  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)?; 
 	@Override
@@ -169,8 +171,6 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		currentScope = ms;
 		methodName = ctx.ID().getText();
 		inMethod = true;
-		
-		
 	}
 
 	@Override

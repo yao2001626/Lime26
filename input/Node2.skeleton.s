@@ -53,7 +53,7 @@ Node2_add_checklock:
     JNE  Node2_add_suspend
 Node2_add_checkguard:
     ; method guard starts here
-    _Node2_add_guard
+    ;Node2_add_guard
 	JMP Node2_add_succeed
     ; method guard ends here
 Node2_add_checkguard_fail:
@@ -66,7 +66,7 @@ Node2_add_suspend:
     JMP  Node2_add_start
 Node2_add_succeed:
     ; method body starts here
-    _Node2_add_body
+    ;Node2_add_body
     ; method body ends here
 Node2_add_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -84,7 +84,7 @@ Node2_has_checklock:
     JNE  Node2_has_suspend
 Node2_has_checkguard:
     ; method guard starts here
-    _Node2_has_guard
+    ;Node2_has_guard
 	JMP Node2_has_succeed
     ; method guard ends here
 Node2_has_checkguard_fail:
@@ -97,7 +97,7 @@ Node2_has_suspend:
     JMP  Node2_has_start
 Node2_has_succeed:
     ; method body starts here
-    _Node2_has_body
+    ;Node2_has_body
     ; method body ends here
 Node2_has_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)

@@ -6,7 +6,6 @@ void setRand(int num);
 void print(int x);
 int getArg(int index);
 void lime_main(void * self);
-void Mapper_map(int , void*, void*);
 int Mapper_init(int);
 int Reducer_init(int);
 void Mapper_map(int, void*,void*);

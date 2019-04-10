@@ -1,4 +1,4 @@
-class(class_name, fields, methods, actions, active, size, XYZ, init, externs)::=<<
+class(class_name, fields, methods, actions, active, size, XYZ, init, externs, imported)::=<<
 align 4
 segment .data
 segment .bss
@@ -7,6 +7,7 @@ extern  switch_to_sched
 extern  runqput
 extern  malloc
 <externs: {a | extern <a> }; separator="\n">
+<imported: {a | extern <a> }; separator="\n">
 ; global methods declare
 ; global <class_name>_methods
 <methods: {a | global <class_name>_<a.name> }; separator="\n">

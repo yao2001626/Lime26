@@ -18,6 +18,7 @@ import lime.antlr4.LimeGrammarParser.AtomContext;
 import lime.antlr4.LimeGrammarParser.AtomexprContext;
 import lime.antlr4.LimeGrammarParser.BlockContext;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
+import lime.antlr4.LimeGrammarParser.ClassDeclsContext;
 import lime.antlr4.LimeGrammarParser.ClassMemberContext;
 import lime.antlr4.LimeGrammarParser.CompexprContext;
 import lime.antlr4.LimeGrammarParser.CompilationUnitContext;
@@ -33,6 +34,8 @@ import lime.antlr4.LimeGrammarParser.GetRandContext;
 import lime.antlr4.LimeGrammarParser.Id_listContext;
 import lime.antlr4.LimeGrammarParser.If_statContext;
 import lime.antlr4.LimeGrammarParser.If_stmtContext;
+import lime.antlr4.LimeGrammarParser.ImportStmtsContext;
+import lime.antlr4.LimeGrammarParser.ImportstmtContext;
 import lime.antlr4.LimeGrammarParser.InitDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodcallContext;
 import lime.antlr4.LimeGrammarParser.MultexprContext;
@@ -62,16 +65,53 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		this.content="";
 	}
 	//compilationUnit
-    // : classDecl EOF ;
+    //: importStmts classDecls EOF ;
 	@Override
 	public String visitCompilationUnit(CompilationUnitContext ctx) {
-		for(ClassDeclContext c :ctx.classDecl()) {
-			String t = this.visit(c);
-			if(t!=null)ou +=t; 
-			ou += "\n";
-		}
+		//String s = "";
+		ou += this.visit(ctx.importStmts());
+		ou += this.visit(ctx.classDecls());
 		return ou;
 	}
+	
+	//importStmts 
+	//: importstmt*; 
+	@Override
+	public String visitImportStmts(ImportStmtsContext ctx) {
+		String s = "";
+		for(ImportstmtContext imp : ctx.importstmt()) {
+			s += this.visit(imp);
+		}
+		return s;
+	}
+	
+	//classDecls
+	//: classDecl+;
+	@Override
+	public String visitClassDecls(ClassDeclsContext ctx) {
+		String s = "";
+		for(ClassDeclContext c: ctx.classDecl()) {
+			s += this.visit(c);
+		}
+		return s;
+	}
+	//importstmt
+	//: 'import' ID'(' type_list ')' (':' type)? NEWLINE; 
+	@Override
+	public String visitImportstmt(ImportstmtContext ctx) {
+		String s = "";
+		if(ctx.type()!=null) {
+			s += ctx.type().getText() +" ";
+		}else {
+			s += "void ";
+		}
+		s += ctx.ID().getText();
+		s += "(";
+		s += ctx.type_list().getText();
+		s += ");\n";
+		return s;
+	}
+	
 	@Override
 	public String visitClassDecl(ClassDeclContext ctx) {
 		String s = "";
@@ -97,9 +137,6 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			s += "}";
 		}
 		//System.out.println("Start end");
-		
-		
-		
 		return s;
 	}
 	

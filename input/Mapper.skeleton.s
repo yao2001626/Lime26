@@ -69,7 +69,7 @@ Mapper_map_checklock:
     JNE  Mapper_map_suspend
 Mapper_map_checkguard:
     ; method guard starts here
-    _Mapper_map_guard
+    ;Mapper_map_guard
     ; method guard ends here
 Mapper_map_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -81,7 +81,7 @@ Mapper_map_suspend:
     JMP  Mapper_map_start
 Mapper_map_succeed:
     ; method body starts here
-    _Mapper_map_body
+    ;Mapper_map_body
     ; method body ends here
 Mapper_map_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -101,12 +101,12 @@ Mapper_doMap:
 Mapper_doMap_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    _Mapper_doMap_guard
+    ;Mapper_doMap_guard
     ; action guard end
     JMP   Mapper_doMap_checkguard_fail
 Mapper_doMap_succeed:
     ; action body start
-    _Mapper_doMap_body
+    ;Mapper_doMap_body
     ; action body end
 Mapper_doMap_checkguard_fail:
     RET

@@ -1,5 +1,9 @@
 package lime.codegen;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
 
@@ -19,12 +23,27 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 	String content;
 	STGroup templates;
 	String curClassName;
+	String dir;
 	
-	public LimeSkeCodeGenListener(SymbolTable st, STGroup stg){
+	public LimeSkeCodeGenListener(SymbolTable st, STGroup stg, String dir){
 		this.symtab = st;
 		this.currentScope = st.GLOBALS;
 		this.content="";
 		this.templates = stg;
+		this.dir = dir;
+	}
+	void createFile(String className, String dir, String content) {
+		String limeSkeletonName = className+".skeleton.s";
+		FileWriter outputSkefile;
+		try {
+			outputSkefile = new FileWriter(new File(dir, limeSkeletonName));
+			outputSkefile.write(content);
+	    	outputSkefile.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	//System.out.print("writing file: "+limeSkeletonName+"\n");
 	}
 	//class(class_name, fields, methods, actions, active, size, XYZ, init)
 	@Override
@@ -33,14 +52,15 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		currentScope = (Scope)this.currentScope.resolve(ctx.ID().toString());
 		curClassName = ctx.ID().toString();
 		t.add("class_name", curClassName);
+		if(curClassName.equals("Start")) return;
 		t.add("externs", ((ClassSymbol)currentScope).externMethods);
 		t.add("fields", ((ClassSymbol)currentScope).getDefinedFields());
 		t.add("methods", ((ClassSymbol)currentScope).getDefinedMethods());
 		t.add("actions", ((ClassSymbol)currentScope).getDefinedActions());
 		boolean activated = ((ClassSymbol)currentScope).getActions().size()>0;
 		t.add("active", activated);
-		
 		t.add("init", ((ClassSymbol)currentScope).getObjInitCode());
+		t.add("imported", symtab.importedMethod.keySet());
 		/*
 		int size = ((ClassSymbol)currentScope).getDefinedFields().size();
 		
@@ -87,6 +107,9 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 	@Override
 	public void exitClassDecl(ClassDeclContext ctx) {
 		currentScope = currentScope.getEnclosingScope();
+		//write to file
+		createFile(ctx.ID().getText(), this.dir, content);
+		
 	}
 	@Override
 	public void exitMethodDecl(MethodDeclContext ctx) {

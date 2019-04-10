@@ -86,11 +86,14 @@ tokens {
 }
 //Lime parser
 compilationUnit
-    : import_stmt* (classDecl)+ EOF ;
-    
-import_stmt
+    //: im=(import_stmt*) cls=(classDecl)+ EOF ;
+    : importStmts classDecls EOF ;
+importStmts 
+	: importstmt*; 
+importstmt
 	: 'import' ID'(' type_list ')' (':' type)? NEWLINE; 
-    
+classDecls
+	: classDecl*;
 classDecl returns [Scope scope]
 	: 'class' ID NEWLINE INDENT classMember* DEDENT ;
 classMember 

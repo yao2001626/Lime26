@@ -31,7 +31,7 @@ void setRand(int num){
 int getRand(int index){
 	return input[index];
 }
-
+int FFFF(int);
 void lime_main(void * self){
 void *root;
 int num;
@@ -39,14 +39,10 @@ int i;
 root = (void *) Node_init(5000);
 num = getArg(2);
 setRand(num);for(i = 0;i<= num; ++i){
-	Node_add(getRand(), root, self);
+	Node_add(getRand(i), root, self);
 }
 for(i = 0;i<= num; ++i){
-	
-if (Node_has(i, root, self)){
-print(i);
-}
-
+	Node_has(getRand(i), root, self);
 }
 
 }

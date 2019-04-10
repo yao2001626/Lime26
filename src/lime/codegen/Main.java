@@ -248,7 +248,7 @@ public class Main {
                 } 
 
                 for(Symbol s: symtab.PREDEFINED.getAllSymbols()) {
-                	if(s.getName().equals("print")|| s.getName().equals("setRand")||s.getName().equals("getArg")||s.getName().equals("getRand")|| s.getName().equals("buildMR")||s.getName().equals("getMapper")) continue;
+                	if(s.getName().equals("print")|| s.getName().equals("setRand")||s.getName().equals("getArg")||s.getName().equals("getRand")|| s.getName().equals("buildMR")||s.getName().equals("getMapper")||s.getName().equals("test")) continue;
                 	// imported method in the .c 
                 	//System.out.println((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName()));
                 	String importedMethod = ((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName())).getType().getName() + " " + s.getName() + "(";
@@ -295,6 +295,7 @@ public class Main {
                 parser.setBuildParseTree(true);
                 
                 ParseTree tree = parser.compilationUnit();
+                //ParseTree tree = parser.classDecls();
                 // step 2 SYMBOL DEFINE
                 SymbolTable symtab = new SymbolTable();
                 LimeParserTreeListener lptl = new LimeParserTreeListener(symtab);
@@ -310,36 +311,13 @@ public class Main {
                 STGroup templates = new STGroupFile(templatesFilename);
                 
                 // step 5 create lime classes skeleton files and LLVM files (one lime file may contains multiple classes)
-                LimeSkeCodeGenListener lcgl = new LimeSkeCodeGenListener(symtab, templates);
-                LimeLLVMCodeGenVisitor llvmcgv = new LimeLLVMCodeGenVisitor(symtab);
+                LimeSkeCodeGenListener lcgl = new LimeSkeCodeGenListener(symtab, templates, dir);
+                LimeLLVMCodeGenVisitor llvmcgv = new LimeLLVMCodeGenVisitor(symtab, dir);
                 LimeMainCodeGenVisitor lmcg = new LimeMainCodeGenVisitor(symtab);
                 //System.out.println(source);
                 HashSet<String> externFunctions = new HashSet<String>();
-                for(int i=0; i<tree.getChildCount() && (tree.getChild(i) instanceof ClassDeclContext); ++i) {
-                	//lime class name
-                	String outputName = ((ClassDeclContext)tree.getChild(i)).ID().getText();
-                	if(outputName.equals("Start")) {
-                		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.getSymbol("Start");
-                		//System.out.println(cs.externMethods);
-                		externFunctions.addAll(cs.externMethods);
-                		continue;
-                	}
-                	String limeSkeletonName = outputName+".skeleton.s";
-                	String limeLLVMName = outputName+".c";
-                	
-                	FileWriter outputSkefile = new FileWriter(new File(dir, limeSkeletonName));
-                	//System.out.print("writing file: "+limeSkeletonName+"\n");
-                	ParseTreeWalker.DEFAULT.walk(lcgl, tree.getChild(i));
-                	outputSkefile.write(lcgl.content);
-                	outputSkefile.close();
-                	
-                	FileWriter outputLLVMfile = new FileWriter(new File(dir, limeLLVMName));
-                	//System.out.print("writing file: "+limeLLVMName +"\n");
-                	outputLLVMfile.write(llvmcgv.visit(tree.getChild(i)));
-                	outputLLVMfile.close();
-                	
-                	
-                }
+                llvmcgv.visit(tree);
+                ParseTreeWalker.DEFAULT.walk(lcgl, tree);
             	//System.out.println(lmcg.visit(tree));
                 genMain(source, symtab, lmcg.visit(tree), externFunctions);
             }

@@ -142,12 +142,6 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGuardorexpr(@NotNull LimeGrammarParser.GuardorexprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link LimeGrammarParser#import_stmt}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitImport_stmt(@NotNull LimeGrammarParser.Import_stmtContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#else_stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -243,6 +237,12 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#importstmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportstmt(@NotNull LimeGrammarParser.ImportstmtContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#simple_stmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -267,6 +267,18 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIf_stat(@NotNull LimeGrammarParser.If_statContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#classDecls}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDecls(@NotNull LimeGrammarParser.ClassDeclsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#importStmts}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImportStmts(@NotNull LimeGrammarParser.ImportStmtsContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code eqexpr}
 	 * labeled alternative in {@link LimeGrammarParser#expr}.

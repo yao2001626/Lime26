@@ -59,8 +59,6 @@ void buildMR(int num){
 struct Mapper_struct * getMapper(int index){
 	return (struct Mapper_struct *)m[index];
 }
-
-
 void lime_main(void * self){
 void *mp;
 int i;

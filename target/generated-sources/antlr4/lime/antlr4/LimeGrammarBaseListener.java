@@ -259,18 +259,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterImport_stmt(@NotNull LimeGrammarParser.Import_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitImport_stmt(@NotNull LimeGrammarParser.Import_stmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterElse_stat(@NotNull LimeGrammarParser.Else_statContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -451,6 +439,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterImportstmt(@NotNull LimeGrammarParser.ImportstmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImportstmt(@NotNull LimeGrammarParser.ImportstmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSimple_stmt(@NotNull LimeGrammarParser.Simple_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -494,6 +494,30 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIf_stat(@NotNull LimeGrammarParser.If_statContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassDecls(@NotNull LimeGrammarParser.ClassDeclsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDecls(@NotNull LimeGrammarParser.ClassDeclsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterImportStmts(@NotNull LimeGrammarParser.ImportStmtsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitImportStmts(@NotNull LimeGrammarParser.ImportStmtsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

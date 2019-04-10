@@ -227,16 +227,6 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitGuardorexpr(@NotNull LimeGrammarParser.GuardorexprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link LimeGrammarParser#import_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void enterImport_stmt(@NotNull LimeGrammarParser.Import_stmtContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link LimeGrammarParser#import_stmt}.
-	 * @param ctx the parse tree
-	 */
-	void exitImport_stmt(@NotNull LimeGrammarParser.Import_stmtContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#else_stat}.
 	 * @param ctx the parse tree
 	 */
@@ -397,6 +387,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#importstmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterImportstmt(@NotNull LimeGrammarParser.ImportstmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#importstmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitImportstmt(@NotNull LimeGrammarParser.ImportstmtContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#simple_stmt}.
 	 * @param ctx the parse tree
 	 */
@@ -438,6 +438,26 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIf_stat(@NotNull LimeGrammarParser.If_statContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#classDecls}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDecls(@NotNull LimeGrammarParser.ClassDeclsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#classDecls}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDecls(@NotNull LimeGrammarParser.ClassDeclsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#importStmts}.
+	 * @param ctx the parse tree
+	 */
+	void enterImportStmts(@NotNull LimeGrammarParser.ImportStmtsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#importStmts}.
+	 * @param ctx the parse tree
+	 */
+	void exitImportStmts(@NotNull LimeGrammarParser.ImportStmtsContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code eqexpr}
 	 * labeled alternative in {@link LimeGrammarParser#expr}.

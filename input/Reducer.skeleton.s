@@ -70,7 +70,7 @@ Reducer_reduce1_checklock:
     JNE  Reducer_reduce1_suspend
 Reducer_reduce1_checkguard:
     ; method guard starts here
-    _Reducer_reduce1_guard
+    ;Reducer_reduce1_guard
     ; method guard ends here
 Reducer_reduce1_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -82,7 +82,7 @@ Reducer_reduce1_suspend:
     JMP  Reducer_reduce1_start
 Reducer_reduce1_succeed:
     ; method body starts here
-    _Reducer_reduce1_body
+    ;Reducer_reduce1_body
     ; method body ends here
 Reducer_reduce1_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -107,7 +107,7 @@ Reducer_reduce2_checklock:
     JNE  Reducer_reduce2_suspend
 Reducer_reduce2_checkguard:
     ; method guard starts here
-    _Reducer_reduce2_guard
+    ;Reducer_reduce2_guard
     ; method guard ends here
 Reducer_reduce2_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -119,7 +119,7 @@ Reducer_reduce2_suspend:
     JMP  Reducer_reduce2_start
 Reducer_reduce2_succeed:
     ; method body starts here
-    _Reducer_reduce2_body
+    ;Reducer_reduce2_body
     ; method body ends here
 Reducer_reduce2_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -139,12 +139,12 @@ Reducer_doReduce:
 Reducer_doReduce_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    _Reducer_doReduce_guard
+    ;Reducer_doReduce_guard
     ; action guard end
     JMP   Reducer_doReduce_checkguard_fail
 Reducer_doReduce_succeed:
     ; action body start
-    _Reducer_doReduce_body
+    ;Reducer_doReduce_body
     ; action body end
 Reducer_doReduce_checkguard_fail:
     RET

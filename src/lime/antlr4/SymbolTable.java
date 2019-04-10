@@ -9,6 +9,7 @@ public class SymbolTable {
 	public BaseScope PREDEFINED = new PredefinedScope();
 	public GlobalScope GLOBALS = new GlobalScope(PREDEFINED);
 	public Map<String, String> preDefinedMethod = new HashMap<String, String>();
+	public Map<String, String> importedMethod = new HashMap<String, String>();
 	public String preDeclaredMethod;
 	public String preDeclaredMR;
 	public SymbolTable() {

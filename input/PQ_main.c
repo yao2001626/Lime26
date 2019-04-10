@@ -31,7 +31,6 @@ void setRand(int num){
 int getRand(int index){
 	return input[index];
 }
-
 void lime_main(void * self){
 void *head;
 int i;

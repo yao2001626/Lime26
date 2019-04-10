@@ -19,205 +19,215 @@ VERSION = "0.0.1"
 
 import argparse
 import sys,subprocess,os
-import json	
+import json    
 import re
 
 def parseArguments(compileFlags):
-	parser = argparse.ArgumentParser(description = "Lime compiler version 0.0.1.\n Antlr4 && LLVM: For X86 (Shucai yaos4@mcmaster.ca)\n")
-	parser.add_argument('-d', "--input-dir", default ="./", help = "input folder which contains lime source code")
-	parser.add_argument("input", help = "The input lime source file")
-	parser.add_argument('-o', "--output", help = "the output file name")
-	parser.add_argument('-L', "--clang-options", help = "Compile options for clang: \ndefault: -S -emit-llvm -fomit-frame-pointer")
-	parser.add_argument('-l', "--llc-options", help = "Compile options for llc: \ndefault: -O0 -march=x86 -x86-asm-syntax=intel")
-	parser.add_argument('-S', "--no-silence", action='store_true', help = "Display the commands executed")
+    parser = argparse.ArgumentParser(description = "Lime compiler version 0.0.1.\n Antlr4 && LLVM: For X86 (Shucai yaos4@mcmaster.ca)\n")
+    parser.add_argument('-d', "--input-dir", help = "input folder which contains lime source code")
+    parser.add_argument('-D', "--output-dir", help = "output folder")
+    parser.add_argument("input", help = "The input lime source file")
+    parser.add_argument('-o', "--output", help = "the output file name")
+    parser.add_argument('-L', "--clang-options", help = "Compile options for clang: \ndefault: -S -emit-llvm -fomit-frame-pointer")
+    parser.add_argument('-l', "--llc-options", help = "Compile options for llc: \ndefault: -O0 -march=x86 -x86-asm-syntax=intel")
+    parser.add_argument('-S', "--no-silence", action='store_true', help = "Display the commands executed")
+    parser.add_argument('-c', "--compile", action='store_false', help = "Compile the lime code, don't generate executable object")
+    parser.add_argument('-i', "--import-file", help = "Import file should contain the implementation of imported functions in Lime code, stay in the same folder of the lime source file")
 
-	args = parser.parse_args()
+    args = parser.parse_args()
 
-	if args.input_dir != None:
-		compileFlags.inputDir = args.input_dir
-	if args.input != None:
-		compileFlags.file(args.input)
-	if args.output != None:
-		compileFlags.output = args.output
-	if args.clang_options != None:
-		compileFlags.clangOptions = args.clang_options
-	if args.llc_options != None:
-		compileFlags.llcOptions = args.llc_options
-	if args.no_silence != None:
-		compileFlags.no_silence = args.no_silence
-			
+    if args.input_dir != None:
+        compileFlags.inputDir = args.input_dir
+    if args.input != None:
+        compileFlags.file(args.input)
+    if args.output != None:
+        compileFlags.output = args.output
+    if args.clang_options != None:
+        compileFlags.clangOptions += args.clang_options
+    if args.llc_options != None:
+        compileFlags.llcOptions += args.llc_options
+    if args.no_silence != None:
+        compileFlags.no_silence = args.no_silence
+    if args.compile != None:
+        compileFlags.compile = args.compile
+    if args.output_dir != None:
+        compileFlags.outputDir = args.output_dir
+    if args.import_file != None:
+        compileFlags.importFile = args.import_file    
  
 class CompileFlags:
-	def __init__(self):
-		self.inputDir = os.getcwd()
-		self.realPath = os.path.dirname(os.path.realpath(__file__))
-		self.jarPath = os.path.join(self.realPath, "Lime4-compiler.jar")
-		if not os.path.exists(self.jarPath):
-			print('can\'t find Lime4-compiler.jar\n')
-			sys.exit(1)
-		self.stgPath = os.path.join(self.realPath, "lime.stg")
-		if not os.path.exists(self.stgPath):
-			print('can\'t find lime.stg\n')
-			sys.exit(1)
-		self.limeRuntime = os.path.join(self.realPath, "Lime_Runtime_LockFree.a")
-		if not os.path.exists(self.limeRuntime):
-			print('can\'t find Lime_Runtime_LockFree.a\n')
-			sys.exit(1)
-		self.output = "a.out"
-		self.clangOptions = "-S -emit-llvm -fomit-frame-pointer"
-		self.llcOptions = "-O0 -march=x86 -x86-asm-syntax=intel"
-		self.gccOptions = "-pthread -m32 -fomit-frame-pointer"
-		self.nasmOptions = "-f elf32"
-		self.no_silence = True
+    def __init__(self):
+        self.inputDir = os.getcwd()
+        self.outputDir = os.getcwd()
+        self.realPath = os.path.dirname(os.path.realpath(__file__))
+        self.jarPath = os.path.join(self.realPath, "Lime4-compiler.jar")
+        if not os.path.exists(self.jarPath):
+            print('can\'t find Lime4-compiler.jar\n')
+            sys.exit(1)
+        self.stgPath = os.path.join(self.realPath, "lime.stg")
+        if not os.path.exists(self.stgPath):
+            print('can\'t find lime.stg\n')
+            sys.exit(1)
+        self.limeRuntime = os.path.join(self.realPath, "Lime_Runtime_LockFree.a")
+        if not os.path.exists(self.limeRuntime):
+            print('can\'t find Lime_Runtime_LockFree.a\n')
+            sys.exit(1)
+        self.output = "a.out"
+        self.clangOptions = "-S -emit-llvm -fomit-frame-pointer"
+        self.llcOptions = "-O0 -march=x86 -x86-asm-syntax=intel"
+        self.gccOptions = "-pthread -m32 -fomit-frame-pointer"
+        self.nasmOptions = "-f elf32"
+        self.no_silence = True
+        self.compile = True
+        self.importFile = ""
 
-	def file(self, fileName):
-		if not os.path.exists(fileName):
-			print("can\'t find input file %s\n"%(fileName))
-			sys.exit(1)
-		self.fileName = fileName.split('.')[0]
+    def file(self, fileName):
+        if not os.path.exists(os.path.join(self.inputDir, fileName)):
+            print("can\'t find input file %s\n"%(fileName))
+            sys.exit(1)
+        self.fileName = fileName.split('.')[0]
 
 class LimeAction:
-	def __init__(self, name, guard):
-		self.name = name 
-		self.guard = guard
+    def __init__(self, name, guard):
+        self.name = name 
+        self.guard = guard
 
 class LimeMethod:
-	def __init__(self, name, guard):
-		self.name = name
-		self.guard = guard
+    def __init__(self, name, guard):
+        self.name = name
+        self.guard = guard
 
 class LimeClass:
-	def __init__(self, name):
-		self.name = name
-		self.initCodes = ""
-		self.actions = []
-		self.methods = []
-	
-	def action(self, a):
-		self.actions.append(a)
+    def __init__(self, name):
+        self.name = name
+        self.initCodes = ""
+        self.actions = []
+        self.methods = []
+    
+    def action(self, a):
+        self.actions.append(a)
 
-	def method(self, m):
-		self.methods.append(m)
+    def method(self, m):
+        self.methods.append(m)
 
-	def initCode(self, code):
-		self.initCodes = code
+    def initCode(self, code):
+        self.initCodes = code
 
 class JsonFile:
-	def __init__(self, name):
-		self.name = name
-		self.classes = []
-		self.inits = {}
-		self.guards = {}
-		self.methods = []
-		self.actions = []
+    def __init__(self, cf):
+        self.name = cf.fileName
+        self.classes = []
+        self.inits = {}
+        self.guards = {}
+        self.methods = []
+        self.actions = []
 
-		with open(self.name+".json", "r") as jsonFile:
-			objs = json.load(jsonFile)
-			for obj in objs:
-				limeclass = LimeClass(obj["class_name"])
-				limeclass.initCode(obj[obj["class_name"]+"_init_code"])
-				for method in obj["methods"]:
-					limemethod = LimeMethod(obj["class_name"]+"_"+method, obj["guards"].get(obj["class_name"]+method))
-					limeclass.method(limemethod)
-				for action in obj["actions"]:
-					limeaction = LimeAction(obj["class_name"]+"_"+action, obj["guards"].get(obj["class_name"]+action))
-					limeclass.method(limeaction)
-				self.classes.append(limeclass)
+        with open(os.path.join( cf.inputDir, self.name+".json"), "r") as jsonFile:
+            objs = json.load(jsonFile)
+            for obj in objs:
+                limeclass = LimeClass(obj["class_name"])
+                limeclass.initCode(obj[obj["class_name"]+"_init_code"])
+                for method in obj["methods"]:
+                    limemethod = LimeMethod(obj["class_name"]+"_"+method, obj["guards"].get(obj["class_name"]+method))
+                    limeclass.method(limemethod)
+                for action in obj["actions"]:
+                    limeaction = LimeAction(obj["class_name"]+"_"+action, obj["guards"].get(obj["class_name"]+action))
+                    limeclass.method(limeaction)
+                self.classes.append(limeclass)
 
 
 def compile(compileFlags):
-	cmd = "java -jar %s -stg %s  %s.lime" % (compileFlags.jarPath, compileFlags.stgPath, compileFlags.fileName)
-	if(compileFlags.no_silence):
-		print(cmd)
-	os.system(cmd)
+    cmd = "java -jar %s -stg %s  %s" % (compileFlags.jarPath, compileFlags.stgPath, os.path.join(compileFlags.inputDir, compileFlags.fileName+".lime"))
+    if(compileFlags.no_silence):
+        print(cmd)
+    os.system(cmd)
 
 def merge(compileFlags, jsonFile):
-	for cls in jsonFile.classes:
-		cmd = "clang %s -o %s %s" % (compileFlags.clangOptions, cls.name + ".ll", cls.name + ".c")
-		if(compileFlags.no_silence): print(cmd)
-		os.system(cmd)
-		cmd = "llc %s -o %s %s" % (compileFlags.llcOptions, cls.name + ".body.s", cls.name + ".ll")
-		if(compileFlags.no_silence): print(cmd)
-		os.system(cmd)
-		# merge method/action body
-		limeskeName = cls.name + ".skeleton.s"
-		limeBodyName = cls.name + ".body.s"
-		with open(limeskeName, "r") as limeClassSkeleton:
-			skeleton = limeClassSkeleton.read()
-			for method in cls.methods:
-				methodBody = getMethodBody(method.name, limeBodyName)
-				skeMethodName = ";" + method.name + "_body"
-				skeleton = skeleton.replace(skeMethodName, methodBody)
-				mGuardName = ";" + method.name + "_guard"
-				mGuard = method.guard
-				#print(mGuardName)
-				skeleton = skeleton.replace(mGuardName, mGuard)
-			for action in cls.methods:
-				actionBody = getMethodBody(action.name, limeBodyName)
-				skeActionName = ";" + action.name + "_body"
-				skeleton = skeleton.replace(skeActionName, actionBody)
-				aGuardName = ";" + action.name + "_guard"
-				aGuard = action.guard
-				#print(aGuard)
-				#print(aGuardName)
-				skeleton = skeleton.replace(aGuardName, aGuard)
-			#initCodeName =  ";" + cls.name + "_init_code"
-			#initCode = getMethodBody(initCodeName , limeBodyName)
-			#print(cls.initCodes)
-			#skeleton = skeleton.replace(initCodeName, cls.initCodes)
+    for cls in jsonFile.classes:
+        cmd = "clang %s -o %s %s" % (compileFlags.clangOptions, os.path.join(compileFlags.inputDir, cls.name + ".ll"), os.path.join(compileFlags.inputDir, cls.name + ".c"))
+        if(compileFlags.no_silence): print(cmd)
+        os.system(cmd)
+        cmd = "llc %s -o %s %s" % (compileFlags.llcOptions, os.path.join(compileFlags.inputDir, cls.name + ".body.s"), os.path.join(compileFlags.inputDir, cls.name + ".ll"))
+        if(compileFlags.no_silence): print(cmd)
+        os.system(cmd)
+        # merge method/action body
+        limeskeName = os.path.join(compileFlags.inputDir, cls.name + ".skeleton.s")
+        limeBodyName = os.path.join(compileFlags.inputDir, cls.name + ".body.s")
+        with open(limeskeName, "r") as limeClassSkeleton:
+            skeleton = limeClassSkeleton.read()
+            for method in cls.methods:
+                methodBody = getMethodBody(method.name, limeBodyName)
+                skeMethodName = ";" + method.name + "_body"
+                skeleton = skeleton.replace(skeMethodName, methodBody)
+                mGuardName = ";" + method.name + "_guard"
+                mGuard = method.guard
+                skeleton = skeleton.replace(mGuardName, mGuard)
+            for action in cls.methods:
+                actionBody = getMethodBody(action.name, limeBodyName)
+                skeActionName = ";" + action.name + "_body"
+                skeleton = skeleton.replace(skeActionName, actionBody)
+                aGuardName = ";" + action.name + "_guard"
+                aGuard = action.guard
+                skeleton = skeleton.replace(aGuardName, aGuard)
 
-			with open(cls.name + ".s", "w") as limeAsm:
-				limeAsm.write(skeleton)
-	# nasm
-	#for cls in jsonFile.classes:
-		cmd = "nasm %s -o %s %s"% (compileFlags.nasmOptions, cls.name+".o", cls.name+".s")
-		if(compileFlags.no_silence): print(cmd)
-		os.system(cmd)
+            with open(os.path.join(compileFlags.inputDir, cls.name + ".s"), "w") as limeAsm:
+                limeAsm.write(skeleton)
+        #nasm
+        cmd = "nasm %s -o %s %s"% (compileFlags.nasmOptions, os.path.join(compileFlags.inputDir, cls.name+".o"), os.path.join(compileFlags.inputDir, cls.name+".s"))
+        if(compileFlags.no_silence): print(cmd)
+        os.system(cmd)
 
 
 def build(compileFlags, jsonFile):
-	objs = jsonFile.name+"_main.c "
-	for cls in jsonFile.classes:
-		objs += cls.name+".o "
-		#print(cls.name)
-	cmd = "gcc %s -o %s %s %s" %(compileFlags.gccOptions, compileFlags.output, objs, compileFlags.limeRuntime)
-	if(compileFlags.no_silence): print(cmd)
-	os.system(cmd)
-	#print(cmd)
+    objs = os.path.join(compileFlags.inputDir, jsonFile.name+"_main.c ")
+    for cls in jsonFile.classes:
+        objs += os.path.join(compileFlags.inputDir, cls.name+".o ")
+    #compile the imported functions
+    if compileFlags.importFile != "":
+        importName = os.path.join(compileFlags.inputDir, compileFlags.importFile)
+        outputImportName = os.path.join(compileFlags.inputDir, compileFlags.importFile.split(".")[0]+".o")
+        cmd = "gcc %s -c -o %s %s" % (compileFlags.gccOptions,  outputImportName, importName)
+        if(compileFlags.no_silence): print(cmd)
+        os.system(cmd)
+        objs += outputImportName + " "
+    cmd = "gcc %s -o %s %s %s" % (compileFlags.gccOptions, os.path.join( compileFlags.outputDir, compileFlags.output), objs, compileFlags.limeRuntime)
+    if(compileFlags.no_silence): print(cmd)
+    os.system(cmd)
 
 
 def getMethodBody(name, lime_body_asm):
-	start_str = '\s*'+name+':'
-	end_str = '\s*.cfi_endproc'
-	flag = False
-	res =""
-	with open(lime_body_asm, "r") as read_body_file:
-		for line in read_body_file:
-			if 	re.match(start_str, line):
-				flag = True
-			elif flag and re.match(end_str, line):
-				flag = False
-			elif flag:
-				res += line	
-	# delete the first line: .start_function
-	#res = res.split("\n",1)[1]
-	# delete the last line: ret
-	res = res.replace('retl',';retl')
-	res = res.replace('retq',';retq')
-	res = res.replace('ret',';ret')
-	res = res.replace('call	_malloc',';call	_malloc')
-	res = res.replace('#',';')
-	res = res.replace('.cfi',';')
-	res = res.replace('ptr',' ')
-	res = res.replace('.size', ';.size')
-	return res
+    start_str = '\s*'+name+':'
+    end_str = '\s*.cfi_endproc'
+    flag = False
+    res =""
+    with open(lime_body_asm, "r") as read_body_file:
+        for line in read_body_file:
+            if     re.match(start_str, line):
+                flag = True
+            elif flag and re.match(end_str, line):
+                flag = False
+            elif flag:
+                res += line    
+    # delete the first line: .start_function
+    #res = res.split("\n",1)[1]
+    # delete the last line: ret
+    res = res.replace('retl',';retl')
+    res = res.replace('retq',';retq')
+    res = res.replace('ret',';ret')
+    res = res.replace('call    _malloc',';call    _malloc')
+    res = res.replace('#',';')
+    res = res.replace('.cfi',';')
+    res = res.replace('ptr',' ')
+    res = res.replace('.size', ';.size')
+    return res
 
 
 if __name__ == "__main__":
-	cf = CompileFlags() 
-	parseArguments(cf)
-	compile(cf)
-	jf = JsonFile(cf.fileName)
-	merge(cf, jf)
-	build(cf, jf)
-	sys.exit(1)
+    cf = CompileFlags() 
+    parseArguments(cf)
+    compile(cf)
+    if cf.compile :  
+        jf = JsonFile(cf)
+        merge(cf, jf)
+        build(cf, jf)
+    sys.exit(1)

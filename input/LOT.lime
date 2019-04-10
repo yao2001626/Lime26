@@ -1,3 +1,4 @@
+import FFFF(int):int
 class Node
 	var key, p : int
 	var left, right : Node
@@ -35,7 +36,5 @@ class Start
 		root := new Node(5000) 
 		num := getArg(2)
 		setRand(num)
-		for i := 0 to num do root.add(getRand())
-		for i := 0 to num do 
-			if root.has(i) then
-				print(i)
+		for i := 0 to num do root.add(getRand(i))
+		for i := 0 to num do root.has(getRand(i))
