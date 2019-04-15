@@ -1,9 +1,5 @@
 package lime.antlr4;
 
-import org.antlr.v4.runtime.CommonToken;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenSource;
-
 public interface Symbol {
 	String getName();
 	Scope getScope();

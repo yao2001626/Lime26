@@ -12,8 +12,8 @@ int a;
 int e;
 int index;
 };
-void Reducer_reduce2(int, struct Reducer_struct *, void*);
-void Reducer_reduce1(int, struct Reducer_struct *, void*);
+void  Reducer_reduce2(int, struct Reducer_struct *, void*);
+void  Reducer_reduce1(int, struct Reducer_struct *, void*);
 void Mapper_map(int n,struct Mapper_struct *this, void* self){
 this->e = n;
 this->a = 1;

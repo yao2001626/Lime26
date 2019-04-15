@@ -1,10 +1,8 @@
 package lime.codegen;
 
 import java.util.List;
-import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.ArrayType;
@@ -118,12 +116,21 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		String dec = "";
 		//for llvm code
 		MethodSymbol ms = (MethodSymbol)currentScope;
-		dec += ((MethodSymbol)currentScope).getType().getName();
+		String tmp = ((MethodSymbol)currentScope).getType().getName();
+		if(tmp.equals("int")||tmp.equals("bool")) {
+			dec += "int ";
+		}else if(tmp.equals("void")) {
+			dec += "void ";
+		}else {
+			dec += "void* ";
+		}
+		
+		
 		dec += " ";
-		dec += currentScope.getEnclosingScope().getName()+ "_"+((MethodSymbol)currentScope).getName();
+		dec+= currentScope.getEnclosingScope().getName()+ "_"+((MethodSymbol)currentScope).getName();
 		dec += "(";
 		String tplist = ms.getParTypeList();
-		if(tplist!=""){
+		if(!tplist.equals("")){
 			dec+=tplist+", ";
 		}
 		dec +=String.format("struct %s_struct *, void*", currentScope.getEnclosingScope().getName());

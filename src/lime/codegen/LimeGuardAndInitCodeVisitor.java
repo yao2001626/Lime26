@@ -2,8 +2,6 @@ package lime.codegen;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
-
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.ClassSymbol;
 import lime.antlr4.FieldSymbol;
@@ -125,7 +123,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 	@Override
 	public String visitBlock(BlockContext ctx) {
 		for (StmtContext m : ctx.stmt()) {
-			String t = this.visit(m);
+			this.visit(m);
 		}
 		return "";
 	}

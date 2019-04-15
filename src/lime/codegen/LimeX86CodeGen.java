@@ -1,8 +1,6 @@
 package lime.codegen;
 //undergoing, don't use this
 import java.io.PrintStream;
-import java.util.HashMap;
-
 import lime.backend.Value;
 import lime.backend.X86RegisterManager;
 

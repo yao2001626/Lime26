@@ -1,20 +1,15 @@
 package lime.codegen;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import java.util.Stack;
-
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.ArrayType;
 
 import lime.antlr4.ClassSymbol;
 import lime.antlr4.FieldSymbol;
-
 import lime.antlr4.LimeGrammarBaseListener;
 import lime.antlr4.MethodSymbol;
 import lime.antlr4.ParameterSymbol;
@@ -22,23 +17,19 @@ import lime.antlr4.Scope;
 import lime.antlr4.Symbol;
 import lime.antlr4.SymbolTable;
 import lime.antlr4.Type;
-import lime.antlr4.VariableSymbol;
 import lime.antlr4.LimeGrammarParser.ActionDeclContext;
 import lime.antlr4.LimeGrammarParser.ArrayDeclContext;
 import lime.antlr4.LimeGrammarParser.AtomContext;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
 import lime.antlr4.LimeGrammarParser.CompilationUnitContext;
-import lime.antlr4.LimeGrammarParser.FieldDeclContext;
 import lime.antlr4.LimeGrammarParser.GuardatomintContext;
 import lime.antlr4.LimeGrammarParser.GuardcompexprContext;
 import lime.antlr4.LimeGrammarParser.ImportstmtContext;
 import lime.antlr4.LimeGrammarParser.InitDeclContext;
-import lime.antlr4.LimeGrammarParser.LocalDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodcallContext;
 import lime.antlr4.LimeGrammarParser.Multi_assignContext;
 import lime.antlr4.LimeGrammarParser.NewcallContext;
-import lime.antlr4.LimeGrammarParser.ParsdefContext;
 import lime.antlr4.LimeGrammarParser.TypeContext;
 import lime.antlr4.LimeGrammarParser.TypeparslistContext;
 
@@ -421,7 +412,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		if (ctx.ID(1) != null) {
 			// Symbol s = this.symtab.GLOBALS.resolve(ctx.c.getText());
 			Symbol s = currentScope.resolve(ctx.c.getText());
-			if(s == null) System.err.printf("class %s can't reslove\n", s.getName());
+			if(s == null) System.err.printf("class %s can't reslove\n", ctx.c.getText());
 			//System.out.printf("class %s can't reslove type %s\n", s.getName(), ((FieldSymbol) s).getType());
 			Symbol c = this.symtab.GLOBALS.resolve(((FieldSymbol) s).getType().getName());
 			if (!(c instanceof ClassSymbol)) {

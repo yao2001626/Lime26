@@ -1,38 +1,29 @@
 package lime.codegen;
 
-import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupFile;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.Builder;
 import lime.antlr4.ClassSymbol;
 import lime.antlr4.FunctionSymbol;
 import lime.antlr4.LimeGrammarLexer;
 import lime.antlr4.LimeGrammarParser;
-import lime.antlr4.LimeGrammarParser.ClassDeclContext;
 import lime.antlr4.MethodSymbol;
 import lime.antlr4.Symbol;
 import lime.antlr4.SymbolTable;
-
 import lime.codegen.LimeLLVMCodeGenVisitor;
-import lime.codegen.LimeParserTreeListener;
+
 
 public class Main {
 	// private static boolean makeDot = false;

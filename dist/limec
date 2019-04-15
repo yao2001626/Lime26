@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-VERSION = "0.0.1"
+VERSION = "0.0.3"
 
 import argparse
 import sys,subprocess,os
@@ -23,7 +23,7 @@ import json
 import re
 
 def parseArguments(compileFlags):
-    parser = argparse.ArgumentParser(description = "Lime compiler version 0.0.1.\n Antlr4 && LLVM: For X86 (Shucai yaos4@mcmaster.ca)\n")
+    parser = argparse.ArgumentParser(description = "Lime compiler version 0.0.3.\n Antlr4 && LLVM: For X86 (Shucai Yao: yaos4@mcmaster.ca)\n")
     parser.add_argument('-d', "--input-dir", help = "input folder which contains lime source code")
     parser.add_argument('-D', "--output-dir", help = "output folder")
     parser.add_argument("input", help = "The input lime source file")
@@ -229,4 +229,4 @@ if __name__ == "__main__":
         jf = JsonFile(cf)
         merge(cf, jf)
         build(cf, jf)
-    sys.exit(1)
+    sys.exit(0)

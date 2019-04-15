@@ -6,9 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +98,7 @@ public final class Builder {
             return builder.toString();
         }
 
-        @SuppressWarnings("unchecked")
+        
         private void walk(ParseTree tree, StringBuilder builder) {
 
             List<ParseTree> firstStack = new ArrayList<>();

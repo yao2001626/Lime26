@@ -19,10 +19,8 @@ import lime.antlr4.LimeGrammarParser.AtomContext;
 import lime.antlr4.LimeGrammarParser.AtomexprContext;
 import lime.antlr4.LimeGrammarParser.BlockContext;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
-import lime.antlr4.LimeGrammarParser.ClassDeclsContext;
 import lime.antlr4.LimeGrammarParser.ClassMemberContext;
 import lime.antlr4.LimeGrammarParser.CompexprContext;
-import lime.antlr4.LimeGrammarParser.CompilationUnitContext;
 import lime.antlr4.LimeGrammarParser.Compound_stmtContext;
 import lime.antlr4.LimeGrammarParser.Elif_statContext;
 import lime.antlr4.LimeGrammarParser.Else_statContext;
@@ -35,10 +33,8 @@ import lime.antlr4.LimeGrammarParser.Id_eleContext;
 import lime.antlr4.LimeGrammarParser.Id_listContext;
 import lime.antlr4.LimeGrammarParser.If_statContext;
 import lime.antlr4.LimeGrammarParser.If_stmtContext;
-import lime.antlr4.LimeGrammarParser.InitDeclContext;
 import lime.antlr4.LimeGrammarParser.LocalDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodDeclContext;
-import lime.antlr4.LimeGrammarParser.Method_callContext;
 import lime.antlr4.LimeGrammarParser.MethodcallContext;
 import lime.antlr4.LimeGrammarParser.MultexprContext;
 import lime.antlr4.LimeGrammarParser.Multi_assignContext;
@@ -60,10 +56,8 @@ import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
 import lime.antlr4.LimeGrammarParser.While_stmtContext;
 import lime.antlr4.MethodSymbol;
 import lime.antlr4.ParameterSymbol;
-import lime.antlr4.Scope;
 import lime.antlr4.Symbol;
 import lime.antlr4.SymbolTable;
-import lime.antlr4.Type;
 import lime.antlr4.VariableSymbol;
 
 public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
@@ -127,7 +121,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				String tmp[] = s.split("_");
 				ClassSymbol cst = (ClassSymbol)symtab.GLOBALS.resolve(tmp[0]);
 				MethodSymbol ms = (MethodSymbol)cst.resolve(tmp[1]);
-				//System.out.println(ms.methodDecl+";\n");
+				System.out.println(ms.methodDecl+";\n");
 				outputFile.write(ms.methodDecl+";\n");
 			}
 			
@@ -148,7 +142,6 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		this.action_counter = 0;
 		this.className = ctx.ID().getText();
 		String l = "";
-		Symbol cs = this.symtab.GLOBALS.resolve(ctx.ID().getText());
 		for (ClassMemberContext m : ctx.classMember()) {
 			String t = this.visit(m);
 			if (t != null)

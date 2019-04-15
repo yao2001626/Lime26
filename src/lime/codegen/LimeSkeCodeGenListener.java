@@ -46,7 +46,6 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//System.out.print("writing file: "+limeSkeletonName+"\n");
 	}
 	//class(class_name, fields, methods, actions, active, size, XYZ, init)
 	@Override

@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.stringtemplate.v4.STGroup;
-
-import lime.antlr4.ArrayType;
 import lime.antlr4.ClassSymbol;
 import lime.antlr4.FieldSymbol;
 import lime.antlr4.LimeGrammarBaseVisitor;
@@ -599,7 +596,6 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	public String visitArrayElementmethodcall(ArrayElementmethodcallContext ctx) {
 		String s = "";
 		//System.out.print(ctx.arrayElement().ID().getText());
-		FieldSymbol fs = (FieldSymbol)symtab.GLOBALS.findSymbol(ctx.arrayElement().ID().getText());
 		
 		String t = ((FieldSymbol)symtab.GLOBALS.findSymbol(ctx.arrayElement().ID().getText())).getType().getName();
 		s = t + "_" + ctx.m.getText();
@@ -699,7 +695,6 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	@Override
 	public String visitUserDefined(UserDefinedContext ctx) {
 		String s = "";
-		Symbol t = this.symtab.PREDEFINED.findSymbol(ctx.ID().getText());
 		s += ctx.ID().getText();
 		s += "(";
 		s += this.visit(ctx.args());

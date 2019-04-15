@@ -15,8 +15,8 @@ int e1;
 int e2;
 };
 void print(int x);
-void Reducer_reduce2(int, struct Reducer_struct *, void*);
-void Reducer_reduce1(int, struct Reducer_struct *, void*);
+void  Reducer_reduce2(int, struct Reducer_struct *, void*);
+void  Reducer_reduce1(int, struct Reducer_struct *, void*);
 void Reducer_reduce1(int x,struct Reducer_struct *this, void* self){
 this->e1 = x;
 this->a1 = 1;
