@@ -21,7 +21,7 @@ extern  malloc
     CMP  DWORD EAX, 0
     JE   <class_name>_init_realloc
     <fields : { a | MOV  DWORD [EAX + <size> - <i>*4], 0    ; <a.name> }; separator="\n">
-    MOV  DWORD [EAX + <size> - <XYZ> + 12], 0    ; next
+    MOV  DWORD [EAX + <size> - <XYZ> + 12], 0    ; system_next
     MOV  DWORD [EAX + <size> - <XYZ> + 8], 0     ; lock
     LEA  ECX,  [EAX + <size> - <XYZ> - 4]
     MOV  DWORD [EAX + <size> - <XYZ> + 4], ECX   ; Pre ESP

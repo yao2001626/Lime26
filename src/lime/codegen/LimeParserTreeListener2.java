@@ -1,6 +1,7 @@
 package lime.codegen;
 
 import java.util.List;
+import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -35,6 +36,7 @@ import lime.antlr4.LimeGrammarParser.InitDeclContext;
 import lime.antlr4.LimeGrammarParser.LocalDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodcallContext;
+import lime.antlr4.LimeGrammarParser.Multi_assignContext;
 import lime.antlr4.LimeGrammarParser.NewcallContext;
 import lime.antlr4.LimeGrammarParser.ParsdefContext;
 import lime.antlr4.LimeGrammarParser.PrintContext;
@@ -47,7 +49,8 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 	SymbolTable symtab;
 	String className = "";
 	boolean startClass = false;
-
+	boolean inMethod =false;
+	boolean multiAssign= false;
 	LimeParserTreeListener2(SymbolTable symtab) {
 		this.symtab = symtab;
 		this.currentScope = symtab.GLOBALS;
@@ -106,6 +109,7 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 			ms.setType((Type) symtab.GLOBALS.resolve(ctx.type().getText()));
 		currentScope.define(ms);
 		currentScope = ms;
+		inMethod = true;
 	}
 
 	@Override
@@ -149,7 +153,10 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		dec +="void*, void*)";
 		//System.out.println(dec);
 		ms.methodDeclforMain = dec;
-		
+		if(ctx.guard()==null) ms.setUnguarded();
+		inMethod = false;
+		System.out.println(ms.methodAssignLvalue);
+		ms.setEnabled(ms.guardIds);
 		currentScope = currentScope.getEnclosingScope();
 	}
 
@@ -167,6 +174,7 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 	@Override
 	public void exitActionDecl(ActionDeclContext ctx) {
 		// TODO Auto-generated method stub
+		if(ctx.guard()==null) ((ActionSymbol)currentScope).setUnguarded();
 		currentScope = currentScope.getEnclosingScope();
 	}
 
@@ -188,6 +196,14 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 	@Override
 	public void enterPrint(PrintContext ctx) {
 		((ClassSymbol) (currentScope.getEnclosingScope())).methodsCalled.put("print", "void print(int)");
+	}
+
+	@Override
+	public void enterGuardatomid(GuardatomidContext ctx) {
+		if(inMethod) {
+			MethodSymbol ms = (MethodSymbol)currentScope;
+			ms.guardIds.add(ctx.ID().getText());
+		}
 	}
 
 	// type returns [Type typ]
@@ -225,6 +241,29 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 			FieldSymbol vs = new FieldSymbol(x.ID().getText());
 			vs.setType((Type) ctx.type().typ);
 			currentScope.define(vs);
+		}
+	}
+	//multi_assign
+	//: id_list ':=' expr_list;
+	@Override
+	public void enterMulti_assign(Multi_assignContext ctx) {
+		multiAssign = true;
+	}
+
+	@Override
+	public void exitMulti_assign(Multi_assignContext ctx) {
+		multiAssign = false;
+	}
+	
+	
+	//id_ele
+	//: ID selector? ;	
+
+	@Override
+	public void exitId_ele(Id_eleContext ctx) {
+		if(inMethod && multiAssign) {
+			MethodSymbol ms = (MethodSymbol)currentScope;
+			ms.methodAssignLvalue.add(ctx.ID().getText());
 		}
 	}
 

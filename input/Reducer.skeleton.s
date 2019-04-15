@@ -27,7 +27,7 @@ Reducer_init_realloc:
     MOV  DWORD [EAX + 4096 - 4*4], 0    ; a2 
     MOV  DWORD [EAX + 4096 - 5*4], 0    ; e1 
     MOV  DWORD [EAX + 4096 - 6*4], 0    ; e2 
-    MOV  DWORD [EAX + 4096 - 40 + 12], 0    ; next
+    MOV  DWORD [EAX + 4096 - 40 + 12], 0    ; system_next
     MOV  DWORD [EAX + 4096 - 40 + 8], 0     ; lock
     LEA  ECX,  [EAX + 4096 - 40 - 4]
     MOV  DWORD [EAX + 4096 - 40 + 4], ECX   ; Pre ESP
@@ -92,6 +92,13 @@ Reducer_reduce1_succeed:
     ; method body ends here
 Reducer_reduce1_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Reducer_reduce1_ret:
@@ -126,6 +133,13 @@ Reducer_reduce2_succeed:
     ; method body ends here
 Reducer_reduce2_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Reducer_reduce2_ret:

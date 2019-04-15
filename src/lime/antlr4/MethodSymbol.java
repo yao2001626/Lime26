@@ -13,7 +13,7 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	protected boolean unguarded = false;
 	protected int numargs = 0;
 	public Set<String> methodAssignLvalue;
-	
+	public Set<String> guardIds;
 	public String guardAsmCode = "";
 	public String methodDecl = "";
 	public String methodDeclforMain = "";
@@ -21,6 +21,7 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	public MethodSymbol(String name) {
 		super(name);
 		methodAssignLvalue = new HashSet<String>();
+		guardIds = new HashSet<String>();
 	}
 	
 	public void setNumArgs(int n) {
@@ -30,12 +31,6 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 		return numargs;
 	}
 	public void setEnabled(Set<String> cgids) {
-		/*
-		Set<String> answer = Sets.j(methodGuardIds, methodAssignLvalue); 
-		if(!answer.isEmpty()) {
-			enabled = true;
-		}*/
-		
 		for(String s:cgids) {
 			for(String s1:methodAssignLvalue) {
 				if(s.equals(s1)) {

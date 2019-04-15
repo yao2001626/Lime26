@@ -50,7 +50,7 @@ int repeat;
 void ** marray;
 void ** rarray;
 num = getArg(1);
-repeat = getArg(2);
+print(num);repeat = getArg(2);
 marray = (void **)malloc(sizeof(void *) * num);
 rarray = (void **)malloc(sizeof(void *) * num);
 rarray[0] = NULL;

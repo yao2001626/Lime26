@@ -47,6 +47,7 @@ class Start
     var rarray: array of Reducer
     init()
         num := getArg(1)
+        print(num)
         repeat := getArg(2)
         marray := new Mapper[num]
         rarray := new Reducer[num]

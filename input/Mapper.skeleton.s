@@ -25,7 +25,7 @@ Mapper_init_realloc:
     MOV  DWORD [EAX + 4096 - 2*4], 0    ; a 
     MOV  DWORD [EAX + 4096 - 3*4], 0    ; e 
     MOV  DWORD [EAX + 4096 - 4*4], 0    ; index 
-    MOV  DWORD [EAX + 4096 - 32 + 12], 0    ; next
+    MOV  DWORD [EAX + 4096 - 32 + 12], 0    ; system_next
     MOV  DWORD [EAX + 4096 - 32 + 8], 0     ; lock
     LEA  ECX,  [EAX + 4096 - 32 - 4]
     MOV  DWORD [EAX + 4096 - 32 + 4], ECX   ; Pre ESP
@@ -90,6 +90,13 @@ Mapper_map_succeed:
     ; method body ends here
 Mapper_map_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Mapper_map_ret:
