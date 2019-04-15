@@ -3,6 +3,8 @@ package lime.codegen;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.stringtemplate.v4.ST;
 import org.stringtemplate.v4.STGroup;
@@ -54,7 +56,17 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		curClassName = ctx.ID().toString();
 		t.add("class_name", curClassName);
 		if(curClassName.equals("Start")) return;
-		t.add("externs", ((ClassSymbol)currentScope).externMethods);
+		Set<String> externs = new HashSet<String>();
+		for(String e: ((ClassSymbol)currentScope).methodsCalled.keySet()) {
+			externs.add(e);
+		}
+		for(MethodSymbol ms:((ClassSymbol)currentScope).getDefinedMethods()){
+			String name= curClassName+"_"+ms.getName();
+			if(externs.contains(name)) {
+				externs.remove(name);
+			}
+		}
+		t.add("externs", externs);
 		t.add("fields", ((ClassSymbol)currentScope).getDefinedFields());
 		t.add("methods", ((ClassSymbol)currentScope).getDefinedMethods());
 		t.add("actions", ((ClassSymbol)currentScope).getDefinedActions());

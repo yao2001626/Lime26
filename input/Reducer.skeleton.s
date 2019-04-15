@@ -5,6 +5,7 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern print 
 extern importedFun 
 ; global methods declare
 ; global Reducer_methods
