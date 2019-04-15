@@ -1,0 +1,1 @@
+[{"methods":["add","has"],"class_name":"Node","actions":["addToChild"],"Node_init_code":"MOV DWORD ECX, [ESP + 4]\nMOV DWORD [EAX + 16], ECX\n","guards":{"Nodehas":null,"Nodeadd":null,"NodeaddToChild":null}}]

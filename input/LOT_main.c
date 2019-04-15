@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-void PQ_add(int, void*, void*);
-void *PQ_init(void *);
-int PQ_remove(void *, void*, void*);
+void Node_add(int, void*, void*);
+void *Node_init(int);
+void *Node_has(int, void*, void*);
 extern int argc_g;
 extern char ** argv_g;
 int * input;
@@ -43,16 +43,21 @@ int getRand(int index){
 	return input[index];
 }
 void lime_main(void * self){
-void * head;
-int i;
+void * root;
 int num;
+int i;
+int data;
 num = getArg(1);
-setRand(num);head = (void *)PQ_init();
+setRand(num);root = (void *)Node_init(5000);
 for(i = 0;i<= num - 1; ++i){
-	PQ_add(getRand(i), head, self);
+	Node_add(getRand(i), root, self);
 }
-for(i = 0;i<= num - 1; ++i){
-	print(PQ_remove(head, self));
+for(i = 0;i<= 10000; ++i){
+	
+if (Node_has(i, root, self)){
+print(i);
+}
+
 }
 
 }

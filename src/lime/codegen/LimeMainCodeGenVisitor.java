@@ -198,7 +198,8 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	public String visitType(TypeContext ctx) {
 		String s = "";
 		if(ctx.ID()!=null) {
-			return ctx.ID().getText() + " *";
+			//return ctx.ID().getText() + " *";
+			s += "void *";
 		}else if(ctx.arrayDecl()!=null) {
 			s += this.visit(ctx.arrayDecl());
 		}else {
