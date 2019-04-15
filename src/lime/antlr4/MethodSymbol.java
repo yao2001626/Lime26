@@ -14,6 +14,10 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	protected int numargs = 0;
 	public Set<String> methodAssignLvalue;
 	
+	public String guardAsmCode = "";
+	public String methodDecl = "";
+	public String methodDeclforMain = "";
+	
 	public MethodSymbol(String name) {
 		super(name);
 		methodAssignLvalue = new HashSet<String>();

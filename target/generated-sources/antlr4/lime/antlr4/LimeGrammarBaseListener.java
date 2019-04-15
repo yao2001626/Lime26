@@ -31,6 +31,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGuardatomint(@NotNull LimeGrammarParser.GuardatomintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGuardatomint(@NotNull LimeGrammarParser.GuardatomintContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAddexpr(@NotNull LimeGrammarParser.AddexprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -50,18 +62,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitType(@NotNull LimeGrammarParser.TypeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNotguardtom(@NotNull LimeGrammarParser.NotguardtomContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNotguardtom(@NotNull LimeGrammarParser.NotguardtomContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -127,6 +127,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParenexpr(@NotNull LimeGrammarParser.ParenexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParenexpr(@NotNull LimeGrammarParser.ParenexprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGetRand(@NotNull LimeGrammarParser.GetRandContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -134,6 +146,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGetRand(@NotNull LimeGrammarParser.GetRandContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterId_ele(@NotNull LimeGrammarParser.Id_eleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitId_ele(@NotNull LimeGrammarParser.Id_eleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -187,6 +211,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArrayElementmethodcall(@NotNull LimeGrammarParser.ArrayElementmethodcallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayElementmethodcall(@NotNull LimeGrammarParser.ArrayElementmethodcallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassDecl(@NotNull LimeGrammarParser.ClassDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -223,18 +259,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntguardatom(@NotNull LimeGrammarParser.IntguardatomContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIntguardatom(@NotNull LimeGrammarParser.IntguardatomContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterGetArg(@NotNull LimeGrammarParser.GetArgContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -242,6 +266,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGetArg(@NotNull LimeGrammarParser.GetArgContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayDecl(@NotNull LimeGrammarParser.ArrayDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayDecl(@NotNull LimeGrammarParser.ArrayDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -259,6 +295,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGuardparen(@NotNull LimeGrammarParser.GuardparenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGuardparen(@NotNull LimeGrammarParser.GuardparenContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterElse_stat(@NotNull LimeGrammarParser.Else_statContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -266,6 +314,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitElse_stat(@NotNull LimeGrammarParser.Else_statContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayElement(@NotNull LimeGrammarParser.ArrayElementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayElement(@NotNull LimeGrammarParser.ArrayElementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -355,6 +415,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGuardatomid(@NotNull LimeGrammarParser.GuardatomidContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGuardatomid(@NotNull LimeGrammarParser.GuardatomidContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCompexpr(@NotNull LimeGrammarParser.CompexprContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -427,18 +499,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterImportstmt(@NotNull LimeGrammarParser.ImportstmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -463,18 +523,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIdguardatom(@NotNull LimeGrammarParser.IdguardatomContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIdguardatom(@NotNull LimeGrammarParser.IdguardatomContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterActionDecl(@NotNull LimeGrammarParser.ActionDeclContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -487,6 +535,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSelector(@NotNull LimeGrammarParser.SelectorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSelector(@NotNull LimeGrammarParser.SelectorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterIf_stat(@NotNull LimeGrammarParser.If_statContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -494,6 +554,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIf_stat(@NotNull LimeGrammarParser.If_statContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGuardatomnot(@NotNull LimeGrammarParser.GuardatomnotContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGuardatomnot(@NotNull LimeGrammarParser.GuardatomnotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -631,6 +703,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArrayCreate(@NotNull LimeGrammarParser.ArrayCreateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayCreate(@NotNull LimeGrammarParser.ArrayCreateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterType_list(@NotNull LimeGrammarParser.Type_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -710,18 +794,6 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStmt(@NotNull LimeGrammarParser.StmtContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterGuardeqexpr(@NotNull LimeGrammarParser.GuardeqexprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitGuardeqexpr(@NotNull LimeGrammarParser.GuardeqexprContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

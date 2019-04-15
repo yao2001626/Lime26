@@ -59,7 +59,7 @@ extern  malloc
 <endif>
 >>
 
-method(class_name, method_name, paranum, enabled, unguarded) ::=<<
+method(class_name, method_name, paranum, enabled, unguarded, guardAsmCode) ::=<<
 ;define method <class_name>_<method_name>
 <class_name>_<method_name>:
 <class_name>_<method_name>_start:
@@ -71,7 +71,7 @@ method(class_name, method_name, paranum, enabled, unguarded) ::=<<
     JNE  <class_name>_<method_name>_suspend
 <class_name>_<method_name>_checkguard:
     ; method guard starts here
-    ;<class_name>_<method_name>_guard
+    <guardAsmCode>
 <if(unguarded)>
 	JMP <class_name>_<method_name>_succeed
 <endif>
@@ -104,7 +104,7 @@ method(class_name, method_name, paranum, enabled, unguarded) ::=<<
 <class_name>_<method_name>_ret:
     RET 
 >>
-action(class_name, action_name, unguarded)::=<<
+action(class_name, action_name, unguarded, guardAsmCode)::=<<
 
 ; define action
 ; <class_name>: <action_name> 
@@ -112,16 +112,17 @@ action(class_name, action_name, unguarded)::=<<
 <class_name>_<action_name>_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    ;<class_name>_<action_name>_guard
+    <guardAsmCode>
     ; action guard end
 <if(unguarded)>
 	JMP <class_name>_<action_name>_succeed
 <endif>
-    JMP   <class_name>_<action_name>_checkguard_fail
+
+<class_name>_<action_name>_checkguard_fail:
+	RET
 <class_name>_<action_name>_succeed:
     ; action body start
     ;<class_name>_<action_name>_body
     ; action body end
-<class_name>_<action_name>_checkguard_fail:
     RET
 >>

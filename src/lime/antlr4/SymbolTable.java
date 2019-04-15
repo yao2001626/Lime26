@@ -150,24 +150,28 @@ public class SymbolTable {
 	
 	public void initPredefineMethod() {
 		MethodSymbol fun_print = new MethodSymbol("print");
+		fun_print.methodDecl = "void print(int x)";
 		PREDEFINED.define(fun_print);
 		preDefinedPrint();
 		MethodSymbol fun_getRand = new MethodSymbol("getRand");
+		fun_getRand.methodDecl = "int getRand(int)";
 		PREDEFINED.define(fun_getRand);
 		preDefinedgetRand();
 		MethodSymbol fun_setRand = new MethodSymbol("setRand");
+		fun_setRand.methodDecl = "void setRand(int)";
 		PREDEFINED.define(fun_setRand);
 		preDefinedsetRand();
 		MethodSymbol fun_getArg = new MethodSymbol("getArg");
+		fun_getArg.methodDecl = "int getArg(int)";
 		PREDEFINED.define(fun_getArg);
 		preDefinedgetArg();
 		preDeclaredMethod = "extern int argc_g;\n" + 
 				"extern char ** argv_g;\n" + 
 				"int * input;\n" + 
-				"int getRand();\n" + 
-				"void setRand(int num);\n" + 
+				"int getRand(int);\n" + 
+				"void setRand(int);\n" + 
 				"void print(int x);\n" + 
-				"int getArg(int index);\n" + 
+				"int getArg(int);\n" + 
 				"void lime_main(void * self);";
 	}
 	

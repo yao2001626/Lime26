@@ -5,10 +5,7 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-extern print 
-extern Reducer_reduce2 
-extern Reducer_reduce1 
-extern getRand 
+extern importedFun 
 ; global methods declare
 ; global Mapper_methods
 global Mapper_init 
@@ -44,9 +41,11 @@ Mapper_init_realloc:
 
     ; Mapper_init_code
 
+    MOV DWORD ECX, [ESP + 8]
+    MOV DWORD [EAX + 16], ECX
     MOV DWORD ECX, [ESP + 4]
-    	MOV DWORD [EAX + 28], ECX
-    	 
+    MOV DWORD [EAX + 28], ECX
+ 
     ; init code ends here
     RET
 Mapper_doactions:
@@ -69,7 +68,11 @@ Mapper_map_checklock:
     JNE  Mapper_map_suspend
 Mapper_map_checkguard:
     ; method guard starts here
-    ;Mapper_map_guard
+    MOV DWORD EAX, [ECX + 20]
+    CMP EAX, 1
+    JNE Mapper_map_succeed
+
+
     ; method guard ends here
 Mapper_map_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -85,13 +88,6 @@ Mapper_map_succeed:
     ; method body ends here
 Mapper_map_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Mapper_map_ret:
@@ -101,12 +97,15 @@ Mapper_doMap:
 Mapper_doMap_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    ;Mapper_doMap_guard
+    MOV DWORD EAX, [ECX + 20]
+    CMP EAX, 1
+    JE Mapper_doMap_succeed
+
     ; action guard end
-    JMP   Mapper_doMap_checkguard_fail
+Mapper_doMap_checkguard_fail:
+	RET
 Mapper_doMap_succeed:
     ; action body start
     ;Mapper_doMap_body
     ; action body end
-Mapper_doMap_checkguard_fail:
     RET

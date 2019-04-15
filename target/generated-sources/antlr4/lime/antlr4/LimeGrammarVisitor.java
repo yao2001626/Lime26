@@ -20,6 +20,13 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSingle_assign(@NotNull LimeGrammarParser.Single_assignContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code guardatomint}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGuardatomint(@NotNull LimeGrammarParser.GuardatomintContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code addexpr}
 	 * labeled alternative in {@link LimeGrammarParser#expr}.
 	 * @param ctx the parse tree
@@ -32,13 +39,6 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitType(@NotNull LimeGrammarParser.TypeContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code notguardtom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotguardtom(@NotNull LimeGrammarParser.NotguardtomContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#compound_stmt}.
 	 * @param ctx the parse tree
@@ -70,12 +70,25 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitReturn_stmt(@NotNull LimeGrammarParser.Return_stmtContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code parenexpr}
+	 * labeled alternative in {@link LimeGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenexpr(@NotNull LimeGrammarParser.ParenexprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code getRand}
 	 * labeled alternative in {@link LimeGrammarParser#method_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGetRand(@NotNull LimeGrammarParser.GetRandContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#id_ele}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitId_ele(@NotNull LimeGrammarParser.Id_eleContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#while_stmt}.
 	 * @param ctx the parse tree
@@ -102,6 +115,13 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassMember(@NotNull LimeGrammarParser.ClassMemberContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code arrayElementmethodcall}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayElementmethodcall(@NotNull LimeGrammarParser.ArrayElementmethodcallContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#classDecl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -121,19 +141,18 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code intguardatom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntguardatom(@NotNull LimeGrammarParser.IntguardatomContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code getArg}
 	 * labeled alternative in {@link LimeGrammarParser#method_call}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGetArg(@NotNull LimeGrammarParser.GetArgContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#arrayDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayDecl(@NotNull LimeGrammarParser.ArrayDeclContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code guardorexpr}
 	 * labeled alternative in {@link LimeGrammarParser#guard}.
@@ -142,11 +161,24 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitGuardorexpr(@NotNull LimeGrammarParser.GuardorexprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code guardparen}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGuardparen(@NotNull LimeGrammarParser.GuardparenContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#else_stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitElse_stat(@NotNull LimeGrammarParser.Else_statContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#arrayElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayElement(@NotNull LimeGrammarParser.ArrayElementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#compilationUnit}.
 	 * @param ctx the parse tree
@@ -191,6 +223,13 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitElif_stat(@NotNull LimeGrammarParser.Elif_statContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code guardatomid}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGuardatomid(@NotNull LimeGrammarParser.GuardatomidContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code compexpr}
 	 * labeled alternative in {@link LimeGrammarParser#expr}.
 	 * @param ctx the parse tree
@@ -230,13 +269,6 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMultexpr(@NotNull LimeGrammarParser.MultexprContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code guardatomexpr}
-	 * labeled alternative in {@link LimeGrammarParser#guard}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#importstmt}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -249,24 +281,30 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimple_stmt(@NotNull LimeGrammarParser.Simple_stmtContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code idguardatom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIdguardatom(@NotNull LimeGrammarParser.IdguardatomContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#actionDecl}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitActionDecl(@NotNull LimeGrammarParser.ActionDeclContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#selector}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSelector(@NotNull LimeGrammarParser.SelectorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#if_stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIf_stat(@NotNull LimeGrammarParser.If_statContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code guardatomnot}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGuardatomnot(@NotNull LimeGrammarParser.GuardatomnotContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#classDecls}.
 	 * @param ctx the parse tree
@@ -340,6 +378,12 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArgs(@NotNull LimeGrammarParser.ArgsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#arrayCreate}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayCreate(@NotNull LimeGrammarParser.ArrayCreateContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#type_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -384,11 +428,4 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStmt(@NotNull LimeGrammarParser.StmtContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code guardeqexpr}
-	 * labeled alternative in {@link LimeGrammarParser#guard}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGuardeqexpr(@NotNull LimeGrammarParser.GuardeqexprContext ctx);
 }

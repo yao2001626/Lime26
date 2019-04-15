@@ -1,10 +1,11 @@
+import importedFun(int,int,int):int
 class Reducer
     var index: int
     var next: Reducer 
     var a1, a2: bool
     var e1, e2: int
-    init(i: int)
-        index, a1, a2 := i, false, false
+    init(i: int, r: Reducer)
+        index, a1, a2, next := i, false, false, r
     method reduce1(x: int)
         when not a1 do 
             e1, a1 := x, true
@@ -14,42 +15,49 @@ class Reducer
     action doReduce
         when a1 and a2 do 
             if index = 1 then
-            	print(e1+e2)
+            	print(e1 + e2)
             	e1, e2 := 0, 0
             elif index % 2 = 0 then 
-                next.reduce1(e1+e2)
+                next.reduce1(e1 + e2)
             else
-                next.reduce2(e1+e2)
+                next.reduce2(e1 + e2)
             a1, a2 := false, false 
 class Mapper
     var  next: Reducer
     var  a: bool 
     var  e, index: int 
-    init(i: int)
-        index, a := i, false
+    init(i: int, r: Reducer)
+        index, a, next := i, false, r
     method map(n: int)
         when not a do
             e, a := n, true
     action doMap
         when a do 
-            if index %2 = 0 then 
-                next.reduce1(e*e)
+            if index % 2 = 0 then 
+                next.reduce1(e * e)
             else 
-                next.reduce2(e*e)
+                next.reduce2(e * e)
             a := false
 
 class Start
-    var mp: Mapper
     var i: int
     var num: int
     var repeat: int
+    var marray: array of Mapper
+    var rarray: array of Reducer
     init()
         num := getArg(1)
         repeat := getArg(2)
-        buildMR(num)
-        while repeat>0 do
-            for i:= 0 to num-1 do 
-                mp := getMapper(i)
-                mp.map(i)
+        marray := new Mapper[num]
+        rarray := new Reducer[num]
+        rarray[0] := nil
+        for i := 1 to num - 1 do
+            rarray[i] := new Reducer(i, rarray[i / 2])
+        for i := 0 to num - 1 do
+            marray[i] := new Mapper(i, rarray[(i + num) / 2]) 
+
+        while repeat > 0 do
+            for i := 0 to num - 1 do 
+                marray[i].map(i)
             repeat := repeat - 1
 	

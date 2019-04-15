@@ -50,6 +50,22 @@ public class FunctionSymbol extends SymbolWithScope implements TypedSymbol{
 		}
 		return -1;
 	}
+	
+	public String getParTypeList() {
+		Collection<Symbol> v = symbols.values();
+		String typlist[] = new String[v.size()];
+		int i = 0;
+		for(Symbol p:v) {
+			if(p instanceof ParameterSymbol) {
+				String t = ((ParameterSymbol)p).getType().getName();
+				if(t.equals("int")|| t.equals("bool")) typlist[i]= "int";
+				else typlist[i] = "struct "+t+"_struct *";
+				i++;
+			}
+		}
+		return String.join(",", typlist);
+	}
+	
 
 	//public String toString() { return name+":"+super.toString(); }
 	public String toString() { 

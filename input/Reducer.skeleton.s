@@ -5,8 +5,7 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-extern print 
-extern getRand 
+extern importedFun 
 ; global methods declare
 ; global Reducer_methods
 global Reducer_init 
@@ -45,9 +44,11 @@ Reducer_init_realloc:
 
     ; Reducer_init_code
 
+    MOV DWORD ECX, [ESP + 8]
+    MOV DWORD [EAX + 20], ECX
     MOV DWORD ECX, [ESP + 4]
-    	MOV DWORD [EAX + 16], ECX
-    	 
+    MOV DWORD [EAX + 16], ECX
+ 
     ; init code ends here
     RET
 Reducer_doactions:
@@ -70,7 +71,11 @@ Reducer_reduce1_checklock:
     JNE  Reducer_reduce1_suspend
 Reducer_reduce1_checkguard:
     ; method guard starts here
-    ;Reducer_reduce1_guard
+    MOV DWORD EAX, [ECX + 24]
+    CMP EAX, 1
+    JNE Reducer_reduce1_succeed
+
+
     ; method guard ends here
 Reducer_reduce1_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -86,13 +91,6 @@ Reducer_reduce1_succeed:
     ; method body ends here
 Reducer_reduce1_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Reducer_reduce1_ret:
@@ -107,7 +105,11 @@ Reducer_reduce2_checklock:
     JNE  Reducer_reduce2_suspend
 Reducer_reduce2_checkguard:
     ; method guard starts here
-    ;Reducer_reduce2_guard
+    MOV DWORD EAX, [ECX + 28]
+    CMP EAX, 1
+    JNE Reducer_reduce2_succeed
+
+
     ; method guard ends here
 Reducer_reduce2_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -123,13 +125,6 @@ Reducer_reduce2_succeed:
     ; method body ends here
 Reducer_reduce2_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Reducer_reduce2_ret:
@@ -139,12 +134,20 @@ Reducer_doReduce:
 Reducer_doReduce_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    ;Reducer_doReduce_guard
+    MOV DWORD EAX, [ECX + 24]
+    CMP EAX, 1
+    JNE Reducer_doReduce_checkguard_fail
+
+    Reducer_guard_101:
+    MOV DWORD EAX, [ECX + 28]
+    CMP EAX, 1
+    JE Reducer_doReduce_succeed
+
     ; action guard end
-    JMP   Reducer_doReduce_checkguard_fail
+Reducer_doReduce_checkguard_fail:
+	RET
 Reducer_doReduce_succeed:
     ; action body start
     ;Reducer_doReduce_body
     ; action body end
-Reducer_doReduce_checkguard_fail:
     RET

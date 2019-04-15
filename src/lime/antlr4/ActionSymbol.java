@@ -6,6 +6,7 @@ import java.util.Map;
 public class ActionSymbol extends FunctionSymbol implements MemberSymbol{
 	protected static int slot = 0;
 	protected boolean unguarded = false;
+	public String guardAsmCode = "";
 	public ActionSymbol(String name) {
 		super(name);
 	}

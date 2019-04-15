@@ -3,67 +3,45 @@ package lime.codegen;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
 import java.util.Stack;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import lime.antlr4.ActionSymbol;
-import lime.antlr4.BaseSymbol;
+import lime.antlr4.ArrayType;
+
 import lime.antlr4.ClassSymbol;
 import lime.antlr4.FieldSymbol;
-import lime.antlr4.GlobalScope;
+
 import lime.antlr4.LimeGrammarBaseListener;
 import lime.antlr4.MethodSymbol;
 import lime.antlr4.ParameterSymbol;
-import lime.antlr4.PrimitiveType;
 import lime.antlr4.Scope;
 import lime.antlr4.Symbol;
 import lime.antlr4.SymbolTable;
 import lime.antlr4.Type;
 import lime.antlr4.VariableSymbol;
 import lime.antlr4.LimeGrammarParser.ActionDeclContext;
-import lime.antlr4.LimeGrammarParser.AddexprContext;
-import lime.antlr4.LimeGrammarParser.AndexprContext;
+import lime.antlr4.LimeGrammarParser.ArrayDeclContext;
 import lime.antlr4.LimeGrammarParser.AtomContext;
-import lime.antlr4.LimeGrammarParser.AtomexprContext;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
 import lime.antlr4.LimeGrammarParser.CompilationUnitContext;
-import lime.antlr4.LimeGrammarParser.EqexprContext;
-import lime.antlr4.LimeGrammarParser.ExprContext;
-import lime.antlr4.LimeGrammarParser.Expr_listContext;
-import lime.antlr4.LimeGrammarParser.Expr_stmtContext;
 import lime.antlr4.LimeGrammarParser.FieldDeclContext;
-import lime.antlr4.LimeGrammarParser.GuardAtomContext;
-import lime.antlr4.LimeGrammarParser.GuardContext;
-import lime.antlr4.LimeGrammarParser.GuardandexprContext;
-import lime.antlr4.LimeGrammarParser.GuardatomexprContext;
+import lime.antlr4.LimeGrammarParser.GuardatomintContext;
 import lime.antlr4.LimeGrammarParser.GuardcompexprContext;
-import lime.antlr4.LimeGrammarParser.GuardeqexprContext;
-import lime.antlr4.LimeGrammarParser.GuardorexprContext;
-import lime.antlr4.LimeGrammarParser.Id_listContext;
-import lime.antlr4.LimeGrammarParser.IdguardatomContext;
-import lime.antlr4.LimeGrammarParser.ImportStmtsContext;
 import lime.antlr4.LimeGrammarParser.ImportstmtContext;
 import lime.antlr4.LimeGrammarParser.InitDeclContext;
-import lime.antlr4.LimeGrammarParser.IntguardatomContext;
 import lime.antlr4.LimeGrammarParser.LocalDeclContext;
 import lime.antlr4.LimeGrammarParser.MethodDeclContext;
-import lime.antlr4.LimeGrammarParser.Method_callContext;
 import lime.antlr4.LimeGrammarParser.MethodcallContext;
-import lime.antlr4.LimeGrammarParser.MultexprContext;
 import lime.antlr4.LimeGrammarParser.Multi_assignContext;
 import lime.antlr4.LimeGrammarParser.NewcallContext;
-import lime.antlr4.LimeGrammarParser.NotexprContext;
-import lime.antlr4.LimeGrammarParser.NotguardtomContext;
-import lime.antlr4.LimeGrammarParser.OrexprContext;
 import lime.antlr4.LimeGrammarParser.ParsdefContext;
 import lime.antlr4.LimeGrammarParser.TypeContext;
 import lime.antlr4.LimeGrammarParser.TypeparslistContext;
-import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
-import lime.antlr4.MemberSymbol;
+
 
 public class LimeParserTreeListener extends LimeGrammarBaseListener {
 	Scope currentScope;
@@ -89,6 +67,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		notOps = new Stack<Integer>();
 		this.regAvail.push("EAX");
 		this.regAvail.push("EDX");
+		this.regAvail.push("EBX");
 		this.guardmap = new HashMap<String, String>();
 		this.initcodemap = new HashMap<String, String>();
 		this.objInitCode = "";
@@ -144,7 +123,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		
 		//System.out.println(((ClassSymbol)currentScope).methodCalled);
 		
-		((ClassSymbol)currentScope).addExternalFunction();
+		//((ClassSymbol)currentScope).addExternalFunction();
 		//System.out.println(((ClassSymbol)currentScope).externMethods);
 		currentScope = currentScope.getEnclosingScope();
 		// System.out.println("global: " +this.symtab.GLOBALS);
@@ -213,16 +192,55 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		currentScope = currentScope.getEnclosingScope();
 		methodName = "";
 	}
-
+	
+	//type returns [Type typ]
+	//		: 'int' | 'bool' | 'void' | ID | arrayDecl;
 	@Override
-	public void enterFieldDecl(FieldDeclContext ctx) {
-		List<TerminalNode> ids = ctx.id_list().ID();
-		for (TerminalNode x : ids) {
-			FieldSymbol vs = new FieldSymbol(x.getText());
-			vs.setType((Type) currentScope.resolve(ctx.type().getText()));
-			currentScope.define(vs);
+	public void exitType(TypeContext ctx) {
+		Type typ = null;
+		if(ctx.getText().equals("int")) {
+			typ = (Type)symtab.GLOBALS.resolve("int");
+		}else if(ctx.getText().equals("bool")) {
+			typ = (Type)symtab.GLOBALS.resolve("bool");
+		}else if(ctx.getText().equals("void")) {
+			typ = (Type)symtab.GLOBALS.resolve("void");
+		}else if(ctx.ID()!=null) {
+			ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(ctx.ID().getText());
+			if(cs == null) System.err.printf("Can't resolve the type: %s\n", ctx.ID().getText());
+			else typ = (Type) cs;
+		}else if(ctx.arrayDecl()!=null) {
+			typ = (Type) ctx.arrayDecl().typ;
+		}else {
+			System.err.printf("Can't resolve the type %s\n", ctx.getText());
 		}
+		ctx.typ = typ;
+		//System.out.printf("type resolve %s\n", ctx.typ.getName());
 	}
+	//arrayDecl
+	//:'array' 'of' ('int' | 'bool' | ID);
+	@Override
+	public void enterArrayDecl(ArrayDeclContext ctx) {
+		ArrayType arrtyp = null;
+		if(ctx.ty!=null) {
+			if(ctx.ty.getText().equals("int")) {
+				arrtyp = new ArrayType((Type)symtab.GLOBALS.resolve("int"));
+			}else if(ctx.ty.getText().equals("bool")) {
+				arrtyp = new ArrayType((Type)symtab.GLOBALS.resolve("bool"));
+			}else {// array of ID
+				ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(ctx.ID().getText());
+				if(cs == null) {
+					System.err.printf("arrayDecl: type %s can't find\n", ctx.ID().getText());
+				}
+				arrtyp = new ArrayType((Type)cs);
+			}	
+		}else {
+			System.err.println("arrayDecl: type is null");
+		}
+		ctx.typ = arrtyp;
+		System.out.println("Array defined");
+	}
+	
+
 
 	public boolean isNumeric(String s) {
 		return s != null && s.matches("[-+]?\\d*\\.?\\d+");
@@ -327,31 +345,6 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 			}
 		}
 	}
-
-	// parsdef
-	// : ID ':' type ;
-	@Override
-	public void enterParsdef(ParsdefContext ctx) {
-		// System.out.println("parameter def: " + currentScope);
-		ParameterSymbol ps = new ParameterSymbol(ctx.ID().getText());
-		ps.setDefNode(ctx);
-		Type t = (Type) currentScope.resolve(ctx.type().getText());
-		ps.setType(t);
-		currentScope.define(ps);
-	}
-
-	@Override
-	public void enterLocalDecl(LocalDeclContext ctx) {
-		// System.out.println("local var def: " + currentScope);
-		Type t = (Type) currentScope.resolve(ctx.type().getText());
-		List<TerminalNode> ids = ctx.id_list().ID();
-		for (TerminalNode x : ids) {
-			VariableSymbol vs = new VariableSymbol(x.getText());
-			vs.setType((Type) currentScope.resolve(t.getName()));
-			currentScope.define(vs);
-		}
-	}
-
 	// guardAtom op=( '>=' | '<=' | '>' | '<' ) guardAtom
 	@Override
 	public void exitGuardcompexpr(GuardcompexprContext ctx) {
@@ -362,7 +355,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		String leftreg = regs.pop();
 		String succeed = className + "_" + methodName + "_succeed";
 		String output = "";
-		if (ctx.guardAtom(0) != null && ctx.guardAtom(1) != null) {
+		if (ctx.guard(0) != null && ctx.guard(1) != null) {
 			// id_0 should be in reg0 and id_1 should be in reg1
 			output = String.format(strFormat, leftreg, rightreg);
 		}
@@ -387,149 +380,13 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		this.guardASMcode += output;
 	}
 
-	// guard op=( '=' | '!=' ) guard
-	@Override
-	public void exitGuardeqexpr(GuardeqexprContext ctx) {
-		// System.out.println("guard equal defines: " + ctx.getText());
-		String op = ctx.op.getText();
-		String strFormat = "CMP DWORD %s, %s\n";
-		String succeed = className + "_" + methodName + "_succeed";
-		String rightreg = regs.pop();
-		String leftreg = regs.pop();
-		String output = "";
-		if (ctx.guardAtom(0) != null && ctx.guardAtom(1) != null) {
-			// id_0 should be in reg0 and id_1 should be in reg1
-			output = String.format(strFormat, leftreg, rightreg);
-		}
-		switch (op) {
-		case "=":
-			output += "JEQ " + succeed + "\n";
-			break;
-		case "!=":
-			output += "JNE " + succeed + "\n";
-			break;
-		default:
-			output += "failed\n";
-		}
-		regAvail.push(leftreg);
-		regAvail.push(rightreg);
-		this.guardASMcode += output;
-	}
 
-	// guardAtom 'and' guardAtom
-	@Override
-	public void exitGuardandexpr(GuardandexprContext ctx) {
-		// System.out.println("guard and defines: " + ctx.getText());
-		String strFormat = "CMP DWORD %s, 1\n";
-		String succeed = className + "_" + methodName + "_succeed";
-		String failed = className + "_" + methodName + "_checkguard_fail";
-		int rightnot = notOps.pop();
-		int leftnot = notOps.pop();
-		String rightreg = regs.pop();
-		String leftreg = regs.pop();
-		String output = "";
-		if (ctx.guardAtom(0) != null && ctx.guardAtom(1) != null) {
-			// if guardAtom failed goto failed
-			String right = String.format(strFormat, rightreg);
-			String left = String.format(strFormat, leftreg);
-			output += left;
-			if (leftnot == 1)
-				output += "JE " + failed + "\n";
-			else
-				output += "JNE " + failed + "\n";
-			output += right;
-			if (rightnot == 1)
-				output += "JNE " + succeed + "\n";
-			else
-				output += "JE " + succeed + "\n";
-		}
-		regAvail.push(leftreg);
-		regAvail.push(rightreg);
-		this.guardASMcode += output;
-
-	}
-
-	// guardAtom 'or' guardAtom
-	@Override
-	public void exitGuardorexpr(GuardorexprContext ctx) {
-		// System.out.println("guard or defines: " + ctx.getText());
-		String strFormat = "CMP DWORD %s, 1\n";
-		String succeed = className + "_" + methodName + "_succeed";
-		//String failed = className + "_" + methodName + "_checkguard_fail";
-		String output = "";
-		int rightnot = notOps.pop();
-		int leftnot = notOps.pop();
-		String rightreg = regs.pop();
-		String leftreg = regs.pop();
-		if (ctx.guardAtom(0) != null && ctx.guardAtom(1) != null) {
-			String right = String.format(strFormat, rightreg);
-			String left = String.format(strFormat, leftreg);
-			output += left;
-			if (leftnot == 1)
-				output += "JNE " + succeed + "\n";
-			else
-				output += "JE " + succeed + "\n";
-			output += right;
-			if (rightnot == 1)
-				output += "JNE " + succeed + "\n";
-			else
-				output += "JE " + succeed + "\n";
-		}
-		regAvail.push(leftreg);
-		regAvail.push(rightreg);
-		this.guardASMcode += output;
-	}
+	
 
 	@Override
-	public void exitGuardatomexpr(GuardatomexprContext ctx) {
-		// System.out.println("guard atom defines: " + ctx.getText());
-		// regAvail.push();
-		String arg = regs.pop();
-		int guardnot = notOps.pop();
-		String succeed = className + "_" + methodName + "_succeed";
-		String output = String.format("CMP DWORD %s, 1\n", arg);
-		if (guardnot == 1)
-			output += "JNE " + succeed + "\n";
-		else
-			output += "JE " + succeed + "\n";
-		this.guardASMcode += output;
-		regAvail.push(arg);
-	}
-
-	@Override
-	public void exitIdguardatom(IdguardatomContext ctx) {
-		String a = regAvail.pop();
-		ClassSymbol cls = (ClassSymbol) currentScope.resolve(className);
-		FieldSymbol fs = (FieldSymbol) currentScope.resolve(ctx.ID().getText());
-		int index = cls.getDefinedFields().indexOf(fs);
-		String s = "MOV DWORD " + a + ", " + "[ECX + %d]\n";
-		String o = String.format(s, (index + 4) * 4);
-		this.guardASMcode += o;
-		regs.push(a);
-		notOps.push(0);
-		
-		cls.classGuardIds.add(ctx.ID().getText());
-		
-	}
-
-	@Override
-	public void exitIntguardatom(IntguardatomContext ctx) {
+	public void exitGuardatomint(GuardatomintContext ctx) {
 		regs.push(ctx.INTEGER().getText());
 		notOps.push(0);
-	}
-
-	@Override
-	public void exitNotguardtom(NotguardtomContext ctx) {
-		String r = regAvail.pop();
-		ClassSymbol cls = (ClassSymbol) currentScope.resolve(className);
-		FieldSymbol fs = (FieldSymbol) currentScope.resolve(ctx.ID().getText());
-		int index = cls.getDefinedFields().indexOf(fs);
-		String s = "MOV DWORD " + r + ", " + "[ECX + %d]\n";
-		String o = String.format(s, (index + 4) * 4);
-		this.guardASMcode += o;
-		regs.push(r);
-		notOps.push(1);
-		cls.classGuardIds.add(ctx.ID().getText());
 	}
 
 	// atom
@@ -554,7 +411,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 			}
 			
 			//add init method
-			((ClassSymbol)(currentScope.getEnclosingScope())).methodCalled.add(ctx.n.getText()+"_init");
+			//((ClassSymbol)(currentScope.getEnclosingScope())).methodCalled.add(ctx.n.getText()+"_init");
 		}
 	}
 
@@ -564,6 +421,8 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 		if (ctx.ID(1) != null) {
 			// Symbol s = this.symtab.GLOBALS.resolve(ctx.c.getText());
 			Symbol s = currentScope.resolve(ctx.c.getText());
+			if(s == null) System.err.printf("class %s can't reslove\n", s.getName());
+			//System.out.printf("class %s can't reslove type %s\n", s.getName(), ((FieldSymbol) s).getType());
 			Symbol c = this.symtab.GLOBALS.resolve(((FieldSymbol) s).getType().getName());
 			if (!(c instanceof ClassSymbol)) {
 				System.err.printf("Error: c=ID . m=ID args: c=ID (%s) should be class symbol!\n", ctx.c.getText());
@@ -574,7 +433,7 @@ public class LimeParserTreeListener extends LimeGrammarBaseListener {
 						c.getScope());
 			}
 			//methodcalled
-			((ClassSymbol)(currentScope.getEnclosingScope())).methodCalled.add(((FieldSymbol) s).getType().getName()+"_"+m.getName());
+			//((ClassSymbol)(currentScope.getEnclosingScope())).methodCalled.add(((FieldSymbol) s).getType().getName()+"_"+m.getName());
 		}
 	}
 }

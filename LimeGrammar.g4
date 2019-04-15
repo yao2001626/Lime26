@@ -86,7 +86,6 @@ tokens {
 }
 //Lime parser
 compilationUnit
-    //: im=(import_stmt*) cls=(classDecl)+ EOF ;
     : importStmts classDecls EOF ;
 importStmts 
 	: importstmt*; 
@@ -111,9 +110,11 @@ parameters
 typeparslist
 	: parsdef (',' parsdef)* ;
 parsdef
-	: ID ':' type ;
-type
-	: 'int' | 'bool' | 'void' | ID ;
+	: id_list ':' type ;
+type returns [Type typ]
+	: 'int' | 'bool' | 'void' | ID | arrayDecl;
+arrayDecl returns [ArrayType typ]
+	:'array' 'of' ty=('int' | 'bool' | ID);
 type_list
 	: type (',' type)* ;
 stmt
@@ -131,7 +132,6 @@ compound_stmt
 localDecl 
 	: 'var' id_list ':' type ;
 expr_stmt
-	//: src=expr_list (':=' des=expr_list)? ;
 	: src=expr_list;
 if_stmt
  	: if_stat elif_stat* else_stat?;
@@ -150,23 +150,24 @@ return_stmt
 block
 	: simple_stmt | NEWLINE INDENT stmt+ DEDENT ;
 guard 
-	: guardAtom op=( '>=' | '<=' | '>' | '<' ) guardAtom 	#guardcompexpr
-	| guardAtom op=( '=' | '!=' ) guardAtom             	#guardeqexpr
-	| guardAtom 'and' guardAtom                          	#guardandexpr
-	| guardAtom 'or' guardAtom                          	#guardorexpr
-	| guardAtom								   				#guardatomexpr
+	: '(' guard ')'												#guardparen
+	| 'not' guard								   				#guardatomnot
+	| guard op=( '>=' | '<=' | '>' | '<' | '=' | '!=') guard   	#guardcompexpr
+	| guard 'and' guard                          				#guardandexpr
+	| guard 'or' guard                          				#guardorexpr
+	| ID 									   					#guardatomid
+	| INTEGER 								   					#guardatomint
 	;
-guardAtom
-	: ID 					#idguardatom
-	| INTEGER 				#intguardatom
-	| 'not' ID				#notguardtom
-	;
+
 id_list
-	: ID (',' ID)* ;	
+	: id_ele (',' id_ele)* ;
+id_ele
+	: ID selector? ;	
 expr_list
 	: expr (',' expr)* ;
 expr
-	: '-' expr                                 #unaryMinusexpr
+	: '(' expr ')'							   #parenexpr
+	| '-' expr                                 #unaryMinusexpr
 	| 'not' expr                               #notexpr
 	| expr op=( '*' | '/' | '%' ) expr         #multexpr
 	| expr op=( '+' | '-' ) expr               #addexpr
@@ -177,16 +178,23 @@ expr
 	| atom									   #atomexpr
 	;
 atom
-	:  INTEGER | True | False | Null | ID | method_call;	
+	:  INTEGER | True | False | Null | ID | method_call | arrayCreate | arrayElement;	
 method_call
 	: 'new' n=ID args 						   #newcall
 	| c=ID '.' m=ID args 					   #methodcall
+	| arrayElement '.' m=ID args			   #arrayElementmethodcall
 	| 'print' args 			   		   		   #print
 	| 'getRand'  args						   #getRand
 	| 'setRand'  args						   #setRand
 	| 'getArg' args 		   		   		   #getArg
 	| ID args 								   #userDefined
 	;
+arrayCreate
+	: 'new' ty=('int' | 'bool' | ID) selector;
+arrayElement
+	: ID selector;	
+selector
+	: '[' expr ']';
 args
 	: '(' expr_list? ')';
 

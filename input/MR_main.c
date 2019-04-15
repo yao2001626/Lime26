@@ -1,6 +1,16 @@
-#include <stdlib.h>
 #include <stdio.h>
-#include "MR_main.h"
+#include <stdlib.h>
+void Mapper_map(int, void*, void*);
+void *Reducer_init(int,void *);
+void *Mapper_init(int,void *);
+extern int argc_g;
+extern char ** argv_g;
+int * input;
+int getRand(int);
+void setRand(int);
+void print(int x);
+int getArg(int);
+void lime_main(void * self);
 void print(int x){
 	// This is the default built-in function: print
 	printf("%d\n", x);
@@ -32,45 +42,29 @@ void setRand(int num){
 int getRand(int index){
 	return input[index];
 }
-void buildMR(int num){
-    r = (struct Reducer_struct **) malloc (sizeof(struct Reducer_struct *)*num);
-    m = (struct Mapper_struct **) malloc (sizeof(struct Mapper_struct *)*num);
-    int i = 0;
-    int N = num;
-    m[0] = (struct Mapper_struct *)Mapper_init(0);
-    i = 1;
-    while(i<N){
-        m[i] = (struct Mapper_struct *)Mapper_init(i);
-        r[i] = (struct Reducer_struct *)Reducer_init(i);
-        i = i + 1;
-    }
-    i = 1;
-    while(i<N/2){
-        r[i*2]->next = r[i];
-        r[i*2+1]->next = r[i];
-        i = i + 1;
-    }
-    i = 0;
-    while(i<N){
-        m[i]->next = r[(i+N)/2];
-        i = i + 1;
-    }
-    //return NULL;
-}
-struct Mapper_struct * getMapper(int index){
-	return (struct Mapper_struct *)m[index];
-}
+int importedFun(int,int,int);
 void lime_main(void * self){
-void *mp;
 int i;
 int num;
 int repeat;
+void ** marray;
+void ** rarray;
 num = getArg(1);
 repeat = getArg(2);
-buildMR(num);while(repeat>0){
+marray = (void **)malloc(sizeof(void *) * num);
+rarray = (void **)malloc(sizeof(void *) * num);
+rarray[0] = NULL;
+for(i = 1;i<= num - 1; ++i){
+	rarray[i] = (void *)Reducer_init(i, rarray[i/2]);
+
+}
+for(i = 0;i<= num - 1; ++i){
+	marray[i] = (void *)Mapper_init(i, rarray[(i + num)/2]);
+
+}
+while(repeat>0){
 	for(i = 0;i<= num - 1; ++i){
-	mp = getMapper(i);
-Mapper_map(i, mp, self);
+	Mapper_map(i, marray[i], self);
 }
 repeat = repeat - 1;
 

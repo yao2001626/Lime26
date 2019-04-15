@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
-void print(int);
+#include <stdio.h>
+ int importedFun(int,int,int);
 struct Reducer_struct{
 int pre_ebp;
 int pre_esp;
@@ -13,17 +14,17 @@ int a2;
 int e1;
 int e2;
 };
-struct Reducer_struct * Reducer_init(int);
+void print(int x);
+void Reducer_reduce2(int, struct Reducer_struct *, void*);
+void Reducer_reduce1(int, struct Reducer_struct *, void*);
 void Reducer_reduce1(int x,struct Reducer_struct *this, void* self){
 this->e1 = x;
 this->a1 = 1;
 }
-
 void Reducer_reduce2(int x,struct Reducer_struct *this, void* self){
 this->e2 = x;
 this->a2 = 1;
 }
-
 
 void Reducer_doReduce(struct Reducer_struct *this, void* self)
 {
@@ -41,4 +42,3 @@ Reducer_reduce2(this->e1 + this->e2,this->next, self);
 this->a1 = 0;
 this->a2 = 0;
 }
-

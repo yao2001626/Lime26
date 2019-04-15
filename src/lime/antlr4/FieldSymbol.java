@@ -15,6 +15,7 @@ public class FieldSymbol extends VariableSymbol implements MemberSymbol{
 	@Override
 	public String toString() {
 		String s = super.toString();
-		return s +": "+ this.fieldIndex;
+		//return s +": "+ this.fieldIndex;
+		return s;
 	}
 }

@@ -159,16 +159,16 @@ def merge(compileFlags, jsonFile):
                 methodBody = getMethodBody(method.name, limeBodyName)
                 skeMethodName = ";" + method.name + "_body"
                 skeleton = skeleton.replace(skeMethodName, methodBody)
-                mGuardName = ";" + method.name + "_guard"
-                mGuard = method.guard
-                skeleton = skeleton.replace(mGuardName, mGuard)
+                #mGuardName = ";" + method.name + "_guard"
+                #mGuard = method.guard
+                #skeleton = skeleton.replace(mGuardName, mGuard)
             for action in cls.methods:
                 actionBody = getMethodBody(action.name, limeBodyName)
                 skeActionName = ";" + action.name + "_body"
                 skeleton = skeleton.replace(skeActionName, actionBody)
-                aGuardName = ";" + action.name + "_guard"
-                aGuard = action.guard
-                skeleton = skeleton.replace(aGuardName, aGuard)
+                #aGuardName = ";" + action.name + "_guard"
+                #aGuard = action.guard
+                #skeleton = skeleton.replace(aGuardName, aGuard)
 
             with open(os.path.join(compileFlags.inputDir, cls.name + ".s"), "w") as limeAsm:
                 limeAsm.write(skeleton)

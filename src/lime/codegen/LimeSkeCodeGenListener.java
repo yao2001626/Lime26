@@ -33,6 +33,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		this.dir = dir;
 	}
 	void createFile(String className, String dir, String content) {
+		if(className.equals("Start")) return;
 		String limeSkeletonName = className+".skeleton.s";
 		FileWriter outputSkefile;
 		try {
@@ -88,6 +89,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("class_name", curClassName);
 		t.add("action_name", ctx.ID().toString());
 		t.add("unguarded", ((ActionSymbol)currentScope).unguarded());
+		t.add("guardAsmCode", ((ActionSymbol)currentScope).guardAsmCode);
 		content += t.render();
 	}
 	
@@ -101,6 +103,7 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("paranum", ((MethodSymbol)currentScope).getNumberOfParameters());
 		t.add("enabled", ((MethodSymbol)currentScope).isEnabled()&& ((ClassSymbol)currentScope.getEnclosingScope()).getActions().size()>0);
 		t.add("unguarded", ((MethodSymbol)currentScope).unguarded());
+		t.add("guardAsmCode", ((MethodSymbol)currentScope).guardAsmCode);
 		content += t.render();
 	}
 	

@@ -21,6 +21,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitSingle_assign(@NotNull LimeGrammarParser.Single_assignContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code guardatomint}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void enterGuardatomint(@NotNull LimeGrammarParser.GuardatomintContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code guardatomint}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void exitGuardatomint(@NotNull LimeGrammarParser.GuardatomintContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code addexpr}
 	 * labeled alternative in {@link LimeGrammarParser#expr}.
 	 * @param ctx the parse tree
@@ -42,18 +54,6 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitType(@NotNull LimeGrammarParser.TypeContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code notguardtom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 */
-	void enterNotguardtom(@NotNull LimeGrammarParser.NotguardtomContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code notguardtom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 */
-	void exitNotguardtom(@NotNull LimeGrammarParser.NotguardtomContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#compound_stmt}.
 	 * @param ctx the parse tree
@@ -105,6 +105,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitReturn_stmt(@NotNull LimeGrammarParser.Return_stmtContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code parenexpr}
+	 * labeled alternative in {@link LimeGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterParenexpr(@NotNull LimeGrammarParser.ParenexprContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code parenexpr}
+	 * labeled alternative in {@link LimeGrammarParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitParenexpr(@NotNull LimeGrammarParser.ParenexprContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code getRand}
 	 * labeled alternative in {@link LimeGrammarParser#method_call}.
 	 * @param ctx the parse tree
@@ -116,6 +128,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGetRand(@NotNull LimeGrammarParser.GetRandContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#id_ele}.
+	 * @param ctx the parse tree
+	 */
+	void enterId_ele(@NotNull LimeGrammarParser.Id_eleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#id_ele}.
+	 * @param ctx the parse tree
+	 */
+	void exitId_ele(@NotNull LimeGrammarParser.Id_eleContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#while_stmt}.
 	 * @param ctx the parse tree
@@ -159,6 +181,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitClassMember(@NotNull LimeGrammarParser.ClassMemberContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code arrayElementmethodcall}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayElementmethodcall(@NotNull LimeGrammarParser.ArrayElementmethodcallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arrayElementmethodcall}
+	 * labeled alternative in {@link LimeGrammarParser#method_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayElementmethodcall(@NotNull LimeGrammarParser.ArrayElementmethodcallContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#classDecl}.
 	 * @param ctx the parse tree
 	 */
@@ -191,18 +225,6 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitUserDefined(@NotNull LimeGrammarParser.UserDefinedContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code intguardatom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntguardatom(@NotNull LimeGrammarParser.IntguardatomContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code intguardatom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntguardatom(@NotNull LimeGrammarParser.IntguardatomContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code getArg}
 	 * labeled alternative in {@link LimeGrammarParser#method_call}.
 	 * @param ctx the parse tree
@@ -214,6 +236,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGetArg(@NotNull LimeGrammarParser.GetArgContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#arrayDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayDecl(@NotNull LimeGrammarParser.ArrayDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#arrayDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayDecl(@NotNull LimeGrammarParser.ArrayDeclContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code guardorexpr}
 	 * labeled alternative in {@link LimeGrammarParser#guard}.
@@ -227,6 +259,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitGuardorexpr(@NotNull LimeGrammarParser.GuardorexprContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code guardparen}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void enterGuardparen(@NotNull LimeGrammarParser.GuardparenContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code guardparen}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void exitGuardparen(@NotNull LimeGrammarParser.GuardparenContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#else_stat}.
 	 * @param ctx the parse tree
 	 */
@@ -236,6 +280,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitElse_stat(@NotNull LimeGrammarParser.Else_statContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#arrayElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayElement(@NotNull LimeGrammarParser.ArrayElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#arrayElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayElement(@NotNull LimeGrammarParser.ArrayElementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#compilationUnit}.
 	 * @param ctx the parse tree
@@ -309,6 +363,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitElif_stat(@NotNull LimeGrammarParser.Elif_statContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code guardatomid}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void enterGuardatomid(@NotNull LimeGrammarParser.GuardatomidContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code guardatomid}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void exitGuardatomid(@NotNull LimeGrammarParser.GuardatomidContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code compexpr}
 	 * labeled alternative in {@link LimeGrammarParser#expr}.
 	 * @param ctx the parse tree
@@ -375,18 +441,6 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitMultexpr(@NotNull LimeGrammarParser.MultexprContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code guardatomexpr}
-	 * labeled alternative in {@link LimeGrammarParser#guard}.
-	 * @param ctx the parse tree
-	 */
-	void enterGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code guardatomexpr}
-	 * labeled alternative in {@link LimeGrammarParser#guard}.
-	 * @param ctx the parse tree
-	 */
-	void exitGuardatomexpr(@NotNull LimeGrammarParser.GuardatomexprContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#importstmt}.
 	 * @param ctx the parse tree
 	 */
@@ -407,18 +461,6 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitSimple_stmt(@NotNull LimeGrammarParser.Simple_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code idguardatom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 */
-	void enterIdguardatom(@NotNull LimeGrammarParser.IdguardatomContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code idguardatom}
-	 * labeled alternative in {@link LimeGrammarParser#guardAtom}.
-	 * @param ctx the parse tree
-	 */
-	void exitIdguardatom(@NotNull LimeGrammarParser.IdguardatomContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#actionDecl}.
 	 * @param ctx the parse tree
 	 */
@@ -429,6 +471,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitActionDecl(@NotNull LimeGrammarParser.ActionDeclContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#selector}.
+	 * @param ctx the parse tree
+	 */
+	void enterSelector(@NotNull LimeGrammarParser.SelectorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#selector}.
+	 * @param ctx the parse tree
+	 */
+	void exitSelector(@NotNull LimeGrammarParser.SelectorContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#if_stat}.
 	 * @param ctx the parse tree
 	 */
@@ -438,6 +490,18 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitIf_stat(@NotNull LimeGrammarParser.If_statContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code guardatomnot}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void enterGuardatomnot(@NotNull LimeGrammarParser.GuardatomnotContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code guardatomnot}
+	 * labeled alternative in {@link LimeGrammarParser#guard}.
+	 * @param ctx the parse tree
+	 */
+	void exitGuardatomnot(@NotNull LimeGrammarParser.GuardatomnotContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#classDecls}.
 	 * @param ctx the parse tree
@@ -561,6 +625,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitArgs(@NotNull LimeGrammarParser.ArgsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#arrayCreate}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayCreate(@NotNull LimeGrammarParser.ArrayCreateContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#arrayCreate}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayCreate(@NotNull LimeGrammarParser.ArrayCreateContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#type_list}.
 	 * @param ctx the parse tree
 	 */
@@ -636,16 +710,4 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStmt(@NotNull LimeGrammarParser.StmtContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code guardeqexpr}
-	 * labeled alternative in {@link LimeGrammarParser#guard}.
-	 * @param ctx the parse tree
-	 */
-	void enterGuardeqexpr(@NotNull LimeGrammarParser.GuardeqexprContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code guardeqexpr}
-	 * labeled alternative in {@link LimeGrammarParser#guard}.
-	 * @param ctx the parse tree
-	 */
-	void exitGuardeqexpr(@NotNull LimeGrammarParser.GuardeqexprContext ctx);
 }

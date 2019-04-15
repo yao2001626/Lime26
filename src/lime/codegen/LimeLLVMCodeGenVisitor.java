@@ -14,6 +14,7 @@ import lime.antlr4.LimeGrammarParser.ActionDeclContext;
 import lime.antlr4.LimeGrammarParser.AddexprContext;
 import lime.antlr4.LimeGrammarParser.AndexprContext;
 import lime.antlr4.LimeGrammarParser.ArgsContext;
+import lime.antlr4.LimeGrammarParser.ArrayDeclContext;
 import lime.antlr4.LimeGrammarParser.AtomContext;
 import lime.antlr4.LimeGrammarParser.AtomexprContext;
 import lime.antlr4.LimeGrammarParser.BlockContext;
@@ -30,6 +31,7 @@ import lime.antlr4.LimeGrammarParser.Expr_listContext;
 import lime.antlr4.LimeGrammarParser.Expr_stmtContext;
 import lime.antlr4.LimeGrammarParser.GetArgContext;
 import lime.antlr4.LimeGrammarParser.GetRandContext;
+import lime.antlr4.LimeGrammarParser.Id_eleContext;
 import lime.antlr4.LimeGrammarParser.Id_listContext;
 import lime.antlr4.LimeGrammarParser.If_statContext;
 import lime.antlr4.LimeGrammarParser.If_stmtContext;
@@ -47,10 +49,12 @@ import lime.antlr4.LimeGrammarParser.ParametersContext;
 import lime.antlr4.LimeGrammarParser.ParsdefContext;
 import lime.antlr4.LimeGrammarParser.PrintContext;
 import lime.antlr4.LimeGrammarParser.Return_stmtContext;
+import lime.antlr4.LimeGrammarParser.SelectorContext;
 import lime.antlr4.LimeGrammarParser.SetRandContext;
 import lime.antlr4.LimeGrammarParser.Simple_stmtContext;
 import lime.antlr4.LimeGrammarParser.Small_stmtContext;
 import lime.antlr4.LimeGrammarParser.StmtContext;
+import lime.antlr4.LimeGrammarParser.TypeContext;
 import lime.antlr4.LimeGrammarParser.TypeparslistContext;
 import lime.antlr4.LimeGrammarParser.UnaryMinusexprContext;
 import lime.antlr4.LimeGrammarParser.While_stmtContext;
@@ -71,21 +75,71 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	int action_counter = 0;
 	SymbolTable symtab;
 	boolean initfunction = false;
-	String dir = "";
+	String dir;
 
 	public LimeLLVMCodeGenVisitor(SymbolTable symtab, String dir) {
 		this.symtab = symtab;
 		this.dir = dir;
 	}
-	
-	
-	void createFile(String l) throws IOException {
-		String limeLLVMName = this.className+".c";
-		FileWriter outputLLVMfile = new FileWriter(new File(dir, limeLLVMName));
-		outputLLVMfile.write(l);
-    	outputLLVMfile.close();	
+
+	void createFile(String className, String content) {
+		String limeLLVMName = className + ".c";
+		FileWriter outputFile;
+		if(className.equals("Start")) return;
+		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(className);
+		if(cs==null) {
+			System.err.print("Error: can't find class symbol: "+ className);
+		}
+		try {
+			outputFile = new FileWriter(new File(dir, limeLLVMName));
+			outputFile.write("#include <stddef.h>\n");
+			outputFile.write("#include <stdlib.h>\n");
+			outputFile.write("#include <stdio.h>\n");
+			for (String s : symtab.importedMethod.values()) {
+				outputFile.write(s);
+			}
+			outputFile.write("struct " + this.className + "_struct{\n");
+			outputFile.write("int pre_ebp;\n");
+			outputFile.write("int pre_esp;\n");
+			outputFile.write("int lock;\n");
+			outputFile.write("int system_next;\n");
+			for (FieldSymbol f : ((ClassSymbol) cs).getFields()) {
+				String typ = f.getType().getName();
+				if (typ.equals("int") || typ.equals("bool")) {
+					outputFile.write("int " + f.getName() + ";\n");
+
+				} else {
+					outputFile.write("struct " + typ + "_struct *" + f.getName() + ";\n");
+				}
+			}
+			outputFile.write("};\n");
+			
+			// init function decl
+			
+			// preDefined function decls
+			
+			// external functions decls
+			for(String s: cs.methodsCalled.keySet()) {
+				if(symtab.preDefinedMethod.containsKey(s)) {
+					outputFile.write(((MethodSymbol)symtab.PREDEFINED.resolve(s)).methodDecl + ";\n");
+					continue;
+				}
+				String tmp[] = s.split("_");
+				ClassSymbol cst = (ClassSymbol)symtab.GLOBALS.resolve(tmp[0]);
+				MethodSymbol ms = (MethodSymbol)cst.resolve(tmp[1]);
+				//System.out.println(ms.methodDecl+";\n");
+				outputFile.write(ms.methodDecl+";\n");
+			}
+			
+			outputFile.write(content);
+			outputFile.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	/*
 	 * classDecl : 'class' ID NEWLINE INDENT classMember* DEDENT ;
 	 */
@@ -94,134 +148,28 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		this.action_counter = 0;
 		this.className = ctx.ID().getText();
 		String l = "";
-
 		Symbol cs = this.symtab.GLOBALS.resolve(ctx.ID().getText());
-		l += "#include <stddef.h>\n";
-		l += "#include <stdlib.h>\n";
-		for (String s : symtab.importedMethod.values()) {
-			l += s;
-		}
-		l += "void print(int);\n";
-		l += "struct " + this.className + "_struct{\n";
-		l += "int pre_ebp;\n";
-		l += "int pre_esp;\n";
-		l += "int lock;\n";
-		l += "int system_next;\n";
-		if (cs instanceof ClassSymbol) {
-			for (FieldSymbol f : ((ClassSymbol) cs).getFields()) {
-				String typ = f.getType().getName();
-				if (typ.equals("int") || typ.equals("bool")) {
-					l += "int " + f.getName() + ";\n";
-
-				} else {
-					l += "struct " + typ + "_struct *" + f.getName() + ";\n";
-				}
-			}
-		}
-		l += "};\n";
-
-		// declare Classname_init()
-		MethodSymbol ms = (MethodSymbol) ((ClassSymbol) cs).resolveMethod("init");
-		if (ms != null) {
-			l += "struct " + cs.getName() + "_struct * " + cs.getName() + "_init(";
-			// args
-			int n = ms.getNumArgs();
-			if (n == 0)
-				l += ");\n";
-			else if (n == 1)
-				l += "int);\n";
-			else {
-				l += "int";
-				int nn = n - 1;
-				while (nn > 0) {
-					l += ", int";
-					nn--;
-				}
-				l += ");\n";
-			}
-		}
-		// declare externFunctions
-		String tmp = "";
-		// System.out.println(((ClassSymbol)cs).externMethods);
-		for (String s : ((ClassSymbol) cs).externMethods) {
-			// System.out.println(s.split("_")[1]);
-			if (symtab.PREDEFINED.resolve(s) != null) {
-				continue;
-			} else {
-				// System.out.println(s.split("_")[1]);
-				// MethodSymbol calledmethod =
-				// (MethodSymbol)((ClassSymbol)(symtab.GLOBALS.findSyresolveSymbol(s.split("_")[0])).resolveMethod(s.split("_")[1]);
-				MethodSymbol calledmethod = ((ClassSymbol) symtab.GLOBALS.resolve(s.split("_")[0]))
-						.resolveMethod(s.split("_")[1]);
-				if (calledmethod.getType() == null || calledmethod.getType().getName().equals("void")) {
-					tmp += "void ";
-				} else {
-					tmp += "int ";
-				}
-				int n = calledmethod.getNumArgs();
-
-				tmp += s;
-				tmp += "(";
-				if (n == 0) {
-					tmp += "void*, void*";
-				} else {// n>0
-					tmp += "int ";
-					int nn = n - 1;
-					while (nn > 0) {
-						tmp += ",int ";
-						nn--;
-					}
-					tmp += ", void*, void*";
-				}
-				tmp += ");\n";
-			}
-		}
-		l += tmp;
-
 		for (ClassMemberContext m : ctx.classMember()) {
 			String t = this.visit(m);
 			if (t != null)
-				l += t + "\n";
+				l += t;
 		}
-		try {
-			if(!this.className.equals("Start"))
-			createFile(l);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		createFile(className, l);
 		return l;
 	}
 
 	@Override
 	public String visitClassMember(ClassMemberContext ctx) {
+		String s= "";
 		if (ctx.methodDecl() != null) {
-			return this.visit(ctx.methodDecl());
+			s += this.visit(ctx.methodDecl());
 		}
 		if (ctx.actionDecl() != null) {
-			return this.visit(ctx.actionDecl());
+			s += this.visit(ctx.actionDecl());
 		}
-		return super.visitClassMember(ctx);
+		return s;
 	}
-
-	// initDecl returns [Scope scope]
-	// : 'init' parameters NEWLINE INDENT block DEDENT ;
-
-	/*
-	 * @Override public String visitInitDecl(InitDeclContext ctx) { initfunction =
-	 * true; //method name String s = "void *"+this.className+"_init_code"; //method
-	 * args s+="("; s+= this.visit(ctx.parameters()); s+=")"; s +="{\n"; s +=String.
-	 * format("struct %s_struct *this =(struct %s_struct *)malloc(sizeof(struct %s_struct));\n"
-	 * , this.className, this.className, this.className); s +=
-	 * this.visit(ctx.block()); s += String.format("return this;\n"); s +="}";
-	 * initfunction = false; return s+"\n"; }
-	 */
-	@Override
-	public String visitInitDecl(InitDeclContext ctx) {
-
-		return null;
-	}
-
+	
 	// methodDecl
 	// : 'method' ID parameters (':' type)? NEWLINE INDENT ('when' guard 'do')?
 	// block DEDENT ;
@@ -238,12 +186,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			// method args
 			s += "(";
 			s += this.visit(ctx.parameters());
-			/*
-			 * if(t=="") s+="struct "+this.className.toUpperCase()+"_struct *this"; else {
-			 * s+= t+", struct "+this.className.toUpperCase()+"_struct *this"; }
-			 */
-			s += ")";
-			s += "{\n";
+			s += "){\n";
 			s += this.visit(ctx.block());
 			s += "}";
 		}
@@ -280,13 +223,38 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	}
 
 	// parsdef
-	// : ID ':' type ;
+	// : id_list ':' type ;
 	@Override
 	public String visitParsdef(ParsdefContext ctx) {
 		String s = "";
-		if (ctx.ID() != null) {
-			s += "int " + ctx.ID().getText();
-			s += ",";
+		s += this.visit(ctx.type());
+		s += this.visit(ctx.id_list());
+		s += ",";
+		return s;
+	}
+
+	//: 'int' | 'bool' | 'void' | ID | arrayDecl;
+	@Override
+	public String visitType(TypeContext ctx) {
+		String s = "";
+		if(ctx.getText().equals("int")||ctx.getText().equals("bool")) {
+			s += "int ";
+		}else if(ctx.ID()!=null) {
+			s += ctx.ID().getText()+"_struct *";
+		}else if(ctx.arrayDecl()!=null) {
+			s += this.visit(ctx.arrayDecl());
+		}
+		
+		return s;
+	}
+	// array of ID
+	@Override
+	public String visitArrayDecl(ArrayDeclContext ctx) {
+		String s = "";
+		if(ctx.getText().equals("int")||ctx.getText().equals("bool")) {
+			s += "int *";
+		}else if(ctx.ID()!=null) {
+			s += ctx.ID().getText()+"_struct **";
 		}
 		return s;
 	}
@@ -526,16 +494,42 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			return in;
 		}
 	}
-
+	//id_list
+	//: id_ele (',' id_ele)* ;
 	@Override
 	public String visitId_list(Id_listContext ctx) {
 		String s = "";
-		s += getThisPrefix(ctx.ID(0).getText());
-		for (int i = 1; i < ctx.ID().size(); ++i) {
+		String t ="";
+		t = this.visit(ctx.id_ele(0));
+		s += getThisPrefix(t);
+		for (int i = 1; i < ctx.id_ele().size(); ++i) {
 			s += ",";
-			s += getThisPrefix(ctx.ID(i).getText());
+			t = this.visit(ctx.id_ele(i));
+			s += getThisPrefix(t);
 		}
-
+		return s;
+	}
+	
+	//id_ele
+	//: ID selector? ;
+	@Override
+	public String visitId_ele(Id_eleContext ctx) {
+		String s = "";
+		s += ctx.ID().getText();
+		if(ctx.selector()!=null) {
+			s += this.visit(ctx.selector());
+		}
+		return s;
+	}
+	
+	//selector
+	//: '[' expr ']'
+	@Override
+	public String visitSelector(SelectorContext ctx) {
+		String s = "";
+		s += "[";
+		s += this.visit(ctx.expr());
+		s += "]";
 		return s;
 	}
 

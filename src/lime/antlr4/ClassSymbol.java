@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /** A symbol representing the class. It is a kind of data aggregate
@@ -23,28 +24,19 @@ public class ClassSymbol extends DataAggregateSymbol {
 	HashMap<String, String> fields_init = new HashMap<String, String>();
 	Set<Symbol> methods = new LinkedHashSet<Symbol>();
 	Set<Symbol> actions = new LinkedHashSet<Symbol>();
-	public Set<String> methodCalled;
+	public Map<String, String> methodsCalled ;
 	public Set<String> classGuardIds;
 	public Set<String> externMethods;
 	String objInitCode="";
 	public ClassSymbol(String name) {
 		super(name);
 		classGuardIds = new HashSet<String>();
-		methodCalled = new HashSet<String>();
-		externMethods = new HashSet<String>();
-		externMethods.add("print");
-		externMethods.add("getRand");
+		methodsCalled = new HashMap<String, String>();
 	}
-	public void addExternalFunction() {
-		Set<String> dms = new HashSet<String>();
-		for(MethodSymbol m:getDefinedMethods()) {
-			dms.add(getName()+"_"+m.getName());
-		}
-		for(String m: methodCalled) {
-			if(!dms.contains(m)) {
-				externMethods.add(m);
-			}
-		}
+	public void addExternalFunction(String name, String funDecls) {
+		if(!this.methodsCalled.containsKey(name)) {
+			this.methodsCalled.put(name, funDecls);
+		}		
 	}
 	public void setObjInitCode(String in) {
 		this.objInitCode +=in;
@@ -128,6 +120,7 @@ public class ClassSymbol extends DataAggregateSymbol {
 	 */
 	public MethodSymbol resolveMethod(String name) {
 		Symbol s = resolveMember(name);
+		//System.out.println(s);
 		if ( s instanceof MethodSymbol ) {
 			return (MethodSymbol)s;
 		}
