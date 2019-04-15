@@ -155,7 +155,6 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		ms.methodDeclforMain = dec;
 		if(ctx.guard()==null) ms.setUnguarded();
 		inMethod = false;
-		System.out.println(ms.methodAssignLvalue);
 		ms.setEnabled(ms.guardIds);
 		currentScope = currentScope.getEnclosingScope();
 	}
