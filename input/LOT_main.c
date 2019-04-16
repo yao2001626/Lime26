@@ -28,7 +28,7 @@ void setRand(int num){
     size_t len = 0;
     ssize_t read;
     //snprintf(filename, 100, "%s/%s", dir, argv_g[1]);
-    snprintf(filename, 100, "%s/", dir);
+    snprintf(filename, 100, "%s", dir);
     FILE *file= fopen(filename, "r");
     if (file == NULL) exit(EXIT_FAILURE);
     input = (int *)malloc(sizeof(int)*num);

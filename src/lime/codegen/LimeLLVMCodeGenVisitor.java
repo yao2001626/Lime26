@@ -121,7 +121,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				String tmp[] = s.split("_");
 				ClassSymbol cst = (ClassSymbol)symtab.GLOBALS.resolve(tmp[0]);
 				MethodSymbol ms = (MethodSymbol)cst.resolve(tmp[1]);
-				System.out.println(ms.methodDecl+";\n");
+				//System.out.println(ms.methodDecl+";\n");
 				outputFile.write(ms.methodDecl+";\n");
 			}
 			
