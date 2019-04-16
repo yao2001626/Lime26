@@ -49,7 +49,7 @@ public class SymbolTable {
 				"    size_t len = 0;\n" + 
 				"    ssize_t read;\n" + 
 				"    //snprintf(filename, 100, \"%s/%s\", dir, argv_g[1]);\n" + 
-				"    snprintf(filename, 100, \"%s/\", dir);\n" + 
+				"    snprintf(filename, 100, \"%s\", dir);\n" + 
 				"    FILE *file= fopen(filename, \"r\");\n" + 
 				"    if (file == NULL) exit(EXIT_FAILURE);\n" + 
 				"    input = (int *)malloc(sizeof(int)*num);\n" + 
