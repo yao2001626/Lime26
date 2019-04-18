@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import lime.antlr4.ClassSymbol;
+import lime.antlr4.EnumSymbol;
 import lime.antlr4.FieldSymbol;
 import lime.antlr4.LimeGrammarBaseVisitor;
 import lime.antlr4.LimeGrammarLexer;
@@ -79,10 +80,11 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	void createFile(String className, String content) {
 		String limeLLVMName = className + ".c";
 		FileWriter outputFile;
-		if(className.equals("Start")) return;
-		ClassSymbol cs = (ClassSymbol)symtab.GLOBALS.resolve(className);
-		if(cs==null) {
-			System.err.print("Error: can't find class symbol: "+ className);
+		if (className.equals("Start"))
+			return;
+		ClassSymbol cs = (ClassSymbol) symtab.GLOBALS.resolve(className);
+		if (cs == null) {
+			System.err.print("Error: can't find class symbol: " + className);
 		}
 		try {
 			outputFile = new FileWriter(new File(dir, limeLLVMName));
@@ -99,7 +101,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			outputFile.write("int system_next;\n");
 			for (FieldSymbol f : ((ClassSymbol) cs).getFields()) {
 				String typ = f.getType().getName();
-				if (typ.equals("int") || typ.equals("bool")) {
+				if (typ.equals("int") || typ.equals("bool") || typ.equals("enum")) {
 					outputFile.write("int " + f.getName() + ";\n");
 
 				} else {
@@ -107,27 +109,27 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				}
 			}
 			outputFile.write("};\n");
-			
+
 			// init function decl
-			
+
 			// preDefined function decls
-			
+
 			// external functions decls
-			for(String s: cs.methodsCalled.keySet()) {
-				if(symtab.preDefinedMethod.containsKey(s)) {
-					outputFile.write(((MethodSymbol)symtab.PREDEFINED.resolve(s)).methodDecl + ";\n");
+			for (String s : cs.methodsCalled.keySet()) {
+				if (symtab.preDefinedMethod.containsKey(s)) {
+					outputFile.write(((MethodSymbol) symtab.PREDEFINED.resolve(s)).methodDecl + ";\n");
 					continue;
 				}
 				String tmp[] = s.split("_");
-				ClassSymbol cst = (ClassSymbol)symtab.GLOBALS.resolve(tmp[0]);
-				MethodSymbol ms = (MethodSymbol)cst.resolve(tmp[1]);
-				//System.out.println(ms.methodDecl+";\n");
-				outputFile.write(ms.methodDecl+";\n");
+				ClassSymbol cst = (ClassSymbol) symtab.GLOBALS.resolve(tmp[0]);
+				MethodSymbol ms = (MethodSymbol) cst.resolve(tmp[1]);
+				// System.out.println(ms.methodDecl+";\n");
+				outputFile.write(ms.methodDecl + ";\n");
 			}
-			
+
 			outputFile.write(content);
 			outputFile.close();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,7 +155,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 
 	@Override
 	public String visitClassMember(ClassMemberContext ctx) {
-		String s= "";
+		String s = "";
 		if (ctx.methodDecl() != null) {
 			s += this.visit(ctx.methodDecl());
 		}
@@ -162,7 +164,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		}
 		return s;
 	}
-	
+
 	// methodDecl
 	// : 'method' ID parameters (':' type)? NEWLINE INDENT ('when' guard 'do')?
 	// block DEDENT ;
@@ -226,28 +228,29 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		return s;
 	}
 
-	//: 'int' | 'bool' | 'void' | ID | arrayDecl;
+	// : 'int' | 'bool' | 'void' | ID | arrayDecl;
 	@Override
 	public String visitType(TypeContext ctx) {
 		String s = "";
-		if(ctx.getText().equals("int")||ctx.getText().equals("bool")) {
+		if (ctx.getText().equals("int") || ctx.getText().equals("bool")) {
 			s += "int ";
-		}else if(ctx.ID()!=null) {
-			s += ctx.ID().getText()+"_struct *";
-		}else if(ctx.arrayDecl()!=null) {
+		} else if (ctx.ID() != null) {
+			s += ctx.ID().getText() + "_struct *";
+		} else if (ctx.arrayDecl() != null) {
 			s += this.visit(ctx.arrayDecl());
 		}
-		
+
 		return s;
 	}
+
 	// array of ID
 	@Override
 	public String visitArrayDecl(ArrayDeclContext ctx) {
 		String s = "";
-		if(ctx.getText().equals("int")||ctx.getText().equals("bool")) {
+		if (ctx.getText().equals("int") || ctx.getText().equals("bool")) {
 			s += "int *";
-		}else if(ctx.ID()!=null) {
-			s += ctx.ID().getText()+"_struct **";
+		} else if (ctx.ID() != null) {
+			s += ctx.ID().getText() + "_struct **";
 		}
 		return s;
 	}
@@ -349,16 +352,6 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 
 	// multi_assign
 	// : id_list ':=' expr_list;
-	/*
-	 * @Override public String visitMulti_assign(Multi_assignContext ctx) { //String
-	 * s = ""; String src = this.visit(ctx.id_list());
-	 * //System.out.println(ctx.getText()); if(ctx.expr_list()!=null) { String des =
-	 * this.visit(ctx.expr_list()); String[] ss = src.split(","); // bug: a,
-	 * method_call(x,y), c String[] dd = des.split(" ,");
-	 * 
-	 * String res=""; for(int i=0;i<ss.length;++i) { res+= ss[i]+" = " +dd[i]+";\n";
-	 * } return res; } return src+";"; }
-	 */
 
 	@Override
 	public String visitMulti_assign(Multi_assignContext ctx) {
@@ -487,12 +480,13 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			return in;
 		}
 	}
-	//id_list
-	//: id_ele (',' id_ele)* ;
+
+	// id_list
+	// : id_ele (',' id_ele)* ;
 	@Override
 	public String visitId_list(Id_listContext ctx) {
 		String s = "";
-		String t ="";
+		String t = "";
 		t = this.visit(ctx.id_ele(0));
 		s += getThisPrefix(t);
 		for (int i = 1; i < ctx.id_ele().size(); ++i) {
@@ -502,21 +496,21 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		}
 		return s;
 	}
-	
-	//id_ele
-	//: ID selector? ;
+
+	// id_ele
+	// : ID selector? ;
 	@Override
 	public String visitId_ele(Id_eleContext ctx) {
 		String s = "";
 		s += ctx.ID().getText();
-		if(ctx.selector()!=null) {
+		if (ctx.selector() != null) {
 			s += this.visit(ctx.selector());
 		}
 		return s;
 	}
-	
-	//selector
-	//: '[' expr ']'
+
+	// selector
+	// : '[' expr ']'
 	@Override
 	public String visitSelector(SelectorContext ctx) {
 		String s = "";
@@ -659,7 +653,11 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	@Override
 	public String visitMethodcall(MethodcallContext ctx) {
 		String s = "";
-		String t = ((Symbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText())).getScope().getName();
+		// String t = ((ClassSymbol)
+		// this.symtab.GLOBALS.resolve(ctx.c.getText())).getType().getName();
+
+		FieldSymbol fs = (FieldSymbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText());
+		String t = fs.getType().getName();
 		s = t + "_" + ctx.m.getText();
 		s += "(";
 		String tt = this.visit(ctx.args());
@@ -751,6 +749,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		} else if (ctx.ID() != null) {
 			// System.out.println("find a ID: this->"+ ctx.ID().getText());
 			Symbol s = this.symtab.GLOBALS.findSymbol(ctx.ID().getText());
+
 			if (s instanceof FieldSymbol) {
 				return "this->" + ctx.ID().getText();
 			} else if (s instanceof VariableSymbol) {
@@ -760,7 +759,12 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				// System.out.println("Parameter symbol: "+ ctx.ID().getText());
 				return ctx.ID().getText();
 			} else {
-				// System.out.println("symbol: "+ ctx.ID().getText());
+				ClassSymbol cs = (ClassSymbol) this.symtab.GLOBALS.resolve(className);
+				Symbol ss = cs.resolve(ctx.ID().getText());
+				if (ss instanceof EnumSymbol) {
+					return Integer.toString(((EnumSymbol) ss).getConstantValue());
+				}
+				// System.out.println("symbol: "+ ctx.ID().getText() + s.getScope());
 				return ctx.ID().getText();
 			}
 		} else if (ctx.method_call() != null) {

@@ -333,6 +333,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitParameters(@NotNull LimeGrammarParser.ParametersContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#enumDecl}.
+	 * @param ctx the parse tree
+	 */
+	void enterEnumDecl(@NotNull LimeGrammarParser.EnumDeclContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#enumDecl}.
+	 * @param ctx the parse tree
+	 */
+	void exitEnumDecl(@NotNull LimeGrammarParser.EnumDeclContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link LimeGrammarParser#typeparslist}.
 	 * @param ctx the parse tree
 	 */

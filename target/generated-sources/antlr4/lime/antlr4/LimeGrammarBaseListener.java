@@ -379,6 +379,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterEnumDecl(@NotNull LimeGrammarParser.EnumDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEnumDecl(@NotNull LimeGrammarParser.EnumDeclContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTypeparslist(@NotNull LimeGrammarParser.TypeparslistContext ctx) { }
 	/**
 	 * {@inheritDoc}

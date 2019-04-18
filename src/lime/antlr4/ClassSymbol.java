@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,20 @@ public class ClassSymbol extends DataAggregateSymbol {
 	public Set<String> classGuardIds;
 	public Set<String> externMethods;
 	String objInitCode="";
+	
+	//each object has one enum map
+	public Map<String, Integer> enumValues =new LinkedHashMap<String, Integer>();
+	
+	public void EnumAddAll(HashSet<String> vals) {
+		int index = enumValues.size();
+		for (String v:vals) {
+			if(enumValues.containsKey(v)) continue;
+			enumValues.put(v, index);
+			index++;
+			
+		}
+	}
+	
 	public ClassSymbol(String name) {
 		super(name);
 		classGuardIds = new HashSet<String>();

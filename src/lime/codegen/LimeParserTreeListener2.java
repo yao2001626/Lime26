@@ -1,12 +1,19 @@
 package lime.codegen;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import lime.antlr4.ActionSymbol;
 import lime.antlr4.ArrayType;
 import lime.antlr4.ClassSymbol;
+import lime.antlr4.EnumSymbol;
+import lime.antlr4.EnumType;
 import lime.antlr4.FieldSymbol;
 import lime.antlr4.LimeGrammarBaseListener;
 import lime.antlr4.MethodSymbol;
@@ -23,6 +30,7 @@ import lime.antlr4.LimeGrammarParser.ArrayElementContext;
 import lime.antlr4.LimeGrammarParser.ArrayElementmethodcallContext;
 import lime.antlr4.LimeGrammarParser.AtomContext;
 import lime.antlr4.LimeGrammarParser.ClassDeclContext;
+import lime.antlr4.LimeGrammarParser.EnumDeclContext;
 import lime.antlr4.LimeGrammarParser.FieldDeclContext;
 import lime.antlr4.LimeGrammarParser.GetArgContext;
 import lime.antlr4.LimeGrammarParser.GetRandContext;
@@ -91,6 +99,7 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 
 	@Override
 	public void exitClassDecl(ClassDeclContext ctx) {
+		//System.out.println(currentScope);
 		currentScope = currentScope.getEnclosingScope();
 	}
 
@@ -124,8 +133,6 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		}else {
 			dec += "void* ";
 		}
-		
-		
 		dec += " ";
 		dec+= currentScope.getEnclosingScope().getName()+ "_"+((MethodSymbol)currentScope).getName();
 		dec += "(";
@@ -231,7 +238,10 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 				typ = (Type) cs;
 		} else if (ctx.arrayDecl() != null) {
 			typ = (Type) ctx.arrayDecl().typ;
-		} else {
+		} else if(ctx.enumDecl()!=null){
+			typ = ctx.enumDecl().typ;
+		}
+		else{
 			System.err.printf("Can't resolve the type %s\n", ctx.getText());
 		}
 		ctx.typ = typ;
@@ -295,6 +305,20 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		}
 		ctx.typ = arrtyp;
 	}
+	
+	//enumDecl returns [Type typ]
+	//: '{' ID (',' ID)* '}';
+	@Override
+	public void enterEnumDecl(EnumDeclContext ctx) {
+		ClassSymbol cs = (ClassSymbol) currentScope;
+		EnumType et = new EnumType(); 
+		LinkedHashSet<String> vals = new LinkedHashSet<String>();
+		for(TerminalNode id: ctx.ID()) {
+			cs.define(new EnumSymbol(id.getText()));
+		}
+		et.addAllValues(vals);
+		ctx.typ= et;
+	}
 
 	// parsdef
 	// : id_list ':' type ;
@@ -304,18 +328,13 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		if (typ == null) {
 			System.err.printf("Parameter define: the type %s can't find\n", ctx.type().typ);
 		}
-		/*
-		List<TerminalNode> ids = ctx.id_list().ID();
-		for (TerminalNode x : ids) {
-			ParameterSymbol ps = new ParameterSymbol(x.getText(), typ);
-			ps.setType((Type) ctx.type().typ);
-			currentScope.define(ps);
-		}*/
+		
 		List<Id_eleContext> idele = ctx.id_list().id_ele();
 		for (Id_eleContext x : idele) {
 			ParameterSymbol ps = new ParameterSymbol(x.ID().getText(), typ);
 			ps.setType((Type) ctx.type().typ);
 			currentScope.define(ps);
+			//System.out.println("args: " + x.ID().getText());
 		}
 		
 	}
@@ -377,14 +396,6 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		if (typ == null) {
 			System.err.printf("Parameter define: the type %s can't find\n", ctx.type().typ);
 		}
-		/*
-		List<TerminalNode> ids = ctx.id_list().ID();
-		for (TerminalNode x : ids) {
-			VariableSymbol vs = new VariableSymbol(x.getText());
-			vs.setType(typ);
-			currentScope.define(vs);
-		}
-		*/
 		List<Id_eleContext> idele = ctx.id_list().id_ele();
 		for(Id_eleContext id : idele) {
 			VariableSymbol vs = new VariableSymbol(id.ID().getText());
@@ -527,7 +538,7 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 			if (s == null) {
 				System.err.printf("Error: guard ID: %s can't be resolved!\n", ctx.ID().getText());
 			}
-			if (!(s instanceof FieldSymbol)) {
+			if (!(s instanceof FieldSymbol) && !(s instanceof EnumSymbol)) {
 				System.err.printf("Error: %s is not a field symbol. Only fields can be used as guard in Lime!\n", ctx.ID().getText());
 			}
 			

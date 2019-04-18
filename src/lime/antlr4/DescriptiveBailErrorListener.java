@@ -19,8 +19,8 @@ public class DescriptiveBailErrorListener extends BaseErrorListener {
                 recognizer.getInputStream().getSourceName(), line, charPositionInLine, msg,
                 e == null ? "<null>" : e.getMessage());
         
-        //throw new RuntimeException(entireMessage);
-        System.err.println(entireMessage);
-        System.exit(0);
+        throw new RuntimeException(entireMessage);
+        //System.err.println(entireMessage);
+        //System.exit(0);
     }
 }

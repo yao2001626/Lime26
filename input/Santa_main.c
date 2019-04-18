@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-void PQ_add(int, void*, void*);
-void *PQ_init(void *);
-int PQ_remove(void *, void*, void*);
+void *Shop_init(void *);
+void *Sleigh_init(void *);
+void *Santa_init(void *);
+void *Elf_init(void *);
+void *Reindeer_init(void *);
 extern int argc_g;
 extern char ** argv_g;
 int * input;
@@ -43,16 +45,17 @@ int getRand(int index){
 	return input[index];
 }
 void lime_main(void * self){
-void * head;
-int i;
-int num;
-num = getArg(1);
-setRand(num);head = (void *)PQ_init();
-for(i = 0;i<= num - 1; ++i){
-	PQ_add(getRand(i), head, self);
+void * st;
+void * sl;
+void * sh;
+st = (void *)Santa_init();
+sl = (void *)Sleigh_init(st);
+sh = (void *)Shop_init(st);
+for(i = 1;i<= 9; ++i){
+	(void *)Reindeer_init(sl);
 }
-for(i = 0;i<= num - 1; ++i){
-	print(PQ_remove(head, self));
+for(i = 1;i<= 20; ++i){
+	(void *)Elf_init(sh);
 }
 
 }

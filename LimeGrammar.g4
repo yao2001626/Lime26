@@ -112,9 +112,11 @@ typeparslist
 parsdef
 	: id_list ':' type ;
 type returns [Type typ]
-	: 'int' | 'bool' | 'void' | ID | arrayDecl;
+	: 'int' | 'bool' | 'void' | ID | arrayDecl | enumDecl;
 arrayDecl returns [ArrayType typ]
 	:'array' 'of' ty=('int' | 'bool' | ID);
+enumDecl returns [Type typ]
+	: '{' ID (',' ID)* '}';
 type_list
 	: type (',' type)* ;
 stmt
@@ -178,7 +180,7 @@ expr
 	| atom									   #atomexpr
 	;
 atom
-	:  INTEGER | True | False | Null | ID | method_call | arrayCreate | arrayElement;	
+	:  INTEGER | True | False | Null | ID | method_call | arrayCreate | arrayElement ;	
 method_call
 	: 'new' n=ID args 						   #newcall
 	| c=ID '.' m=ID args 					   #methodcall
@@ -201,7 +203,6 @@ args
 /*
  * lime lexer rules
  */
-
 Class 			: 'class';
 Method   		: 'method';
 Action			: 'action';
@@ -291,9 +292,11 @@ fragment LINE_JOINING
  	: '\\' SPACES? ( '\r'? '\n' | '\r' | '\f') ;
 ID
 	: LETTER (LETTER|'0'..'9')* ;
+
 fragment
 LETTER
 	: 'A'..'Z' | 'a'..'z' | '_' ;
+	
 INTEGER 
 	: '0'..'9'+ ;
 	

@@ -92,7 +92,7 @@ public class Main {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static void buildJson(String source, SymbolTable symtab, Map<String, String> guards) throws Exception {
+	public static void buildJson(String source, SymbolTable symtab) throws Exception {
 
 		try {
 			String fileName = source.substring(0, source.length() - 4);
@@ -116,7 +116,7 @@ public class Main {
 						continue;
 					mtds.add(ms.getName());
 					// method guard
-					limeguards.put(o + ms.getName(), guards.get(o + ms.getName()));
+					//limeguards.put(o + ms.getName(), guards.get(o + ms.getName()));
 				}
 				className.put("methods", mtds);
 				// actions
@@ -124,7 +124,7 @@ public class Main {
 				for (ActionSymbol as : cs.getDefinedActions()) {
 					acts.add(as.getName());
 					// action guard
-					limeguards.put(o + as.getName(), guards.get(o + as.getName()));
+					//limeguards.put(o + as.getName(), guards.get(o + as.getName()));
 				}
 				className.put("actions", acts);
 				className.put("guards", limeguards);
@@ -304,7 +304,7 @@ public class Main {
 			lmcg.visit(tree);
 
 			// step 7 gen fileName.json file to keep the classes' info for the next merge.
-			buildJson(source, symtab, gaiv.guardmap);
+			buildJson(source, symtab);
 		} catch (FileNotFoundException ex) {
 			// The file we tried to parse does not exist
 			System.err.println("\n  !!The file " + source + " does not exist!!\n");

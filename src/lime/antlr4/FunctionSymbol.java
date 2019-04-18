@@ -42,13 +42,15 @@ public class FunctionSymbol extends SymbolWithScope implements TypedSymbol{
 		int index = 0;
 		for(Symbol x:v) {
 			if(x instanceof ParameterSymbol) {
+				
 				if(x.getName().equals(p)) {
+					//System.out.println(p +" : "+x.getName());
 					return index;
 				}
 				index++;
 			}
 		}
-		return -1;
+		return index;
 	}
 	
 	public String getParTypeList() {

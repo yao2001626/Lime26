@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import lime.antlr4.ClassSymbol;
+import lime.antlr4.EnumSymbol;
 import lime.antlr4.FieldSymbol;
 import lime.antlr4.LimeGrammarBaseVisitor;
 import lime.antlr4.LimeGrammarLexer;
@@ -72,48 +73,49 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 
 	public LimeMainCodeGenVisitor(SymbolTable st, String sourceName) {
 		this.symtab = st;
-		this.source= sourceName;
+		this.source = sourceName;
 	}
 
 	void createFile(String source, String content) {
-		String limeMainName = source.substring(0, source.length() - 5)+"_main.c";
+		String limeMainName = source.substring(0, source.length() - 5) + "_main.c";
 		FileWriter outputFile;
 		try {
 			outputFile = new FileWriter(new File(limeMainName));
 			// add includes and preDefined functions
 			outputFile.write("#include <stdio.h>\n");
 			outputFile.write("#include <stdlib.h>\n");
-			
+
 			// add external declarations
-			ClassSymbol cs = (ClassSymbol)this.symtab.GLOBALS.resolve("Start");
-		
-			for(String s: cs.methodsCalled.keySet()) {
-				if(symtab.preDefinedMethod.containsKey(s))continue;
+			ClassSymbol cs = (ClassSymbol) this.symtab.GLOBALS.resolve("Start");
+
+			for (String s : cs.methodsCalled.keySet()) {
+				if (symtab.preDefinedMethod.containsKey(s))
+					continue;
 				String tmp[] = s.split("_");
-				ClassSymbol cst = (ClassSymbol)symtab.GLOBALS.resolve(tmp[0]);
-				MethodSymbol ms = (MethodSymbol)cst.resolve(tmp[1]);
-				
-				//System.out.println(ms.methodDecl+";\n");
-				outputFile.write(ms.methodDeclforMain+";\n");
+				ClassSymbol cst = (ClassSymbol) symtab.GLOBALS.resolve(tmp[0]);
+				MethodSymbol ms = (MethodSymbol) cst.resolve(tmp[1]);
+
+				// System.out.println(ms.methodDecl+";\n");
+				outputFile.write(ms.methodDeclforMain + ";\n");
 			}
-			
+
 			// add predefined functions
 			outputFile.write(symtab.preDeclaredMethod + "\n");
 			outputFile.write(symtab.preDefinedMethod.get("print") + "\n");
 			outputFile.write(symtab.preDefinedMethod.get("getArg") + "\n");
 			outputFile.write(symtab.preDefinedMethod.get("setRand") + "\n");
 			outputFile.write(symtab.preDefinedMethod.get("getRand") + "\n");
-			
+
 			// write lime_main function
 			outputFile.write(content);
-	    	outputFile.close();
+			outputFile.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	//System.out.print("writing file: "+limeMainName+"\n");
+		// System.out.print("writing file: "+limeMainName+"\n");
 	}
-	
+
 	// compilationUnit
 	// : importStmts classDecls EOF ;
 	// everything goes here
@@ -164,8 +166,9 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		s += ");\n";
 		return s;
 	}
-	//classDecl returns [Scope scope]
-	//: 'class' ID NEWLINE INDENT classMember* DEDENT ;
+
+	// classDecl returns [Scope scope]
+	// : 'class' ID NEWLINE INDENT classMember* DEDENT ;
 	@Override
 	public String visitClassDecl(ClassDeclContext ctx) {
 		String s = "";
@@ -180,8 +183,9 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		}
 		return s;
 	}
-	//fieldDecl 
-	//: 'var' id_list ':' type NEWLINE ;
+
+	// fieldDecl
+	// : 'var' id_list ':' type NEWLINE ;
 	@Override
 	public String visitFieldDecl(FieldDeclContext ctx) {
 		String s = "";
@@ -191,37 +195,36 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		s += ";";
 		return s;
 	}
-	
-	//type returns [Type typ]
-	//: 'int' | 'bool' | 'void' | ID | arrayDecl;
+
+	// type returns [Type typ]
+	// : 'int' | 'bool' | 'void' | ID | arrayDecl;
 	@Override
 	public String visitType(TypeContext ctx) {
 		String s = "";
-		if(ctx.ID()!=null) {
-			//return ctx.ID().getText() + " *";
+		if (ctx.ID() != null) {
+			// return ctx.ID().getText() + " *";
 			s += "void *";
-		}else if(ctx.arrayDecl()!=null) {
+		} else if (ctx.arrayDecl() != null) {
 			s += this.visit(ctx.arrayDecl());
-		}else {
+		} else {
 			s += ctx.getText();
 		}
-		return s+" ";
+		return s + " ";
 	}
-	
+
 	// arrayDecl returns [ArrayType typ]
-	//:'array' 'of' ty=('int' | 'bool' | ID);
+	// :'array' 'of' ty=('int' | 'bool' | ID);
 	@Override
 	public String visitArrayDecl(ArrayDeclContext ctx) {
-		String s ="";
-		if(ctx.ty.equals("int")|| ctx.ty.equals("bool")) {
+		String s = "";
+		if (ctx.ty.equals("int") || ctx.ty.equals("bool")) {
 			s += "int *";
-		}else {// ID
+		} else {// ID
 			s += "void **";
 		}
 		return s;
 	}
-	
-	
+
 	// block
 	// : simple_stmt | NEWLINE INDENT stmt+ DEDENT ;
 	@Override
@@ -303,13 +306,13 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		String src = "";
 		int ctnid = ctx.id_list().id_ele().size();
 		int ctnexpr = ctx.expr_list().expr().size();
-		if(ctnid!=ctnexpr) {
-			System.out.println("Error: multi_assign unmatch: "+ctx.getText());
+		if (ctnid != ctnexpr) {
+			System.out.println("Error: multi_assign unmatch: " + ctx.getText());
 		}
-		for(int i=0; i<ctnid; ++i) {
+		for (int i = 0; i < ctnid; ++i) {
 			String ss = this.visit(ctx.id_list().id_ele(i));
 			String dd = this.visit(ctx.expr_list().expr(i));
-			src += ss + " = " + dd +";\n";
+			src += ss + " = " + dd + ";\n";
 		}
 		return src;
 	}
@@ -412,10 +415,11 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		s += "\n}\n";
 		return s;
 	}
-	//'(' expr ')'							   #parenexpr
+
+	// '(' expr ')' #parenexpr
 	@Override
 	public String visitParenexpr(ParenexprContext ctx) {
-		return "("+this.visit(ctx.expr())+")";
+		return "(" + this.visit(ctx.expr()) + ")";
 	}
 
 	// id_list
@@ -423,25 +427,26 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	@Override
 	public String visitId_list(Id_listContext ctx) {
 		String s = "";
-		s += this.visit(ctx.id_ele(0));//ctx.ID(0).getText();
-		for(int i = 1; i < ctx.id_ele().size(); ++i) {
+		s += this.visit(ctx.id_ele(0));// ctx.ID(0).getText();
+		for (int i = 1; i < ctx.id_ele().size(); ++i) {
 			s += ",";
 			s += this.visit(ctx.id_ele(i));
 		}
 		return s;
 	}
-	//id_ele
-	//: ID selector? ;
+
+	// id_ele
+	// : ID selector? ;
 	@Override
 	public String visitId_ele(Id_eleContext ctx) {
-		String s= "";
+		String s = "";
 		s += ctx.ID().getText();
-		if(ctx.selector()!=null) {
-			s += '[' + this.visit(ctx.selector())+']';
+		if (ctx.selector() != null) {
+			s += '[' + this.visit(ctx.selector()) + ']';
 		}
 		return s;
 	}
-	
+
 	@Override
 	public String visitEqexpr(EqexprContext ctx) {
 		String s = "";
@@ -556,7 +561,7 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			s += ", ";
 			s += this.visit(ctx.expr(i));
 		}
-		//System.out.println(s);
+		// System.out.println(s);
 		return s;
 	}
 
@@ -569,8 +574,8 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		s += "(";
 		s += this.visit(ctx.args());
 		s += ")";
-		//System.out.println("new method call");
-		//System.out.println(s);
+		// System.out.println("new method call");
+		// System.out.println(s);
 		return s;
 	}
 
@@ -591,63 +596,63 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		s += ", self)";
 		return s;
 	}
-	
-	//arrayElement '.' m=ID args			   #arrayElementmethodcall
+
+	// arrayElement '.' m=ID args #arrayElementmethodcall
 	@Override
 	public String visitArrayElementmethodcall(ArrayElementmethodcallContext ctx) {
 		String s = "";
-		//System.out.print(ctx.arrayElement().ID().getText());
-		
-		String t = ((FieldSymbol)symtab.GLOBALS.findSymbol(ctx.arrayElement().ID().getText())).getType().getName();
+		// System.out.print(ctx.arrayElement().ID().getText());
+
+		String t = ((FieldSymbol) symtab.GLOBALS.findSymbol(ctx.arrayElement().ID().getText())).getType().getName();
 		s = t + "_" + ctx.m.getText();
 		s += "(";
 		String tt = this.visit(ctx.args());
 		if (tt != "") {
 			s += tt + ", ";
 		}
-		s += this.visit(ctx.arrayElement()); 
+		s += this.visit(ctx.arrayElement());
 		s += ", self)";
 		return s;
 	}
-	
-	//arrayElement
-	//: ID selector
+
+	// arrayElement
+	// : ID selector
 	@Override
 	public String visitArrayElement(ArrayElementContext ctx) {
 		String s = "";
-		//System.out.print("selector");
+		// System.out.print("selector");
 		s += ctx.ID().getText();
-		s +='[';
+		s += '[';
 		s += this.visit(ctx.selector());
-		s +=']';
-		//System.out.println(s);
+		s += ']';
+		// System.out.println(s);
 		return s;
 	}
-	
-	//arrayCreate
-	//: 'new' ty=('int' | 'bool' | ID) selector
+
+	// arrayCreate
+	// : 'new' ty=('int' | 'bool' | ID) selector
 	@Override
 	public String visitArrayCreate(ArrayCreateContext ctx) {
 		String s = "";
 		String t = this.visit(ctx.selector());
-		if(ctx.ty.equals("int") || ctx.ty.equals("bool")) {
+		if (ctx.ty.equals("int") || ctx.ty.equals("bool")) {
 			s += "(int *)malloc(sizeof(int) *";
 			String.format(s, t);
-		}else {//ID
+		} else {// ID
 			s += "(void **)malloc(sizeof(void *) * ";
 		}
 		s += t;
 		s += ")";
 		return s;
 	}
-	
-	//selector
-	//: '[' expr ']'
+
+	// selector
+	// : '[' expr ']'
 	@Override
 	public String visitSelector(SelectorContext ctx) {
-		return  this.visit(ctx.expr());
+		return this.visit(ctx.expr());
 	}
-	
+
 	@Override
 	public String visitGetRand(GetRandContext ctx) {
 		String s = "";
@@ -741,7 +746,8 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	}
 
 	// atom
-	// : INTEGER | True | False | Null | ID | method_call | arrayCreate | arrayElement;
+	// : INTEGER | True | False | Null | ID | method_call | arrayCreate |
+	// arrayElement;
 	@Override
 	public String visitAtom(AtomContext ctx) {
 		if (ctx.INTEGER() != null) {
@@ -768,17 +774,23 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				// System.out.println("Parameter symbol: "+ ctx.ID().getText());
 				return ctx.ID().getText();
 			} else {
+				ClassSymbol cs = (ClassSymbol) this.symtab.GLOBALS.resolve("Start");
+				Symbol ss = cs.resolve(ctx.ID().getText());
+				if (ss instanceof EnumSymbol) {
+					System.out.println("symbol: " + ctx.ID().getText());
+					return Integer.toString(((EnumSymbol) ss).getConstantValue());
+				}
 				// System.out.println("symbol: "+ ctx.ID().getText());
 				return ctx.ID().getText();
 			}
 		} else if (ctx.method_call() != null) {
 			return this.visit(ctx.method_call());
-		} else if(ctx.arrayCreate() != null) {
+		} else if (ctx.arrayCreate() != null) {
 			return this.visit(ctx.arrayCreate());
-		}else if(ctx.arrayElement() != null) {
-			//System.out.print("array");
+		} else if (ctx.arrayElement() != null) {
+			// System.out.print("array");
 			return this.visit(ctx.arrayElement());
-		}else
+		} else
 			return "";
 	}
 

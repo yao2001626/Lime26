@@ -205,6 +205,12 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParameters(@NotNull LimeGrammarParser.ParametersContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#enumDecl}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEnumDecl(@NotNull LimeGrammarParser.EnumDeclContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link LimeGrammarParser#typeparslist}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
