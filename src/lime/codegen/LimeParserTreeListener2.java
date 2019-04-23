@@ -156,7 +156,7 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		dec += currentScope.getEnclosingScope().getName()+ "_"+((MethodSymbol)currentScope).getName();
 		dec += "(";
 		String tplist2 = ms.getParTypeList();
-		if(tplist2!=""){
+		if(!tplist2.equals("")){
 			String tmp2[] = tplist2.split(","); 
 			for(int i=0; i<tmp2.length; ++i) {
 				if(tmp2[i].equals("int")||tmp2[i].equals("bool")) continue;
@@ -374,7 +374,8 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 		dec += currentScope.getEnclosingScope().getName()+ "_"+((MethodSymbol)currentScope).getName();
 		dec += "(";
 		String tplist2 = ms.getParTypeList();
-		if(tplist2!=""){
+		//System.out.println(tplist2);
+		if(!tplist2.equals("")){
 			String tmp2[] = tplist2.split(","); 
 			for(int i=0; i<tmp2.length; ++i) {
 				if(tmp2[i].equals("int")||tmp2[i].equals("bool")) continue;

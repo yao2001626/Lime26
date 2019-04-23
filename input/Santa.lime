@@ -103,6 +103,7 @@ class Start
     var st: Santa
     var sl: Sleigh
     var sh: Shop
+    var i: int
     init()
         st := new Santa()  
         sl := new Sleigh(st)  

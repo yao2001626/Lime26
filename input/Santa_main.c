@@ -2,7 +2,7 @@
 #include <stdlib.h>
 void *Shop_init(void *);
 void *Sleigh_init(void *);
-void *Santa_init(void *);
+void *Santa_init();
 void *Elf_init(void *);
 void *Reindeer_init(void *);
 extern int argc_g;
@@ -48,6 +48,7 @@ void lime_main(void * self){
 void * st;
 void * sl;
 void * sh;
+int i;
 st = (void *)Santa_init();
 sl = (void *)Sleigh_init(st);
 sh = (void *)Shop_init(st);
