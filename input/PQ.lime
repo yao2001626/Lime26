@@ -1,0 +1,43 @@
+class PQ
+    var m, p: int
+    var l: PQ
+    var a, r: bool
+    init()
+        l, a, r := nil, false, false
+    method empty(): bool
+        when not r do
+            return l = nil
+    method add(e: int)
+        when not a and not r do
+            if l = nil then
+                m, l := e, new PQ()
+            else
+                p, a := e, true
+    method remove(): int
+        when not a and not r do
+            r := true
+            return m
+    action doAdd
+        when a do
+            if m < p then 
+                l.add(p)
+            else
+                l.add(m); m := p
+            a := false
+    action doRemove
+        when r do
+            if l.empty() then 
+                l := nil
+            else
+                m := l.remove()
+            r := false        
+class Start
+    var head: PQ
+    var i: int
+    var num: int
+    init()
+        head := new PQ()
+        num := getArg(1)
+        setRand(num)
+        for i := 0 to num - 1 do head.add(getRand(i))
+        for i := 0 to num - 1 do head.remove()
