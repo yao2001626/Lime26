@@ -90,7 +90,8 @@ PQ_empty_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_empty_ret:
-    RET ;define method PQ_add
+    RET
+ ;define method PQ_add
 PQ_add:
 PQ_add_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -128,7 +129,8 @@ PQ_add_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_add_ret:
-    RET ;define method PQ_remove
+    RET
+ ;define method PQ_remove
 PQ_remove:
 PQ_remove_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -166,7 +168,8 @@ PQ_remove_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_remove_ret:
-    RET ; define action
+    RET
+ ; define action
 ; PQ: doAdd 
 PQ_doAdd:
 PQ_doAdd_start:

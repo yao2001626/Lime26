@@ -73,7 +73,8 @@ Shop_puzzled_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Shop_puzzled_ret:
-    RET ;define method Shop_enter
+    RET
+ ;define method Shop_enter
 Shop_enter:
 Shop_enter_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -106,7 +107,8 @@ Shop_enter_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Shop_enter_ret:
-    RET ;define method Shop_consult
+    RET
+ ;define method Shop_consult
 Shop_consult:
 Shop_consult_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -139,4 +141,5 @@ Shop_consult_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Shop_consult_ret:
-    RET 
+    RET
+ 

@@ -95,7 +95,8 @@ Mall_arrive_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Mall_arrive_ret:
-    RET ; define action
+    RET
+ ; define action
 ; Mall: mutate 
 Mall_mutate:
 Mall_mutate_start:

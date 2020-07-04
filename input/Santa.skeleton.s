@@ -87,7 +87,8 @@ Santa_back_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_back_ret:
-    RET ;define method Santa_harness
+    RET
+ ;define method Santa_harness
 Santa_harness:
 Santa_harness_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -120,7 +121,8 @@ Santa_harness_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_harness_ret:
-    RET ;define method Santa_pull
+    RET
+ ;define method Santa_pull
 Santa_pull:
 Santa_pull_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -153,7 +155,8 @@ Santa_pull_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_pull_ret:
-    RET ;define method Santa_puzzled
+    RET
+ ;define method Santa_puzzled
 Santa_puzzled:
 Santa_puzzled_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -182,7 +185,8 @@ Santa_puzzled_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_puzzled_ret:
-    RET ;define method Santa_enter
+    RET
+ ;define method Santa_enter
 Santa_enter:
 Santa_enter_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -215,7 +219,8 @@ Santa_enter_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_enter_ret:
-    RET ;define method Santa_consult
+    RET
+ ;define method Santa_consult
 Santa_consult:
 Santa_consult_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -248,7 +253,8 @@ Santa_consult_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_consult_ret:
-    RET ; define action
+    RET
+ ; define action
 ; Santa: action1 
 Santa_action1:
 Santa_action1_start:

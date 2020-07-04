@@ -5,7 +5,7 @@ class Worker
   var rand: int
   var pingpong, r: int
   init(w: int, n: array of Worker, s: Supervisor)
-    id, neighbours, sup, rand, r := w, n, s, 12345 + w, -1
+    id, neighbours, sup, rand, r := w, n, s, w, -1
   private method recipient(): int
     while true do
       rand := (32236 * rand) % 65521

@@ -102,7 +102,7 @@ fieldDecl
 initDecl returns [Scope scope]
 	: 'init' parameters block;
 methodDecl returns [Scope scope]
-	: 'method' ID  parameters (':' type)?  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)?; 
+	: (Private)? 'method' ID  parameters (':' type)?  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)?; 
 actionDecl returns [Scope scope]
 	: 'action' ID  (NEWLINE INDENT 'when' guard 'do')? block (DEDENT)? ;
 parameters
@@ -208,6 +208,7 @@ args
 Class 			: 'class';
 Method   		: 'method';
 Action			: 'action';
+Private			: 'private';
 Var				: 'var';
 Init			: 'init';
 New      		: 'new';

@@ -74,7 +74,8 @@ Sleigh_back_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Sleigh_back_ret:
-    RET ;define method Sleigh_harness
+    RET
+ ;define method Sleigh_harness
 Sleigh_harness:
 Sleigh_harness_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -107,7 +108,8 @@ Sleigh_harness_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Sleigh_harness_ret:
-    RET ;define method Sleigh_pull
+    RET
+ ;define method Sleigh_pull
 Sleigh_pull:
 Sleigh_pull_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -140,4 +142,5 @@ Sleigh_pull_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Sleigh_pull_ret:
-    RET 
+    RET
+ 

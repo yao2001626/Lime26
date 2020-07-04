@@ -9,6 +9,7 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	protected int slot = -1;
 	protected boolean enabled = false;
 	protected boolean unguarded = false;
+	protected boolean privateMethod = false;
 	protected int numargs = 0;
 	public Set<String> methodAssignLvalue;
 	public Set<String> guardIds;
@@ -38,6 +39,13 @@ public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 			}
 		}
 	}
+	public void setPrivate() {
+		privateMethod = true;
+	}
+	public boolean isPrivateMethod() {
+		return privateMethod;
+	}
+	
 	@Override
 	public int getSlotNumber() { return slot; }
 	

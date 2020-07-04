@@ -85,7 +85,7 @@ public class LimeParserTreeListener3  extends LimeGrammarBaseListener{
 		System.out.printf("Exit class  %s\n", ctx.ID().getText());
 	}
 	
-	// : 'method' ID parameters (':' type)? (NEWLINE INDENT 'when' guard 'do')?
+	// : (private)? 'method' ID parameters (':' type)? (NEWLINE INDENT 'when' guard 'do')?
 	// block (DEDENT)?;
 	@Override
 	public void enterMethodDecl(MethodDeclContext ctx) {
@@ -99,6 +99,11 @@ public class LimeParserTreeListener3  extends LimeGrammarBaseListener{
 			}else {
 				ms.setType((Type) symtab.GLOBALS.resolve(ctx.type().getText()));
 			}
+			
+			if (ctx.Private()!=null) {
+				ms.setPrivate();
+			}
+			
 			currentScope = ms;
 			System.out.printf("Method %s is defined\n", ms.getName());
 		} else {

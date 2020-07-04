@@ -86,7 +86,8 @@ Chameneos_meet_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Chameneos_meet_ret:
-    RET ; define action
+    RET
+ ; define action
 ; Chameneos: GoingToMall 
 Chameneos_GoingToMall:
 Chameneos_GoingToMall_start:

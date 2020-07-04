@@ -59,7 +59,18 @@ extern  malloc
 <endif>
 >>
 
-method(class_name, method_name, paranum, enabled, unguarded, guardAsmCode) ::=<<
+method(class_name, method_name, paranum, private, enabled, unguarded, guardAsmCode) ::=<<
+
+<if(private)>
+;define private method <class_name>_<method_name>
+<class_name>_<method_name>:
+<class_name>_<method_name>_start:
+	MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
+	; method body starts here
+    ;<class_name>_<method_name>_body
+    ; method body ends here
+    RET
+<else>
 ;define method <class_name>_<method_name>
 <class_name>_<method_name>:
 <class_name>_<method_name>_start:
@@ -102,7 +113,8 @@ method(class_name, method_name, paranum, enabled, unguarded, guardAsmCode) ::=<<
     ; unlock
     MOV DWORD [ECX + 8], 0
 <class_name>_<method_name>_ret:
-    RET 
+    RET
+<endif> 
 >>
 action(class_name, action_name, unguarded, guardAsmCode)::=<<
 

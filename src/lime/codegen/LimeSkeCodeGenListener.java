@@ -107,11 +107,13 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 	//method(class_name, method_name, paranum, enabled, unguarded)
 	@Override
 	public void enterMethodDecl(MethodDeclContext ctx) {
+		
 		currentScope = ctx.scope;
 		ST t = templates.getInstanceOf("method");
 		t.add("class_name", this.curClassName);
 		t.add("method_name", ctx.ID().toString());
 		t.add("paranum", ((MethodSymbol)currentScope).getNumberOfParameters());
+		t.add("private", ((MethodSymbol)currentScope).isPrivateMethod());
 		t.add("enabled", ((MethodSymbol)currentScope).isEnabled()&& ((ClassSymbol)currentScope.getEnclosingScope()).getActions().size()>0);
 		t.add("unguarded", ((MethodSymbol)currentScope).unguarded());
 		t.add("guardAsmCode", ((MethodSymbol)currentScope).guardAsmCode);

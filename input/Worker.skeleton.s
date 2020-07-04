@@ -45,6 +45,8 @@ Worker_init_realloc:
 
     ; Worker_init_code
 
+    MOV DWORD ECX, [ESP + 4]
+    MOV DWORD [EAX + 28], ECX
     MOV DWORD [EAX + 36], -1
     MOV DWORD ECX, [ESP + 8]
     MOV DWORD [EAX + 20], ECX
@@ -65,36 +67,15 @@ Worker_doactions_start:
     CALL switch_to_sched
     JMP  Worker_doactions_start
     RET  ; never be here
-;define method Worker_recipient
+;define private method Worker_recipient
 Worker_recipient:
 Worker_recipient_start:
-    MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-Worker_recipient_checklock:
-    MOV  DWORD EAX, 1           ;lock
-    XCHG EAX, [ECX + 8]
-    CMP  DWORD EAX, 0
-    JNE  Worker_recipient_suspend
-Worker_recipient_checkguard:
-    ; method guard starts here
-    ; method guard ends here
-Worker_recipient_checkguard_fail:
-    MOV  DWORD [ECX + 8], 0     ; unlock
-Worker_recipient_suspend:
-    PUSH DWORD EBP
-    CALL runqput
-    POP  EBP
-    CALL switch_to_sched
-    JMP  Worker_recipient_start
-Worker_recipient_succeed:
-    ; method body starts here
+	MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+	; method body starts here
     ;Worker_recipient_body
     ; method body ends here
-Worker_recipient_unlock:
-    MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-    ; unlock
-    MOV DWORD [ECX + 8], 0
-Worker_recipient_ret:
-    RET ;define method Worker_start
+    RET
+ ;define method Worker_start
 Worker_start:
 Worker_start_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -123,7 +104,8 @@ Worker_start_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Worker_start_ret:
-    RET ;define method Worker_ping
+    RET
+ ;define method Worker_ping
 Worker_ping:
 Worker_ping_start:
     MOV  DWORD ECX, [ESP + 4 + 4*2]   ; + 4 * num(para)
@@ -152,7 +134,8 @@ Worker_ping_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Worker_ping_ret:
-    RET ;define method Worker_pong
+    RET
+ ;define method Worker_pong
 Worker_pong:
 Worker_pong_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -181,7 +164,8 @@ Worker_pong_unlock:
     ; unlock
     MOV DWORD [ECX + 8], 0
 Worker_pong_ret:
-    RET ; define action
+    RET
+ ; define action
 ; Worker: pingNeighbour 
 Worker_pingNeighbour:
 Worker_pingNeighbour_start:
