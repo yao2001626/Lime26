@@ -345,6 +345,12 @@ public interface LimeGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitUnaryMinusexpr(@NotNull LimeGrammarParser.UnaryMinusexprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link LimeGrammarParser#thisEle}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThisEle(@NotNull LimeGrammarParser.ThisEleContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code guardcompexpr}
 	 * labeled alternative in {@link LimeGrammarParser#guard}.
 	 * @param ctx the parse tree

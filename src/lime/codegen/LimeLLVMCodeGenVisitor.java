@@ -653,11 +653,24 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	@Override
 	public String visitMethodcall(MethodcallContext ctx) {
 		String s = "";
+		String t = "";
 		// String t = ((ClassSymbol)
 		// this.symtab.GLOBALS.resolve(ctx.c.getText())).getType().getName();
-
-		FieldSymbol fs = (FieldSymbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText());
-		String t = fs.getType().getName();
+		// System.out.printf("methodcall %s\n", ctx.m.getText());
+		Symbol symbol = this.symtab.GLOBALS.findSymbol(ctx.c.getText());
+		if (symbol instanceof FieldSymbol) {
+			//System.err.printf("methodcall field:%s\n", ctx.m.getText());
+			FieldSymbol symbolF = (FieldSymbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText());
+			t = symbolF.getType().getName();
+			System.err.printf("methodcall field:%s:%s\n", ctx.m.getText(),t);
+		} else if (symbol instanceof ParameterSymbol) {
+			System.err.printf("methodcall parameter:%s.%s\n",ctx.c.getText(), ctx.m.getText());
+			ParameterSymbol symbolP = (ParameterSymbol) symbol;
+			System.err.printf("methodcall parameter:%s\n",symbolP.getName());
+			t = symbolP.getType().getName();
+			System.err.printf("methodcall Parameter:%s:%s\n",  ctx.m.getText(),t);
+		}
+		//FieldSymbol fs = (FieldSymbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText());
 		s = t + "_" + ctx.m.getText();
 		s += "(";
 		String tt = this.visit(ctx.args());
@@ -760,12 +773,18 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				return ctx.ID().getText();
 			} else {
 				ClassSymbol cs = (ClassSymbol) this.symtab.GLOBALS.resolve(className);
+				int enumval = cs.resolveEnumValue(ctx.ID().getText());
+				return Integer.toString(enumval);
+				/*
 				Symbol ss = cs.resolve(ctx.ID().getText());
 				if (ss instanceof EnumSymbol) {
 					return Integer.toString(((EnumSymbol) ss).getConstantValue());
+					//System.err.println("symbol: "+ ctx.ID().getText() + s.getScope());
+					//return Integer.toString(((EnumSymbol) ss).getConstantValue());
 				}
 				// System.out.println("symbol: "+ ctx.ID().getText() + s.getScope());
-				return ctx.ID().getText();
+				*/
+				//return ctx.ID().getText();
 			}
 		} else if (ctx.method_call() != null) {
 			return this.visit(ctx.method_call());

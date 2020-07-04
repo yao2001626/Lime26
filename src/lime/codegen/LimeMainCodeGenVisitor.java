@@ -393,7 +393,7 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 	@Override
 	public String visitSingle_assign(Single_assignContext ctx) {
 		String s = "";
-		s += ctx.ID().getText();
+		s += ctx.id_ele().getText();
 		s += " = ";
 		s += this.visit(ctx.expr());
 		s += ";";

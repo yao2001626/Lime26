@@ -27,6 +27,10 @@ public class ArrayType implements Type{
 	public String toString() {
 		//return elemType+"[]";
 		return elemType.getName();
-}
+	}
+	
+	public Type getType() {
+		return elemType;
+	}
 
 }

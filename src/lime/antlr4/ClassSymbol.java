@@ -42,7 +42,14 @@ public class ClassSymbol extends DataAggregateSymbol {
 			
 		}
 	}
-	
+	public int resolveEnumValue(String key) {
+		if(enumValues.containsKey(key)) return enumValues.get(key);
+		else {
+			System.err.printf("Can't find Enum Val: %s\n", key);
+			return -1;
+		} 
+			
+	}
 	public ClassSymbol(String name) {
 		super(name);
 		classGuardIds = new HashSet<String>();

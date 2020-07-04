@@ -7,13 +7,13 @@ extern  runqput
 extern  malloc
 ; global methods declare
 ; global Santa_methods
-global Santa_init 
 global Santa_back 
 global Santa_harness 
 global Santa_pull 
 global Santa_puzzled 
 global Santa_enter 
 global Santa_consult 
+global Santa_init 
 ; global methods declare
 
 Santa_init:
@@ -69,7 +69,6 @@ Santa_back_checklock:
     JNE  Santa_back_suspend
 Santa_back_checkguard:
     ; method guard starts here
-	JMP Santa_back_succeed
     ; method guard ends here
 Santa_back_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -118,13 +117,6 @@ Santa_harness_succeed:
     ; method body ends here
 Santa_harness_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_harness_ret:
@@ -158,13 +150,6 @@ Santa_pull_succeed:
     ; method body ends here
 Santa_pull_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_pull_ret:
@@ -179,7 +164,6 @@ Santa_puzzled_checklock:
     JNE  Santa_puzzled_suspend
 Santa_puzzled_checkguard:
     ; method guard starts here
-	JMP Santa_puzzled_succeed
     ; method guard ends here
 Santa_puzzled_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -228,13 +212,6 @@ Santa_enter_succeed:
     ; method body ends here
 Santa_enter_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_enter_ret:
@@ -268,13 +245,6 @@ Santa_consult_succeed:
     ; method body ends here
 Santa_consult_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_consult_ret:
@@ -288,7 +258,7 @@ Santa_action1_start:
     CMP EDX, 0
     JNE Santa_action1_checkguard_fail
 
-    Santa_guard_101:
+    Santa_guard_102:
     MOV DWORD EDX, [ECX + 20]
     CMP EDX, 1
     JE Santa_action1_succeed
@@ -310,12 +280,12 @@ Santa_action2_start:
     CMP EDX, 0
     JNE Santa_action2_checkguard_fail
 
-    Santa_guard_102:
+    Santa_guard_103:
     MOV DWORD EDX, [ECX + 24]
     CMP EDX, 3
     JNE Santa_action2_checkguard_fail
 
-    Santa_guard_103:
+    Santa_guard_104:
     MOV DWORD EDX, [ECX + 20]
     CMP EDX, 1
     JNE Santa_action2_succeed

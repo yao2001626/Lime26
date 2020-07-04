@@ -122,13 +122,13 @@ type_list
 stmt
 	: simple_stmt | compound_stmt ;
 simple_stmt
-	: small_stmt (';' small_stmt)* (';')? NEWLINE ;
+	: fst=small_stmt (';' small_stmt)* (';')? NEWLINE ;
 small_stmt
 	: multi_assign | expr_stmt | localDecl | return_stmt | method_call;
 multi_assign
 	: id_list ':=' expr_list;
 single_assign
-	: ID ':=' expr;
+	: id_ele ':=' expr;
 compound_stmt
 	: if_stmt | while_stmt | for_stmt;
 localDecl 
@@ -180,7 +180,7 @@ expr
 	| atom									   #atomexpr
 	;
 atom
-	:  INTEGER | True | False | Null | ID | method_call | arrayCreate | arrayElement ;	
+	:  INTEGER | True | False | Null | ID | This | method_call | arrayCreate | arrayElement | thisEle ;	
 method_call
 	: 'new' n=ID args 						   #newcall
 	| c=ID '.' m=ID args 					   #methodcall
@@ -191,6 +191,8 @@ method_call
 	| 'getArg' args 		   		   		   #getArg
 	| ID args 								   #userDefined
 	;
+thisEle
+	: 'this' '.' m=ID;
 arrayCreate
 	: 'new' ty=('int' | 'bool' | ID) selector;
 arrayElement
@@ -217,7 +219,7 @@ Elif			: 'elif';
 Then     		: 'then';
 While    		: 'while';
 Return   		: 'return';
-
+This			: 'this';
 Null    		: 'nil';
 Booltype		: 'bool';
 Inttype			: 'int';

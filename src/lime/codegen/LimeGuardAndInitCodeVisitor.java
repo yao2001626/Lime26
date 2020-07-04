@@ -31,6 +31,7 @@ import lime.antlr4.LimeGrammarParser.StmtContext;
 import lime.antlr4.Scope;
 import lime.antlr4.Symbol;
 import lime.antlr4.SymbolTable;
+import lime.antlr4.VariableSymbol;
 
 public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> {
 	SymbolTable symtab;
@@ -53,6 +54,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 		initNegatedOpPair();
 		availRegs = new Stack<String>();
 		availRegs.push("EAX");
+		availRegs.push("EBX");
 		availRegs.push("EDX");
 		operands = new Stack<String>();
 	}
@@ -72,6 +74,8 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 	public String visitClassDecl(ClassDeclContext ctx) {
 		String s = "";
 		className = ctx.ID().getText();
+		System.out.printf("Class: %s\n", className);
+		if(className.equals("Start")) return s;
 		this.initcode = new HashMap<String, String>();
 		for (ClassMemberContext m : ctx.classMember()) {
 			String t = this.visit(m);
@@ -80,6 +84,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 		}
 		return s;
 	}
+	
 	/*
 	 * init code generator: Map<String, String> initcode; E.g.: initcode =
 	 * {"a":"true", "key": "3", "index":"arg0"} the value of the map can be: 1.
@@ -131,7 +136,8 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 		this.visit(ctx.block());
 		return s;
 	}
-
+	//block
+	// : simple_stmt | NEWLINE INDENT stmt+ DEDENT ;
 	@Override
 	public String visitBlock(BlockContext ctx) {
 		for (StmtContext m : ctx.stmt()) {
@@ -156,6 +162,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 		if (ids.length != vals.length) {
 			System.err.printf("multi assign mismatch ids :%d vals: %d \n", ids.length, vals.length);
 		} else {
+			/*
 			for (int i = 0; i < ids.length; ++i) {
 				if (vals[i].startsWith("0") || vals[i].startsWith("false") || vals[i].startsWith("nil"))
 					continue;
@@ -163,15 +170,20 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 					initcode.put(ids[i], "1");
 				} else if (isNumeric(vals[i])) {
 					initcode.put(ids[i], vals[i]);
-				} else {// should be parameter
+				} else {// should be parameter/field/local var
 					ClassSymbol cs = (ClassSymbol) symtab.GLOBALS.resolve(className);
 					MethodSymbol ms = cs.resolveMethod("init");
 					Symbol s = ms.resolve(vals[i]);
+					System.err.println(vals[i]);
 					if (s instanceof ParameterSymbol) {
 						initcode.put(ids[i], "arg" + vals[i]);
 					} else if (s instanceof EnumSymbol) {
 						initcode.put(ids[i], Integer.toString(((EnumSymbol) s).getConstantValue()));
 						// System.err.println(s);
+					} else if(s instanceof VariableSymbol){
+						
+					} else if(s instanceof FieldSymbol) {
+						
 					} else {
 						if (!cs.getName().equals("Start"))
 							System.err.printf(
@@ -179,24 +191,68 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 									ids[i], vals[i], className, s);
 					}
 				}
-			}
+			}*/
+			for(int i = 0; i < ids.length; ++i) {
+				Symbol s = symtab.GLOBALS.resolve(className);
+				if(s instanceof ClassSymbol) {
+					ClassSymbol cs = (ClassSymbol) s;
+					Symbol lsymbol = ((Scope)cs).resolve(ids[i]);
+					if(((FieldSymbol)lsymbol).getType().getName() == "enum") {
+						int enumval = cs.resolveEnumValue(vals[i]); 
+						initcode.put(ids[i], Integer.toString(enumval));
+						System.err.printf("Find Enum %s: %d: %s\n", lsymbol.getName(), enumval, vals[i]);
+						continue;
+					} else {
+						if (vals[i].startsWith("0") || vals[i].startsWith("false") || vals[i].startsWith("nil"))
+							continue;
+						if (vals[i] == "true") {
+							initcode.put(ids[i], "1");
+						} else if (isNumeric(vals[i])) {
+							initcode.put(ids[i], vals[i]);
+						} else {
+							MethodSymbol ms = cs.resolveMethod("init");
+							Symbol valsym = ms.resolve(vals[i]);
+							if (valsym  instanceof ParameterSymbol) {
+								initcode.put(ids[i], "arg" + vals[i]);
+							} else if (valsym instanceof VariableSymbol) {
+								initcode.put(ids[i], "var" + vals[i]);
+							} else if(valsym instanceof FieldSymbol) {
+								initcode.put(ids[i], "field" + vals[i]);
+							} else {
+								System.err.printf("Can't find assign: %s: %s\n", lsymbol.getName(), vals[i]);
+							}
+						}		
+					}
+				}else {
+					System.err.printf("Can't resolve the vlaue %s of calss", ids[i]);
+				}	
+			}	
 		}
 		// gen init code
 		ClassSymbol cs = (ClassSymbol) symtab.GLOBALS.resolve(className);
 		cs.setObjInitCode(genInitCode());
 		return "";
 	}
-
+	
+	// small_stmt
+	// : multi_assign | expr_stmt | localDecl | return_stmt | method_call;
+	// There are no return_stmt | method_call | expr_stmt | localDecl
 	@Override
 	public String visitSmall_stmt(Small_stmtContext ctx) {
+		if(ctx.localDecl()!=null || ctx.return_stmt()!=null || ctx.method_call()!=null || ctx.expr_stmt()!=null) {
+			System.err.printf("Method_call/return/localDecl should not be in init code\n");
+		}
 		if (ctx.multi_assign() != null) {
 			this.visit(ctx.multi_assign());
 		}
 		return "";
 	}
-
+	
+	// simple_stmt
+	// : fst=small_stmt (';' small_stmt)* (';')? NEWLINE ;
 	@Override
 	public String visitSimple_stmt(Simple_stmtContext ctx) {
+		//this.visit(ctx.fst);
 		for (Small_stmtContext ss : ctx.small_stmt()) {
 			this.visit(ss);
 		}
@@ -384,10 +440,16 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 		String t = "";
 		ClassSymbol cs = (ClassSymbol) symtab.GLOBALS.resolve(className);
 		Symbol s = cs.resolve(ctx.ID().getText());
+		
+		if(cs.enumValues.containsKey(ctx.ID().getText())){
+			operands.push("num_" + Integer.toString(((cs.enumValues.get(ctx.ID().getText())))));
+			return t;
+		}
+		/*
 		if (s instanceof EnumSymbol) {
 			operands.push("num_" + Integer.toString(((EnumSymbol) s).getConstantValue()));
 			return t;
-		}
+		}*/
 
 		if (s instanceof FieldSymbol) {
 			String tmp2 = "MOV DWORD %s, [ECX + %d]\n";
@@ -431,7 +493,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 	@Override
 	public String visitGuardcompexpr(GuardcompexprContext ctx) {
 		String s = "";
-		// System.out.println(ctx.getText());
+		//System.out.println(ctx.getText());
 		inGuardcompexpr = true;
 		s += this.visit(ctx.guard(0));
 		s += this.visit(ctx.guard(1));
@@ -439,12 +501,12 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 		String op = ctx.op.getText();
 
 		String right = operands.pop();
-		// System.out.println(right+s);
+		//System.out.println(right+s);
 		if (right.split("_")[0].equals("reg")) {
 			availRegs.push(right.split("_")[1]);
 		}
 		String rightOperand = right.split("_")[1];
-
+		//System.err.printf("Error: %s %s for boolean expression\n", className, methodName);
 		String left = operands.pop();
 		// System.out.println(left);
 		if (left.split("_")[0].equals("reg")) {

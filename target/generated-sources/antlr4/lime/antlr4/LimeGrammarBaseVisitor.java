@@ -384,6 +384,13 @@ public class LimeGrammarBaseVisitor<T> extends AbstractParseTreeVisitor<T> imple
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitThisEle(@NotNull LimeGrammarParser.ThisEleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitGuardcompexpr(@NotNull LimeGrammarParser.GuardcompexprContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

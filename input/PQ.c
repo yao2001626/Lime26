@@ -12,10 +12,6 @@ struct PQ_struct *l;
 int a;
 int r;
 };
-void  PQ_add(int, struct PQ_struct *, void*);
-struct PQ_struct * PQ_init();
-int  PQ_empty(struct PQ_struct *, void*);
-int  PQ_remove(struct PQ_struct *, void*);
 int PQ_empty(struct PQ_struct *this, void* self){
 
 return this->l == NULL;

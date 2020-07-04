@@ -643,6 +643,18 @@ public class LimeGrammarBaseListener implements LimeGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterThisEle(@NotNull LimeGrammarParser.ThisEleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitThisEle(@NotNull LimeGrammarParser.ThisEleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterGuardcompexpr(@NotNull LimeGrammarParser.GuardcompexprContext ctx) { }
 	/**
 	 * {@inheritDoc}

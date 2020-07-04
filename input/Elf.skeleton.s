@@ -5,9 +5,6 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-extern Shop_consult 
-extern Shop_puzzled 
-extern Shop_enter 
 ; global methods declare
 ; global Elf_methods
 global Elf_init 
@@ -60,8 +57,6 @@ Elf_action1_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
     ; action guard end
-	JMP Elf_action1_succeed
-
 Elf_action1_checkguard_fail:
 	RET
 Elf_action1_succeed:

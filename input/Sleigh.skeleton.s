@@ -5,15 +5,12 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-extern Santa_pull 
-extern Santa_harness 
-extern Santa_back 
 ; global methods declare
 ; global Sleigh_methods
-global Sleigh_init 
 global Sleigh_back 
 global Sleigh_harness 
 global Sleigh_pull 
+global Sleigh_init 
 ; global methods declare
 
 Sleigh_init:
@@ -39,7 +36,7 @@ Sleigh_init_realloc:
 
     MOV DWORD ECX, [ESP + 4]
     MOV DWORD [EAX + 24], ECX
-    MOV DWORD [EAX + 16], 5
+    MOV DWORD [EAX + 16], 0
     MOV DWORD [EAX + 20], 9
  
     ; init code ends here
@@ -56,7 +53,7 @@ Sleigh_back_checklock:
 Sleigh_back_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 16]
-    CMP EDX, 5
+    CMP EDX, 0
     JE Sleigh_back_succeed
 
     ; method guard ends here
@@ -89,7 +86,7 @@ Sleigh_harness_checklock:
 Sleigh_harness_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 16]
-    CMP EDX, 6
+    CMP EDX, 1
     JE Sleigh_harness_succeed
 
     ; method guard ends here
@@ -122,7 +119,7 @@ Sleigh_pull_checklock:
 Sleigh_pull_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 16]
-    CMP EDX, 7
+    CMP EDX, 2
     JE Sleigh_pull_succeed
 
     ; method guard ends here

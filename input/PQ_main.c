@@ -1,8 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-void PQ_add(int, void*, void*);
-void *PQ_init();
-int PQ_remove(void*, void*);
 extern int argc_g;
 extern char ** argv_g;
 int * input;

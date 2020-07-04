@@ -1,0 +1,48 @@
+class Worker
+  var id: int
+  var neighbours: array of Worker
+  var sup: Supervisor
+  var rand: int
+  var pingpong, r: int
+  init(w: int, n: array of Worker, s: Supervisor)
+    id, neighbours, sup, rand, r := w, n, s, 12345 + w, -1
+  private method recipient(): int
+    while true do
+      rand := (32236 * rand) % 65521
+      if rand % 100 != id then return rand % 100
+  method start()
+    r := 10000
+  method ping(w: Worker, id: int)
+    w.ping(id)
+  method pong(id: int)
+    pingpong := pingpong - 1
+  action pingNeighbour
+    when r > 0 do
+      var n: int
+      n := recipient()
+      neighbours[n].ping(id); r := r - 1
+      pingpong := pingpong + 1
+  action callSupervisor
+    when r = 0 do
+      sup.done(pingpong); r := - 1
+class Supervisor
+  var replies, min, max: int
+  init()
+    replies, min, max := 0, 0, 0
+  method done(pingpong: int)
+    if pingpong < min then min := pingpong
+    elif pingpong > max then max := pingpong
+    replies := replies + 1
+    if replies = 100 * 10 then 1
+class Start
+  var s: Supervisor
+  var n, w: int
+  var neighbours: array of Worker
+  init()
+	s := new Supervisor()
+	for n := 0 to Neighbourhoods - 1 do
+	  neighbours := new Worker[Workers]
+	  for w := 0 to Workers - 1 do
+	    neighbours[w] := new Worker(w, neighbours, s)
+	  for w := 0 to Workers - 1 do
+	    neighbours[w].start()

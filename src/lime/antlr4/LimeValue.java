@@ -5,7 +5,7 @@ public class LimeValue implements Comparable<LimeValue> {
 	public static final LimeValue NULL = new LimeValue();
 	public static final LimeValue VOID = new LimeValue();
 	private Object value;
-	 private LimeValue() {
+	private LimeValue() {
 	        // private constructor: only used for NULL and VOID
 	        value = new Object();
 	}

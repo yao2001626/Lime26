@@ -308,17 +308,6 @@ public class LimeParserTreeListener2 extends LimeGrammarBaseListener {
 	
 	//enumDecl returns [Type typ]
 	//: '{' ID (',' ID)* '}';
-	@Override
-	public void enterEnumDecl(EnumDeclContext ctx) {
-		ClassSymbol cs = (ClassSymbol) currentScope;
-		EnumType et = new EnumType(); 
-		LinkedHashSet<String> vals = new LinkedHashSet<String>();
-		for(TerminalNode id: ctx.ID()) {
-			cs.define(new EnumSymbol(id.getText()));
-		}
-		et.addAllValues(vals);
-		ctx.typ= et;
-	}
 
 	// parsdef
 	// : id_list ':' type ;

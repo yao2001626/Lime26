@@ -7,10 +7,10 @@ extern  runqput
 extern  malloc
 ; global methods declare
 ; global PQ_methods
-global PQ_init 
 global PQ_empty 
 global PQ_add 
 global PQ_remove 
+global PQ_init 
 ; global methods declare
 
 PQ_init:
@@ -104,7 +104,7 @@ PQ_add_checkguard:
     MOV DWORD EDX, [ECX + 28]
     CMP EDX, 1
     JE PQ_add_checkguard_fail
-    PQ_guard_104:
+    PQ_guard_105:
     MOV DWORD EDX, [ECX + 32]
     CMP EDX, 1
     JNE PQ_add_succeed
@@ -125,13 +125,6 @@ PQ_add_succeed:
     ; method body ends here
 PQ_add_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_add_ret:
@@ -149,7 +142,7 @@ PQ_remove_checkguard:
     MOV DWORD EDX, [ECX + 28]
     CMP EDX, 1
     JE PQ_remove_checkguard_fail
-    PQ_guard_105:
+    PQ_guard_106:
     MOV DWORD EDX, [ECX + 32]
     CMP EDX, 1
     JNE PQ_remove_succeed
@@ -170,13 +163,6 @@ PQ_remove_succeed:
     ; method body ends here
 PQ_remove_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
-    PUSH DWORD EAX              ; for the return val
-    PUSH DWORD EBP
-    PUSH DWORD ECX
-    CALL runqput
-    POP  DWORD ECX
-    POP  DWORD EBP
-    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_remove_ret:

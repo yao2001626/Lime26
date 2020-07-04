@@ -1,10 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-void *Shop_init(void *);
-void *Sleigh_init(void *);
-void *Santa_init();
-void *Elf_init(void *);
-void *Reindeer_init(void *);
 extern int argc_g;
 extern char ** argv_g;
 int * input;

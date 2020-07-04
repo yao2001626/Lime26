@@ -569,6 +569,16 @@ public interface LimeGrammarListener extends ParseTreeListener {
 	 */
 	void exitUnaryMinusexpr(@NotNull LimeGrammarParser.UnaryMinusexprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link LimeGrammarParser#thisEle}.
+	 * @param ctx the parse tree
+	 */
+	void enterThisEle(@NotNull LimeGrammarParser.ThisEleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link LimeGrammarParser#thisEle}.
+	 * @param ctx the parse tree
+	 */
+	void exitThisEle(@NotNull LimeGrammarParser.ThisEleContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code guardcompexpr}
 	 * labeled alternative in {@link LimeGrammarParser#guard}.
 	 * @param ctx the parse tree

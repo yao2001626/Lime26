@@ -7,9 +7,9 @@ public class EnumType implements Type {
 	public String name;
 	public Set<String> values;
 	
-	public EnumType(){
+	public EnumType(LinkedHashSet<String> vals){
 		name = "enum";
-		values = new LinkedHashSet<String>();
+		values = vals;
 	}
 	
 	public void addAllValues(LinkedHashSet<String> vs) {

@@ -277,7 +277,7 @@ public class Main {
 
 			// step 2 SYMBOL DEFINE
 			SymbolTable symtab = new SymbolTable();
-			LimeParserTreeListener2 lptl = new LimeParserTreeListener2(symtab);
+			LimeParserTreeListener3 lptl = new LimeParserTreeListener3(symtab);
 			ParseTreeWalker.DEFAULT.walk(lptl, tree);
 			
 			// step 3 gen guards' assembly code and init code for each class and merge them

@@ -8,9 +8,6 @@ int lock;
 int system_next;
 struct Shop_struct *sh;
 };
-void  Shop_consult(struct Shop_struct *, void*);
-void  Shop_puzzled(struct Shop_struct *, void*);
-void  Shop_enter(struct Shop_struct *, void*);
 
 void Elf_action1(struct Elf_struct *this, void* self)
 {

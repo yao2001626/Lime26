@@ -5,15 +5,12 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
-extern Santa_puzzled 
-extern Santa_consult 
-extern Santa_enter 
 ; global methods declare
 ; global Shop_methods
-global Shop_init 
 global Shop_puzzled 
 global Shop_enter 
 global Shop_consult 
+global Shop_init 
 ; global methods declare
 
 Shop_init:
@@ -39,7 +36,7 @@ Shop_init_realloc:
 
     MOV DWORD ECX, [ESP + 4]
     MOV DWORD [EAX + 24], ECX
-    MOV DWORD [EAX + 16], 8
+    MOV DWORD [EAX + 16], 0
  
     ; init code ends here
     RET
@@ -55,7 +52,7 @@ Shop_puzzled_checklock:
 Shop_puzzled_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 16]
-    CMP EDX, 8
+    CMP EDX, 0
     JE Shop_puzzled_succeed
 
     ; method guard ends here
@@ -88,7 +85,7 @@ Shop_enter_checklock:
 Shop_enter_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 16]
-    CMP EDX, 9
+    CMP EDX, 1
     JE Shop_enter_succeed
 
     ; method guard ends here
@@ -121,7 +118,7 @@ Shop_consult_checklock:
 Shop_consult_checkguard:
     ; method guard starts here
     MOV DWORD EDX, [ECX + 16]
-    CMP EDX, 10
+    CMP EDX, 2
     JE Shop_consult_succeed
 
     ; method guard ends here

@@ -1,0 +1,45 @@
+class Chameneos
+    var s: {InForest, DoneAtMall, WaitingAtMall}
+    var col: int
+    var mall: Mall
+    init(c: int, m: Mall)
+        col, mall, s:= c, m, InForest
+    method meet(otherCol: int)
+        if col != otherCol then col := 3 - col - otherCol
+        s := DoneAtMall
+    action GoingToMall
+        when s = InForest do
+            s := WaitingAtMall;
+            mall.arrive(col); 
+    action BackToForest
+        when s = DoneAtMall do
+            s := InForest
+
+class Mall
+    var s: {ZeroCham, OneCham, TwoCham, Done}
+    var firstCol, sndCol: int
+    var firstCham, sndCham: Chameneos
+    var repeat, N: int
+        
+    init(arg: int)
+        s, repeat, N := ZeroCham, 0, arg
+            
+    method arrive(ch: Chameneos, c: int)
+        when s = ZeroCham or s = OneCham do
+            if s = ZeroCham then 
+                firstCol, firstCham, s := c, ch, OneCham
+            elif s = OneCham then
+                sndCol, sndCham, repeat := c, ch, repeat + 1
+                s := TwoCham
+                    
+    action mutate
+        when s = TwoCham do 
+            firstCham.meet(sndCol); sndCham.meet(firstCol); 
+            if repeat < N then s := ZeroCham    
+            else s := Done
+class Start
+    var ma: Mall
+    var i: int
+    init()
+        ma := new Mall(300000)  
+        for i := 1 to 600 do new Chameneos(i % 3, ma)
