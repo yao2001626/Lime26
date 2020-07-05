@@ -235,7 +235,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		if (ctx.getText().equals("int") || ctx.getText().equals("bool")) {
 			s += "int ";
 		} else if (ctx.ID() != null) {
-			s += ctx.ID().getText() + "_struct *";
+			s += "struct "+ ctx.ID().getText() + "_struct *";
 		} else if (ctx.arrayDecl() != null) {
 			s += this.visit(ctx.arrayDecl());
 		}
