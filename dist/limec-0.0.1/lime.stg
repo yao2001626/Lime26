@@ -1,0 +1,126 @@
+class(class_name, fields, methods, actions, active, size, XYZ, init, externs)::=<<
+align 4
+segment .data
+segment .bss
+segment .text
+extern  switch_to_sched
+extern  runqput
+extern  malloc
+<externs: {a | extern <a> }; separator="\n">
+; global methods declare
+; global <class_name>_methods
+<methods: {a | global <class_name>_<a.name> }; separator="\n">
+; global methods declare
+
+<class_name>_init:
+<class_name>_init_realloc:
+    PUSH DWORD <size>
+    CALL malloc
+    ADD  ESP, 4
+    CMP  DWORD EAX, 0
+    JE   <class_name>_init_realloc
+    <fields : { a | MOV  DWORD [EAX + <size> - <i>*4], 0    ; <a.name> }; separator="\n">
+    MOV  DWORD [EAX + <size> - <XYZ> + 12], 0    ; next
+    MOV  DWORD [EAX + <size> - <XYZ> + 8], 0     ; lock
+    LEA  ECX,  [EAX + <size> - <XYZ> - 4]
+    MOV  DWORD [EAX + <size> - <XYZ> + 4], ECX   ; Pre ESP
+    LEA  ECX,  [EAX + <size> - <XYZ>]
+    MOV  DWORD [EAX + <size> - <XYZ>], ECX       ; Pre EBP
+<if(active)>
+    LEA  ECX,  [<class_name>_doactions]
+    MOV  DWORD [EAX + <size> - <XYZ> - 4], ECX   ; <class_name>_doactions
+<endif>
+    ADD  DWORD EAX, <size> - <XYZ>
+<if(active)>
+    PUSH DWORD EBP
+    PUSH DWORD EAX
+    CALL runqput
+    POP  DWORD EAX
+    POP  DWORD EBP
+<endif>
+    ; init code goes here
+    	
+    ;<class_name>_init_code
+    
+    <init> 
+    ; init code ends here
+    RET
+<if(active)>
+<class_name>_doactions:
+<class_name>_doactions_start:
+    PUSH DWORD EBP
+    ; CALL <class_name>_action
+    <actions: {a | CALL <class_name>_<a.name>}; separator="\n">
+    POP  EBP
+    CALL switch_to_sched
+    JMP  <class_name>_doactions_start
+    RET  ; never be here
+<endif>
+>>
+
+method(class_name, method_name, paranum, enabled, unguarded) ::=<<
+;define method <class_name>_<method_name>
+<class_name>_<method_name>:
+<class_name>_<method_name>_start:
+    MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
+<class_name>_<method_name>_checklock:
+    MOV  DWORD EAX, 1           ;lock
+    XCHG EAX, [ECX + 8]
+    CMP  DWORD EAX, 0
+    JNE  <class_name>_<method_name>_suspend
+<class_name>_<method_name>_checkguard:
+    ; method guard starts here
+    ;<class_name>_<method_name>_guard
+<if(unguarded)>
+	JMP <class_name>_<method_name>_succeed
+<endif>
+    ; method guard ends here
+<class_name>_<method_name>_checkguard_fail:
+    MOV  DWORD [ECX + 8], 0     ; unlock
+<class_name>_<method_name>_suspend:
+    PUSH DWORD EBP
+    CALL runqput
+    POP  EBP
+    CALL switch_to_sched
+    JMP  <class_name>_<method_name>_start
+<class_name>_<method_name>_succeed:
+    ; method body starts here
+    ;<class_name>_<method_name>_body
+    ; method body ends here
+<class_name>_<method_name>_unlock:
+    MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
+<if(enabled)>
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
+<endif>
+    ; unlock
+    MOV DWORD [ECX + 8], 0
+<class_name>_<method_name>_ret:
+    RET 
+>>
+action(class_name, action_name, unguarded)::=<<
+
+; define action
+; <class_name>: <action_name> 
+<class_name>_<action_name>:
+<class_name>_<action_name>_start:
+    MOV  DWORD ECX, [ESP + 4]
+    ; action guard start
+    ;<class_name>_<action_name>_guard
+    ; action guard end
+<if(unguarded)>
+	JMP <class_name>_<action_name>_succeed
+<endif>
+    JMP   <class_name>_<action_name>_checkguard_fail
+<class_name>_<action_name>_succeed:
+    ; action body start
+    ;<class_name>_<action_name>_body
+    ; action body end
+<class_name>_<action_name>_checkguard_fail:
+    RET
+>>
