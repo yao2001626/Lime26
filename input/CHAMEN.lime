@@ -10,7 +10,7 @@ class Chameneos
     action GoingToMall
         when s = InForest do
             s := WaitingAtMall;
-            mall.arrive(col); 
+            mall.arrive(this, col); 
     action BackToForest
         when s = DoneAtMall do
             s := InForest
@@ -36,7 +36,7 @@ class Mall
         when s = TwoCham do 
             firstCham.meet(sndCol); sndCham.meet(firstCol); 
             if repeat < N then s := ZeroCham    
-            else s := Done
+            else exit()
 class Start
     var ma: Mall
     var i: int

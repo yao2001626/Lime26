@@ -777,7 +777,7 @@ public class LimeMainCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 				ClassSymbol cs = (ClassSymbol) this.symtab.GLOBALS.resolve("Start");
 				Symbol ss = cs.resolve(ctx.ID().getText());
 				if (ss instanceof EnumSymbol) {
-					System.out.println("symbol: " + ctx.ID().getText());
+					//System.out.println("symbol: " + ctx.ID().getText());
 					return Integer.toString(((EnumSymbol) ss).getConstantValue());
 				}
 				// System.out.println("symbol: "+ ctx.ID().getText());

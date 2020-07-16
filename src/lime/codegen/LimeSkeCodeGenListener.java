@@ -73,6 +73,19 @@ public class LimeSkeCodeGenListener extends LimeGrammarBaseListener{
 		t.add("active", activated);
 		t.add("init", ((ClassSymbol)currentScope).getObjInitCode());
 		t.add("imported", symtab.importedMethod.keySet());
+		
+		Set<ActionSymbol> AS = ((ClassSymbol)currentScope).getDefinedActions();
+		
+		boolean unguarded = false;
+		
+		for(ActionSymbol a : AS) {
+			if(a.unguarded()) {
+				unguarded = true;
+				break;	
+			}
+		}
+		
+		t.add("unguarded", unguarded);
 		/*
 		int size = ((ClassSymbol)currentScope).getDefinedFields().size();
 		

@@ -5,6 +5,7 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern Mall_arrive 
 ; global methods declare
 ; global Chameneos_methods
 global Chameneos_meet 
@@ -57,6 +58,7 @@ Chameneos_doactions_start:
     CALL switch_to_sched
     JMP  Chameneos_doactions_start
     RET  ; never be here
+
 ;define method Chameneos_meet
 Chameneos_meet:
 Chameneos_meet_start:
@@ -68,6 +70,7 @@ Chameneos_meet_checklock:
     JNE  Chameneos_meet_suspend
 Chameneos_meet_checkguard:
     ; method guard starts here
+	JMP Chameneos_meet_succeed
     ; method guard ends here
 Chameneos_meet_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -83,11 +86,19 @@ Chameneos_meet_succeed:
     ; method body ends here
 Chameneos_meet_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Chameneos_meet_ret:
     RET
- ; define action
+ 
+; define action
 ; Chameneos: GoingToMall 
 Chameneos_GoingToMall:
 Chameneos_GoingToMall_start:
@@ -104,7 +115,8 @@ Chameneos_GoingToMall_succeed:
     ; action body start
     ;Chameneos_GoingToMall_body
     ; action body end
-    RET; define action
+    RET
+; define action
 ; Chameneos: BackToForest 
 Chameneos_BackToForest:
 Chameneos_BackToForest_start:

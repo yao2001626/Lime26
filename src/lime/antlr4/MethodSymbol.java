@@ -7,7 +7,7 @@ import java.util.Set;
 
 public class MethodSymbol extends FunctionSymbol implements MemberSymbol{
 	protected int slot = -1;
-	protected boolean enabled = false;
+	protected boolean enabled = true;
 	protected boolean unguarded = false;
 	protected boolean privateMethod = false;
 	protected int numargs = 0;

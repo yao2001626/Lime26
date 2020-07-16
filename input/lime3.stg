@@ -48,10 +48,10 @@ extern  malloc
 <if(active)>
 <class_name>_doactions:
 <class_name>_doactions_start:
-    ;PUSH DWORD EBP
+    PUSH DWORD EBP
     ; CALL <class_name>_action
     <actions: {a | CALL <class_name>_<a.name>}; separator="\n">
-    ;POP  EBP
+    POP  EBP
     CALL switch_to_sched
     JMP  <class_name>_doactions_start
     RET ; never be here
@@ -119,4 +119,5 @@ action(class_name, action_name)::=<<
 <class_name>_<action_name>_checkguard_fail:
     RET
 >>
+
 

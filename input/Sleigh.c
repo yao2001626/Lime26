@@ -10,6 +10,9 @@ int s;
 int c;
 struct Santa_struct *st;
 };
+void  Santa_pull(struct Santa_struct *, void*);
+void  Santa_harness(struct Santa_struct *, void*);
+void  Santa_back(struct Santa_struct *, void*);
 void Sleigh_back(struct Sleigh_struct *this, void* self){
 this->c = this->c - 1;
 

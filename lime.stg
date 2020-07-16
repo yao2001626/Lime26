@@ -1,4 +1,4 @@
-class(class_name, fields, methods, actions, active, size, XYZ, init, externs, imported)::=<<
+class(class_name, fields, methods, actions, active, size, XYZ, init, externs, imported, unguarded)::=<<
 align 4
 segment .data
 segment .bss
@@ -53,6 +53,11 @@ extern  malloc
     ; CALL <class_name>_action
     <actions: {a | CALL <class_name>_<a.name>}; separator="\n">
     POP  EBP
+<if(unguarded)>
+    PUSH DWORD EBP
+    CALL runqput
+    POP  DWORD EBP
+<endif>
     CALL switch_to_sched
     JMP  <class_name>_doactions_start
     RET  ; never be here

@@ -5,6 +5,9 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern Santa_puzzled 
+extern Santa_consult 
+extern Santa_enter 
 ; global methods declare
 ; global Shop_methods
 global Shop_puzzled 
@@ -40,6 +43,7 @@ Shop_init_realloc:
  
     ; init code ends here
     RET
+
 ;define method Shop_puzzled
 Shop_puzzled:
 Shop_puzzled_start:
@@ -74,7 +78,8 @@ Shop_puzzled_unlock:
     MOV DWORD [ECX + 8], 0
 Shop_puzzled_ret:
     RET
- ;define method Shop_enter
+ 
+;define method Shop_enter
 Shop_enter:
 Shop_enter_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -108,7 +113,8 @@ Shop_enter_unlock:
     MOV DWORD [ECX + 8], 0
 Shop_enter_ret:
     RET
- ;define method Shop_consult
+ 
+;define method Shop_consult
 Shop_consult:
 Shop_consult_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)

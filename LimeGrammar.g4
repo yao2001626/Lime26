@@ -189,6 +189,7 @@ method_call
 	| 'getRand'  args						   #getRand
 	| 'setRand'  args						   #setRand
 	| 'getArg' args 		   		   		   #getArg
+	| 'exit' args							   #exit
 	| ID args 								   #userDefined
 	;
 thisEle

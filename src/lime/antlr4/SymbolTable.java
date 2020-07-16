@@ -148,6 +148,15 @@ public class SymbolTable {
 				"struct Reducer_struct **r;";
 	}
 	
+	public void preDefinedexit() {
+		String key="exit";
+		String value ="void exit(){\n" + 
+				"	exit(1);\n" + 
+				"}";
+		preDefinedMethod.put(key, value);
+	}
+	
+	
 	public void initPredefineMethod() {
 		MethodSymbol fun_print = new MethodSymbol("print");
 		fun_print.methodDecl = "void print(int x)";
@@ -163,8 +172,11 @@ public class SymbolTable {
 		preDefinedsetRand();
 		MethodSymbol fun_getArg = new MethodSymbol("getArg");
 		fun_getArg.methodDecl = "int getArg(int)";
-		PREDEFINED.define(fun_getArg);
 		preDefinedgetArg();
+		MethodSymbol fun_exit = new MethodSymbol("exit");
+		fun_exit.methodDecl = "void getArg()";
+		PREDEFINED.define(fun_exit);
+		preDefinedexit();
 		preDeclaredMethod = "extern int argc_g;\n" + 
 				"extern char ** argv_g;\n" + 
 				"int * input;\n" + 

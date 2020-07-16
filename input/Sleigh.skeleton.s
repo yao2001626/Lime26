@@ -5,6 +5,9 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern Santa_pull 
+extern Santa_harness 
+extern Santa_back 
 ; global methods declare
 ; global Sleigh_methods
 global Sleigh_back 
@@ -41,6 +44,7 @@ Sleigh_init_realloc:
  
     ; init code ends here
     RET
+
 ;define method Sleigh_back
 Sleigh_back:
 Sleigh_back_start:
@@ -75,7 +79,8 @@ Sleigh_back_unlock:
     MOV DWORD [ECX + 8], 0
 Sleigh_back_ret:
     RET
- ;define method Sleigh_harness
+ 
+;define method Sleigh_harness
 Sleigh_harness:
 Sleigh_harness_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -109,7 +114,8 @@ Sleigh_harness_unlock:
     MOV DWORD [ECX + 8], 0
 Sleigh_harness_ret:
     RET
- ;define method Sleigh_pull
+ 
+;define method Sleigh_pull
 Sleigh_pull:
 Sleigh_pull_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)

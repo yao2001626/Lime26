@@ -35,6 +35,7 @@ Supervisor_init_realloc:
  
     ; init code ends here
     RET
+
 ;define method Supervisor_done
 Supervisor_done:
 Supervisor_done_start:
@@ -46,6 +47,7 @@ Supervisor_done_checklock:
     JNE  Supervisor_done_suspend
 Supervisor_done_checkguard:
     ; method guard starts here
+	JMP Supervisor_done_succeed
     ; method guard ends here
 Supervisor_done_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock

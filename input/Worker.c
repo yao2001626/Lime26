@@ -13,12 +13,14 @@ int rand;
 int pingpong;
 int r;
 };
+void  Supervisor_done(int, struct Supervisor_struct *, void*);
+void  Worker_ping(struct Worker_struct *,int, struct Worker_struct *, void*);
 int Worker_recipient(struct Worker_struct *this, void* self){
 }
 void Worker_start(struct Worker_struct *this, void* self){
 this->r = 10000;
 }
-void Worker_ping(Worker_struct *w,int this->id,struct Worker_struct *this, void* self){
+void Worker_ping(struct Worker_struct *w,int this->id,struct Worker_struct *this, void* self){
 Worker_ping(this->id,this->w, self);}
 void Worker_pong(int this->id,struct Worker_struct *this, void* self){
 this->pingpong = this->pingpong - 1;

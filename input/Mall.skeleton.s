@@ -5,6 +5,8 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern exit 
+extern Chameneos_meet 
 ; global methods declare
 ; global Mall_methods
 global Mall_arrive 
@@ -58,6 +60,7 @@ Mall_doactions_start:
     CALL switch_to_sched
     JMP  Mall_doactions_start
     RET  ; never be here
+
 ;define method Mall_arrive
 Mall_arrive:
 Mall_arrive_start:
@@ -92,11 +95,19 @@ Mall_arrive_succeed:
     ; method body ends here
 Mall_arrive_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*2]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Mall_arrive_ret:
     RET
- ; define action
+ 
+; define action
 ; Mall: mutate 
 Mall_mutate:
 Mall_mutate_start:

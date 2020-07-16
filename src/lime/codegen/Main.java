@@ -228,7 +228,7 @@ public class Main {
 			for (Symbol s : symtab.PREDEFINED.getAllSymbols()) {
 				if (s.getName().equals("print") || s.getName().equals("setRand") || s.getName().equals("getArg")
 						|| s.getName().equals("getRand") || s.getName().equals("buildMR")
-						|| s.getName().equals("getMapper") || s.getName().equals("test"))
+						|| s.getName().equals("getMapper") || s.getName().equals("test") || s.getName().equals("exit"))
 					continue;
 				// imported method in the .c
 				// System.out.println((FunctionSymbol)symtab.PREDEFINED.getSymbol(s.getName()));

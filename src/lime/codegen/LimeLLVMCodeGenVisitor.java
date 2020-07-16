@@ -26,6 +26,7 @@ import lime.antlr4.LimeGrammarParser.Compound_stmtContext;
 import lime.antlr4.LimeGrammarParser.Elif_statContext;
 import lime.antlr4.LimeGrammarParser.Else_statContext;
 import lime.antlr4.LimeGrammarParser.EqexprContext;
+import lime.antlr4.LimeGrammarParser.ExitContext;
 import lime.antlr4.LimeGrammarParser.Expr_listContext;
 import lime.antlr4.LimeGrammarParser.Expr_stmtContext;
 import lime.antlr4.LimeGrammarParser.GetArgContext;
@@ -121,6 +122,7 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 					continue;
 				}
 				String tmp[] = s.split("_");
+				System.err.printf("method: %s\n", s);
 				ClassSymbol cst = (ClassSymbol) symtab.GLOBALS.resolve(tmp[0]);
 				MethodSymbol ms = (MethodSymbol) cst.resolve(tmp[1]);
 				// System.out.println(ms.methodDecl+";\n");
@@ -234,6 +236,8 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		String s = "";
 		if (ctx.getText().equals("int") || ctx.getText().equals("bool")) {
 			s += "int ";
+		} else if(ctx.getText().equals("this")){
+			s += "this ";
 		} else if (ctx.ID() != null) {
 			s += "struct "+ ctx.ID().getText() + "_struct *";
 		} else if (ctx.arrayDecl() != null) {
@@ -662,13 +666,13 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			//System.err.printf("methodcall field:%s\n", ctx.m.getText());
 			FieldSymbol symbolF = (FieldSymbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText());
 			t = symbolF.getType().getName();
-			System.err.printf("methodcall field:%s:%s\n", ctx.m.getText(),t);
+			//System.err.printf("methodcall field:%s:%s\n", ctx.m.getText(),t);
 		} else if (symbol instanceof ParameterSymbol) {
-			System.err.printf("methodcall parameter:%s.%s\n",ctx.c.getText(), ctx.m.getText());
+			//System.err.printf("methodcall parameter:%s.%s\n",ctx.c.getText(), ctx.m.getText());
 			ParameterSymbol symbolP = (ParameterSymbol) symbol;
-			System.err.printf("methodcall parameter:%s\n",symbolP.getName());
+			//System.err.printf("methodcall parameter:%s\n",symbolP.getName());
 			t = symbolP.getType().getName();
-			System.err.printf("methodcall Parameter:%s:%s\n",  ctx.m.getText(),t);
+			//System.err.printf("methodcall Parameter:%s:%s\n",  ctx.m.getText(),t);
 		}
 		//FieldSymbol fs = (FieldSymbol) this.symtab.GLOBALS.findSymbol(ctx.c.getText());
 		s = t + "_" + ctx.m.getText();
@@ -721,6 +725,13 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 		s += ")";
 		return s;
 	}
+	
+	@Override
+	public String visitExit(ExitContext ctx) {
+		String s = "";
+		s += "exit(1)";
+		return s;
+	}
 
 	// args
 	// : '(' expr_list? ')';
@@ -759,7 +770,9 @@ public class LimeLLVMCodeGenVisitor extends LimeGrammarBaseVisitor<String> {
 			return "1";
 		} else if (ctx.False() != null) {
 			return "0";
-		} else if (ctx.ID() != null) {
+		} else if (ctx.This() != null) {
+			return "this";
+		}else if (ctx.ID() != null) {
 			// System.out.println("find a ID: this->"+ ctx.ID().getText());
 			Symbol s = this.symtab.GLOBALS.findSymbol(ctx.ID().getText());
 

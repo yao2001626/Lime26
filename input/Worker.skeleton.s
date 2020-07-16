@@ -5,6 +5,7 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern Supervisor_done 
 ; global methods declare
 ; global Worker_methods
 global Worker_recipient 
@@ -67,6 +68,7 @@ Worker_doactions_start:
     CALL switch_to_sched
     JMP  Worker_doactions_start
     RET  ; never be here
+
 ;define private method Worker_recipient
 Worker_recipient:
 Worker_recipient_start:
@@ -75,7 +77,8 @@ Worker_recipient_start:
     ;Worker_recipient_body
     ; method body ends here
     RET
- ;define method Worker_start
+ 
+;define method Worker_start
 Worker_start:
 Worker_start_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -86,6 +89,7 @@ Worker_start_checklock:
     JNE  Worker_start_suspend
 Worker_start_checkguard:
     ; method guard starts here
+	JMP Worker_start_succeed
     ; method guard ends here
 Worker_start_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -101,11 +105,19 @@ Worker_start_succeed:
     ; method body ends here
 Worker_start_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Worker_start_ret:
     RET
- ;define method Worker_ping
+ 
+;define method Worker_ping
 Worker_ping:
 Worker_ping_start:
     MOV  DWORD ECX, [ESP + 4 + 4*2]   ; + 4 * num(para)
@@ -116,6 +128,7 @@ Worker_ping_checklock:
     JNE  Worker_ping_suspend
 Worker_ping_checkguard:
     ; method guard starts here
+	JMP Worker_ping_succeed
     ; method guard ends here
 Worker_ping_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -131,11 +144,19 @@ Worker_ping_succeed:
     ; method body ends here
 Worker_ping_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*2]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Worker_ping_ret:
     RET
- ;define method Worker_pong
+ 
+;define method Worker_pong
 Worker_pong:
 Worker_pong_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -146,6 +167,7 @@ Worker_pong_checklock:
     JNE  Worker_pong_suspend
 Worker_pong_checkguard:
     ; method guard starts here
+	JMP Worker_pong_succeed
     ; method guard ends here
 Worker_pong_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -161,11 +183,19 @@ Worker_pong_succeed:
     ; method body ends here
 Worker_pong_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Worker_pong_ret:
     RET
- ; define action
+ 
+; define action
 ; Worker: pingNeighbour 
 Worker_pingNeighbour:
 Worker_pingNeighbour_start:
@@ -182,7 +212,8 @@ Worker_pingNeighbour_succeed:
     ; action body start
     ;Worker_pingNeighbour_body
     ; action body end
-    RET; define action
+    RET
+; define action
 ; Worker: callSupervisor 
 Worker_callSupervisor:
 Worker_callSupervisor_start:

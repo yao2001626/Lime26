@@ -5,6 +5,9 @@ segment .text
 extern  switch_to_sched
 extern  runqput
 extern  malloc
+extern Sleigh_pull 
+extern Sleigh_back 
+extern Sleigh_harness 
 ; global methods declare
 ; global Reindeer_methods
 global Reindeer_init 
@@ -47,9 +50,13 @@ Reindeer_doactions_start:
     ; CALL Reindeer_action
     CALL Reindeer_action1
     POP  EBP
+    PUSH DWORD EBP
+    CALL runqput
+    POP  DWORD EBP
     CALL switch_to_sched
     JMP  Reindeer_doactions_start
     RET  ; never be here
+
 ; define action
 ; Reindeer: action1 
 Reindeer_action1:
@@ -57,6 +64,8 @@ Reindeer_action1_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
     ; action guard end
+	JMP Reindeer_action1_succeed
+
 Reindeer_action1_checkguard_fail:
 	RET
 Reindeer_action1_succeed:

@@ -10,6 +10,9 @@ int s;
 int c;
 struct Santa_struct *st;
 };
+void  Santa_puzzled(struct Santa_struct *, void*);
+void  Santa_consult(struct Santa_struct *, void*);
+void  Santa_enter(struct Santa_struct *, void*);
 void Shop_puzzled(struct Shop_struct *this, void* self){
 this->c = this->c + 1;
 

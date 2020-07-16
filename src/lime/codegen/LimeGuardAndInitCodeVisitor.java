@@ -74,7 +74,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 	public String visitClassDecl(ClassDeclContext ctx) {
 		String s = "";
 		className = ctx.ID().getText();
-		System.out.printf("Class: %s\n", className);
+		//System.out.printf("Class: %s\n", className);
 		if(className.equals("Start")) return s;
 		this.initcode = new HashMap<String, String>();
 		for (ClassMemberContext m : ctx.classMember()) {
@@ -200,12 +200,12 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 					if(((FieldSymbol)lsymbol).getType().getName() == "enum") {
 						int enumval = cs.resolveEnumValue(vals[i]); 
 						initcode.put(ids[i], Integer.toString(enumval));
-						System.err.printf("Find Enum %s: %d: %s\n", lsymbol.getName(), enumval, vals[i]);
+						//System.err.printf("Find Enum %s: %d: %s\n", lsymbol.getName(), enumval, vals[i]);
 						continue;
 					} else {
 						if (vals[i].startsWith("0") || vals[i].startsWith("false") || vals[i].startsWith("nil"))
 							continue;
-						if (vals[i] == "true") {
+						if (vals[i].startsWith("true")) {
 							initcode.put(ids[i], "1");
 						} else if (isNumeric(vals[i])) {
 							initcode.put(ids[i], vals[i]);
@@ -466,7 +466,7 @@ public class LimeGuardAndInitCodeVisitor extends LimeGrammarBaseVisitor<String> 
 			return t;
 		}
 
-		System.out.println("id : " + t);
+		//System.out.println("id : " + t);
 		return t;
 	}
 

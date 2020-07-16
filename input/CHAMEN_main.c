@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+;
+;
 extern int argc_g;
 extern char ** argv_g;
 int * input;

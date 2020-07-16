@@ -1,4 +1,4 @@
-class(class_name, fields, methods, actions, active, size, XYZ, init, externs)::=<<
+class(class_name, fields, methods, actions, active, size, XYZ, init, externs, imported)::=<<
 align 4
 segment .data
 segment .bss
@@ -7,6 +7,7 @@ extern  switch_to_sched
 extern  runqput
 extern  malloc
 <externs: {a | extern <a> }; separator="\n">
+<imported: {a | extern <a> }; separator="\n">
 ; global methods declare
 ; global <class_name>_methods
 <methods: {a | global <class_name>_<a.name> }; separator="\n">
@@ -20,7 +21,7 @@ extern  malloc
     CMP  DWORD EAX, 0
     JE   <class_name>_init_realloc
     <fields : { a | MOV  DWORD [EAX + <size> - <i>*4], 0    ; <a.name> }; separator="\n">
-    MOV  DWORD [EAX + <size> - <XYZ> + 12], 0    ; next
+    MOV  DWORD [EAX + <size> - <XYZ> + 12], 0    ; system_next
     MOV  DWORD [EAX + <size> - <XYZ> + 8], 0     ; lock
     LEA  ECX,  [EAX + <size> - <XYZ> - 4]
     MOV  DWORD [EAX + <size> - <XYZ> + 4], ECX   ; Pre ESP
@@ -48,17 +49,17 @@ extern  malloc
 <if(active)>
 <class_name>_doactions:
 <class_name>_doactions_start:
-    ;PUSH DWORD EBP
+    PUSH DWORD EBP
     ; CALL <class_name>_action
     <actions: {a | CALL <class_name>_<a.name>}; separator="\n">
-    ;POP  EBP
+    POP  EBP
     CALL switch_to_sched
     JMP  <class_name>_doactions_start
-    RET ; never be here
+    RET  ; never be here
 <endif>
 >>
 
-method(class_name, method_name, paranum, enabled) ::=<<
+method(class_name, method_name, paranum, enabled, unguarded, guardAsmCode) ::=<<
 ;define method <class_name>_<method_name>
 <class_name>_<method_name>:
 <class_name>_<method_name>_start:
@@ -70,7 +71,10 @@ method(class_name, method_name, paranum, enabled) ::=<<
     JNE  <class_name>_<method_name>_suspend
 <class_name>_<method_name>_checkguard:
     ; method guard starts here
-    _<class_name>_<method_name>_guard
+    <guardAsmCode>
+<if(unguarded)>
+	JMP <class_name>_<method_name>_succeed
+<endif>
     ; method guard ends here
 <class_name>_<method_name>_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -82,7 +86,7 @@ method(class_name, method_name, paranum, enabled) ::=<<
     JMP  <class_name>_<method_name>_start
 <class_name>_<method_name>_succeed:
     ; method body starts here
-    _<class_name>_<method_name>_body
+    ;<class_name>_<method_name>_body
     ; method body ends here
 <class_name>_<method_name>_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*<paranum>]   ; + 4 * num(para)
@@ -100,7 +104,7 @@ method(class_name, method_name, paranum, enabled) ::=<<
 <class_name>_<method_name>_ret:
     RET 
 >>
-action(class_name, action_name)::=<<
+action(class_name, action_name, unguarded, guardAsmCode)::=<<
 
 ; define action
 ; <class_name>: <action_name> 
@@ -108,15 +112,17 @@ action(class_name, action_name)::=<<
 <class_name>_<action_name>_start:
     MOV  DWORD ECX, [ESP + 4]
     ; action guard start
-    _<class_name>_<action_name>_guard
+    <guardAsmCode>
     ; action guard end
+<if(unguarded)>
+	JMP <class_name>_<action_name>_succeed
+<endif>
 
-    JMP   <class_name>_<action_name>_checkguard_fail
+<class_name>_<action_name>_checkguard_fail:
+	RET
 <class_name>_<action_name>_succeed:
     ; action body start
-    _<class_name>_<action_name>_body
+    ;<class_name>_<action_name>_body
     ; action body end
-<class_name>_<action_name>_checkguard_fail:
     RET
 >>
-

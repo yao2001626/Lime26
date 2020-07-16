@@ -8,6 +8,9 @@ int lock;
 int system_next;
 struct Sleigh_struct *sl;
 };
+void  Sleigh_pull(struct Sleigh_struct *, void*);
+void  Sleigh_back(struct Sleigh_struct *, void*);
+void  Sleigh_harness(struct Sleigh_struct *, void*);
 
 void Reindeer_action1(struct Reindeer_struct *this, void* self)
 {

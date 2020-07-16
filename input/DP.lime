@@ -1,0 +1,34 @@
+class Fork
+    var avail: bool
+    init()
+        avail := true
+    method pickup()
+        when avail do
+            avail := false
+    method putdown()
+        when not avail do 
+            avail := true
+class Philosopher
+    var leftFork, rightFork: Fork 
+    init(left, right: Fork)
+        leftFork, rightFork := left, right
+    action eat
+        leftFork.pickup()
+        rightFork.pickup()
+        print(2)
+        leftFork.putdown()
+        rightFork.putdown()
+    action think
+        print(3)
+class Start
+    var n, i: int
+    var philosophers: array of Philosopher 
+    var forks: array of Fork 
+    init()
+        n := getArg(1)
+        forks, philosophers := new Fork[n], new Philosopher[n]
+        for i := 0 to n - 1 do
+            forks[i] := new Fork()
+        for i := 0 to n - 2 do 
+            philosophers[i] := new Philosopher(forks[i], forks[i+1])
+        philosophers[n-1] := new Philosopher(forks[0], forks[n-1])

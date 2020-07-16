@@ -58,6 +58,7 @@ Santa_doactions_start:
     CALL switch_to_sched
     JMP  Santa_doactions_start
     RET  ; never be here
+
 ;define method Santa_back
 Santa_back:
 Santa_back_start:
@@ -69,6 +70,7 @@ Santa_back_checklock:
     JNE  Santa_back_suspend
 Santa_back_checkguard:
     ; method guard starts here
+	JMP Santa_back_succeed
     ; method guard ends here
 Santa_back_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -84,11 +86,19 @@ Santa_back_succeed:
     ; method body ends here
 Santa_back_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_back_ret:
     RET
- ;define method Santa_harness
+ 
+;define method Santa_harness
 Santa_harness:
 Santa_harness_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -118,11 +128,19 @@ Santa_harness_succeed:
     ; method body ends here
 Santa_harness_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_harness_ret:
     RET
- ;define method Santa_pull
+ 
+;define method Santa_pull
 Santa_pull:
 Santa_pull_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -152,11 +170,19 @@ Santa_pull_succeed:
     ; method body ends here
 Santa_pull_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_pull_ret:
     RET
- ;define method Santa_puzzled
+ 
+;define method Santa_puzzled
 Santa_puzzled:
 Santa_puzzled_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -167,6 +193,7 @@ Santa_puzzled_checklock:
     JNE  Santa_puzzled_suspend
 Santa_puzzled_checkguard:
     ; method guard starts here
+	JMP Santa_puzzled_succeed
     ; method guard ends here
 Santa_puzzled_checkguard_fail:
     MOV  DWORD [ECX + 8], 0     ; unlock
@@ -182,11 +209,19 @@ Santa_puzzled_succeed:
     ; method body ends here
 Santa_puzzled_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_puzzled_ret:
     RET
- ;define method Santa_enter
+ 
+;define method Santa_enter
 Santa_enter:
 Santa_enter_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -216,11 +251,19 @@ Santa_enter_succeed:
     ; method body ends here
 Santa_enter_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_enter_ret:
     RET
- ;define method Santa_consult
+ 
+;define method Santa_consult
 Santa_consult:
 Santa_consult_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -250,11 +293,19 @@ Santa_consult_succeed:
     ; method body ends here
 Santa_consult_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 Santa_consult_ret:
     RET
- ; define action
+ 
+; define action
 ; Santa: action1 
 Santa_action1:
 Santa_action1_start:
@@ -276,7 +327,8 @@ Santa_action1_succeed:
     ; action body start
     ;Santa_action1_body
     ; action body end
-    RET; define action
+    RET
+; define action
 ; Santa: action2 
 Santa_action2:
 Santa_action2_start:

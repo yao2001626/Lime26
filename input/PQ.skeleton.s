@@ -56,6 +56,7 @@ PQ_doactions_start:
     CALL switch_to_sched
     JMP  PQ_doactions_start
     RET  ; never be here
+
 ;define method PQ_empty
 PQ_empty:
 PQ_empty_start:
@@ -87,11 +88,19 @@ PQ_empty_succeed:
     ; method body ends here
 PQ_empty_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_empty_ret:
     RET
- ;define method PQ_add
+ 
+;define method PQ_add
 PQ_add:
 PQ_add_start:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
@@ -126,11 +135,19 @@ PQ_add_succeed:
     ; method body ends here
 PQ_add_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*1]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_add_ret:
     RET
- ;define method PQ_remove
+ 
+;define method PQ_remove
 PQ_remove:
 PQ_remove_start:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
@@ -165,11 +182,19 @@ PQ_remove_succeed:
     ; method body ends here
 PQ_remove_unlock:
     MOV  DWORD ECX, [ESP + 4 + 4*0]   ; + 4 * num(para)
+    PUSH DWORD EAX              ; for the return val
+    PUSH DWORD EBP
+    PUSH DWORD ECX
+    CALL runqput
+    POP  DWORD ECX
+    POP  DWORD EBP
+    POP  DWORD EAX              ; for the return val
     ; unlock
     MOV DWORD [ECX + 8], 0
 PQ_remove_ret:
     RET
- ; define action
+ 
+; define action
 ; PQ: doAdd 
 PQ_doAdd:
 PQ_doAdd_start:
@@ -186,7 +211,8 @@ PQ_doAdd_succeed:
     ; action body start
     ;PQ_doAdd_body
     ; action body end
-    RET; define action
+    RET
+; define action
 ; PQ: doRemove 
 PQ_doRemove:
 PQ_doRemove_start:

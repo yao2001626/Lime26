@@ -14,7 +14,9 @@ struct Chameneos_struct *sndCham;
 int repeat;
 int N;
 };
-void Mall_arrive(Chameneos_struct *ch,int c,struct Mall_struct *this, void* self){
+void getArg();
+void  Chameneos_meet(int, struct Chameneos_struct *, void*);
+void Mall_arrive(struct Chameneos_struct *ch,int c,struct Mall_struct *this, void* self){
 
 if (this->s == 0){
 this->firstCol = c;
@@ -38,7 +40,6 @@ this->s = 0;
 
 }
 else {
-this->s = 3;
-
+exit(1);
 }
 }

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 ;
-void Worker_start(void*, void*);
 ;
 extern int argc_g;
 extern char ** argv_g;
@@ -43,20 +42,20 @@ int getRand(int index){
 	return input[index];
 }
 void lime_main(void * self){
-void * s;
-int n,w;
-void ** neighbours;
-s = (void *)Supervisor_init();
-for(n = 0;n<= Neighbourhoods - 1; ++n){
-	neighbours = (void **)malloc(sizeof(void *) * Workers);
-for(w = 0;w<= Workers - 1; ++w){
-	neighbours[w] = (void *)Worker_init(w, neighbours, s);
+int n,i;
+void ** philosophers;
+void ** forks;
+n = getArg(1);
+forks = (void **)malloc(sizeof(void *) * n);
+philosophers = (void **)malloc(sizeof(void *) * n);
+for(i = 0;i<= n - 1; ++i){
+	forks[i] = (void *)Fork_init();
 
 }
-for(w = 0;w<= Workers - 1; ++w){
-	Worker_start(neighbours[w], self);
-}
+for(i = 0;i<= n - 2; ++i){
+	philosophers[i] = (void *)Philosopher_init(forks[i], forks[i + 1]);
 
 }
+philosophers[n - 1] = (void *)Philosopher_init(forks[0], forks[n - 1]);
 
 }
